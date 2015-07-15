@@ -1,0 +1,27 @@
+Device Modules
+***************
+
+Each Diagnostic sensor description and settings are documented here.
+
+Current Transformers
+===========================
+Generic Transformer object
+
+.. automodule:: TrafoModule
+   :members:
+
+Add functions from Python library
+==================================
+
+:py:func:`io.open`
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+* :doc:`Home<index>`
+* :ref:`Table of contents<index_label>`
+* :ref:`Table of page<beam_label>`

@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1. Beam &mdash; InSet 1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="InSet 1 documentation" href="index.html" />
+    <link rel="next" title="3. Machine" href="machine.html" />
+    <link rel="prev" title="Welcome to INSET!" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+<div class="section" id="module-beam">
+<span id="beam"></span><span id="beam-label"></span><h1>1. Beam<a class="headerlink" href="#module-beam" title="Permalink to this headline">¶</a></h1>
+<p>This module defines the beam class</p>
+<p>The module takes the following arguments</p>
+<p>Property &#8212; Key &#8212; Value Type &#8212; Remarks</p>
+<p>Particle type &#8212; par_type &#8212; String &#8212; Ion type (p, U, Ar etc.)</p>
+<p>Charge state &#8212; charge_state &#8212; Integer &#8212; Charge state</p>
+<p>Atomic mass &#8212; atomic_mass &#8212;  Integer &#8212; 2 for Hydrogen</p>
+<p>Particle energy &#8212; kin_energy &#8212; Float &#8212; Kinetic energy per nucleon</p>
+<p>Particle number &#8212;par_num &#8212; Integer &#8212; Total number of particles (ions)</p>
+<p>Distribution type &#8212; d_type &#8212; String &#8212; a for arbitrary, p for parabolic, g for gaussian and kv for KV distribution</p>
+<p>X Distribution &#8212;- x_dist &#8212; List of integers for &#8216;a&#8217;, two Ints for parabolic and gaussian &#8212; Phase space distribution in x plane</p>
+<p>Y Distribution &#8212;- y_dist &#8212; Same as X Dist. &#8212; Phase space distribution in y plane</p>
+<p>Z Distribution &#8212;- z_dist &#8212; Same as X Dist. &#8212; Phase space distribution in z/s plane</p>
+<blockquote>
+<div>par_type=None, charge_state= None, atomic_mass = None, par_num= None, d_type = &#8216;ggg&#8217;, x_dist = [0,5], y_dist =[0,5], z_dist =[0,100]</div></blockquote>
+<p>The arguments can be passed in this order or by defining a dictionary or by calling a file where the parameters exist</p>
+<dl class="class">
+<dt id="beam.dynamicbeam">
+<em class="property">class </em><code class="descclassname">beam.</code><code class="descname">dynamicbeam</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#dynamicbeam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.dynamicbeam" title="Permalink to this definition">¶</a></dt>
+<dd><p>This attributes are similar to a static beam, however, the beam energy, number of beam particles and beam structure is updated for several turns (depends on the length of list) and stored</p>
+<dl class="method">
+<dt id="beam.dynamicbeam.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>name_of_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#dynamicbeam.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.dynamicbeam.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function will save the beam object to an external file in the directory called &#8220;defined_beams&#8221; in the source directory</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="beam.plot">
+<code class="descclassname">beam.</code><code class="descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function will plot the profile of the beam in the mentioned axis</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="beam.staticbeam">
+<em class="property">class </em><code class="descclassname">beam.</code><code class="descname">staticbeam</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#staticbeam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.staticbeam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Beam class defines the static beam object</p>
+<p>It creates a beam object instance the parameters in a special order are specified, or simply by passing a beam dictionary</p>
+<p>A save keyword &#8216;s&#8217; can be used to save the beam object in a file, which can be loaded later</p>
+<dl class="method">
+<dt id="beam.staticbeam.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>name_of_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#staticbeam.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.staticbeam.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function will save the beam object to an external file in the directory called &#8220;defined_beams&#8221; in the source directory</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="beam.structure">
+<code class="descclassname">beam.</code><code class="descname">structure</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#structure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.structure" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function defines the structure of the beam based on the beam parameters</p>
+</dd></dl>
+
+</div>
+<div class="section" id="indices-and-tables">
+<h1>2. Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span>Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span>Search Page</span></a></li>
+<li><a class="reference internal" href="index.html"><em>Home</em></a></li>
+<li><a class="reference internal" href="index.html#index-label"><span>Table of contents</span></a></li>
+<li><a class="reference internal" href="#beam-label"><span>Table of page</span></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">1. Beam</a></li>
+<li><a class="reference internal" href="#indices-and-tables">2. Indices and tables</a></li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to INSET!</a></li>
+      <li>Next: <a href="machine.html" title="next chapter">3. Machine</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/beam.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Rahul Singh.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/beam.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

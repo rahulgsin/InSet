@@ -1,0 +1,10 @@
+RF_parameters,"[5000, 350000000.0]"
+Lattice_Settings,
+Type,LINAC
+Dispersion,
+Set_tune,
+Impedances,
+Tr_gamma,105
+Injection_settings,
+Set_chromaticity,
+Length,100

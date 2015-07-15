@@ -1,0 +1,9 @@
+z_dist,"[0, 50000]"
+atomic_mass,238
+x_dist,"[0, 4]"
+kin_energy,11.4
+par_type,Ur
+y_dist,"[0, 7]"
+par_num,10000000000.0
+dist_type,gpg
+charge_state,28
