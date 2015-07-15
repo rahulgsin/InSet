@@ -1,9 +1,19 @@
 \indexentry{beam (module)|hyperpage}{3}
-\indexentry{beam (class in beam)|hyperpage}{3}
-\indexentry{save() (beam.beam method)|hyperpage}{3}
-\indexentry{beam\_initiate() (in module beam)|hyperpage}{3}
-\indexentry{beam\_structure() (in module beam)|hyperpage}{3}
+\indexentry{dynamicbeam (class in beam)|hyperpage}{3}
+\indexentry{save() (beam.dynamicbeam method)|hyperpage}{3}
+\indexentry{plot() (in module beam)|hyperpage}{3}
+\indexentry{staticbeam (class in beam)|hyperpage}{3}
+\indexentry{load() (beam.staticbeam method)|hyperpage}{3}
+\indexentry{save() (beam.staticbeam method)|hyperpage}{4}
+\indexentry{structure() (in module beam)|hyperpage}{4}
 \indexentry{machine (module)|hyperpage}{4}
-\indexentry{machine (class in machine)|hyperpage}{4}
-\indexentry{TrafoModule (module)|hyperpage}{4}
-\indexentry{AmpAttModule (module)|hyperpage}{5}
+\indexentry{dynamicmachine (class in machine)|hyperpage}{4}
+\indexentry{save() (machine.dynamicmachine method)|hyperpage}{4}
+\indexentry{staticmachine (class in machine)|hyperpage}{4}
+\indexentry{save() (machine.staticmachine method)|hyperpage}{4}
+\indexentry{TrafoModule (module)|hyperpage}{5}
+\indexentry{generictrafo (class in TrafoModule)|hyperpage}{5}
+\indexentry{save() (TrafoModule.generictrafo method)|hyperpage}{5}
+\indexentry{AmpAttModule (module)|hyperpage}{6}
+\indexentry{genericAmpAtt (class in AmpAttModule)|hyperpage}{6}
+\indexentry{save() (AmpAttModule.genericAmpAtt method)|hyperpage}{6}

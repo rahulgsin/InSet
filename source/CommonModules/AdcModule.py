@@ -21,8 +21,7 @@ class genericAdc():
     def __init__(self,*args,**kwargs):
         """ Instantiation behaviour for the beam class, the arguments can be file name with beam parameters, a dictionary object or a list of beam parameters """
         # 
-        argspec = inspect.getargspec(staticmachine)
-        #print (len(argspec[2])
+
         if len(args) == 0:
             self.parameters = {}
             self.parameters = kwargs
@@ -39,15 +38,12 @@ class genericAdc():
             else:
                 reader = csv.reader(open(filename, 'r'))
                 self.parameters = dict(x for x in reader)       
-        elif len(args) == 7:
+        elif len(args) == 4:
             self.parameters = {}
-            self.parameters["Torus_radii"]= args[0] # List with inner and outer radii of Torus
-            self.parameters["Torus_thickness"] = args[1] # Thickness of the Torus
-            self.parameters["Torus_permeability"] = args[2] # Permeability of the Torus
-            self.parameters["Num_windings"] = args[3] # NUmber of windings
-            self.parameters["Output_resistance"] = args[4] # Resistance across which voltage is measured (in Ohm)
-            self.parameters["Stray_capacitance"] = args[5] # Stray capacitance (in pF)
-            self.parameters["Magnetic_noise"] = args[6] # Average Machine dispersion
+            self.parameters["ADC_maximum"]= args[0] # ADC maximum voltage
+            self.parameters["ADC_minimum"] = args[1] # ADC minimum voltage
+            self.parameters["Effective_bits"] = args[2] # Effective number of bits
+            self.parameters["Distortion"] = args[3] # Other distortion parameters
 
         else:
             print('You have the wrong number of arguments, Please use help...')
@@ -55,40 +51,31 @@ class genericAdc():
         
         # Check if the some parameters are not defined or assigned to None or have the wrong type
         
-        if self.parameters["Torus_radii"] == None:
-            print ("Torus_radii is not defined")
+        if self.parameters["ADC_maximum"] == None:
+            print ("ADC_maximum is not defined")
             print ("Throw exception")
-        if type(self.parameters["Torus_radii"]) != 'float':
-            self.parameters["Torus_radii"] = float(self.parameters["Torus_radii"])
-        if self.parameters["Torus_thickness"] == None:
-            print ("Torus_thickness is not defined")
+        if type(self.parameters["ADC_maximum"][0]) != 'float':
+            self.parameters["ADC_maximum"][0] = float(self.parameters["ADC_maximum"][0])
+            self.parameters["ADC_maximum"][1] = float(self.parameters["ADC_maximum"][1])
+            self.parameters["ADC_maximum"][2] = float(self.parameters["ADC_maximum"][2])
+            self.parameters["ADC_maximum"][3] = float(self.parameters["ADC_maximum"][3])
+        if self.parameters["ADC_minimum"] == None:
+            print ("ADC_minimum is not defined")
             print ("Throw exception")
-        if type(self.parameters["Torus_thickness"]) != 'float':
-            self.parameters["Torus_thickness"] = float(self.parameters["Torus_thickness"])
-        if self.parameters["Torus_permeability"] == None:
-            print ("Torus_permeability is not defined")
+        if type(self.parameters["ADC_minimum"][0]) != 'float':
+            self.parameters["ADC_minimum"][0] = float(self.parameters["ADC_minimum"][0])
+            self.parameters["ADC_minimum"][1] = float(self.parameters["ADC_minimum"][1])
+            self.parameters["ADC_minimum"][2] = float(self.parameters["ADC_minimum"][2])
+            self.parameters["ADC_minimum"][3] = float(self.parameters["ADC_minimum"][3])
+        if self.parameters["Effective_bits"] == None:
+            print ("Effective_bits is not defined")
             print ("Throw exception")
-        if type(self.parameters["Torus_permeability"]) != 'float':
-            self.parameters["Torus_permeability"] = float(self.parameters["Torus_permeability"])
-        if self.parameters["Output_resistance"] == None:
-            print ("Output_resistance is not defined")
-        if type(self.parameters["Output_resistance"]) != 'float':
-            self.parameters["Output_resistance"] = float(self.parameters["Output_resistance"])
-        if self.parameters["Num_windings"] == None:
-            print ("Num_windings is not defined")
-            print ("Throw exception")
-        if type(self.parameters["Num_windings"]) != 'int':
-            self.parameters["Num_windings"] = int(self.parameters["Num_windings"])
-        if self.parameters["Stray_capacitance"] == None:
-            print ("Stray_capacitance is not defined")
-        if type(self.parameters["Stray_capacitance"]) != 'float':
-            self.parameters["Stray_capacitance"] = float(self.parameters["Stray_capacitance"])
+        if type(self.parameters["Effective_bits"]) != 'float':
+            self.parameters["Effective_bits"] = float(self.parameters["Effective_bits"])
             
             
         # Calculate all the internal parameters
-        self.inductance = 
-        self.rise_time =
-        self.droop_time =
+
         
         # Print all the class instance variables
         

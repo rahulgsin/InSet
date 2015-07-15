@@ -2,26 +2,48 @@
 \def\bigletter#1{{\Large\sffamily#1}\nopagebreak\vspace{1mm}}
 
   \bigletter A
-  \item AmpAttModule (module), \hyperpage{5}
+  \item AmpAttModule (module), \hyperpage{6}
 
   \indexspace
   \bigletter B
-  \item beam (class in beam), \hyperpage{3}
   \item beam (module), \hyperpage{3}
-  \item beam\_initiate() (in module beam), \hyperpage{3}
-  \item beam\_structure() (in module beam), \hyperpage{3}
+
+  \indexspace
+  \bigletter D
+  \item dynamicbeam (class in beam), \hyperpage{3}
+  \item dynamicmachine (class in machine), \hyperpage{4}
+
+  \indexspace
+  \bigletter G
+  \item genericAmpAtt (class in AmpAttModule), \hyperpage{6}
+  \item generictrafo (class in TrafoModule), \hyperpage{5}
+
+  \indexspace
+  \bigletter L
+  \item load() (beam.staticbeam method), \hyperpage{3}
 
   \indexspace
   \bigletter M
-  \item machine (class in machine), \hyperpage{4}
   \item machine (module), \hyperpage{4}
 
   \indexspace
+  \bigletter P
+  \item plot() (in module beam), \hyperpage{3}
+
+  \indexspace
   \bigletter S
-  \item save() (beam.beam method), \hyperpage{3}
+  \item save() (AmpAttModule.genericAmpAtt method), \hyperpage{6}
+  \item save() (beam.dynamicbeam method), \hyperpage{3}
+  \item save() (beam.staticbeam method), \hyperpage{4}
+  \item save() (machine.dynamicmachine method), \hyperpage{4}
+  \item save() (machine.staticmachine method), \hyperpage{4}
+  \item save() (TrafoModule.generictrafo method), \hyperpage{5}
+  \item staticbeam (class in beam), \hyperpage{3}
+  \item staticmachine (class in machine), \hyperpage{4}
+  \item structure() (in module beam), \hyperpage{4}
 
   \indexspace
   \bigletter T
-  \item TrafoModule (module), \hyperpage{4}
+  \item TrafoModule (module), \hyperpage{5}
 
 \end{theindex}

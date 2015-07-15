@@ -19,6 +19,7 @@ __email__ = 'r.singh@gsi.de'
 __version__ = '-1.0'
 __lastchanged__ ='25062015'
 
+
 import beam
 class staticobservable():
     """ The machine class defines all the machine parameters"""

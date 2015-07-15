@@ -20,6 +20,9 @@ import os
 import sys
 import inspect
 import csv
+import beam
+import machine
+import numpy as np
 
 # Typical beam parameters
 
@@ -32,7 +35,6 @@ class generictrafo():
     def __init__(self,*args,**kwargs):
         """ Instantiation behaviour for the beam class, the arguments can be file name with beam parameters, a dictionary object or a list of beam parameters """
         # 
-        argspec = inspect.getargspec(staticmachine)
         #print (len(argspec[2])
         if len(args) == 0:
             self.parameters = {}
@@ -69,8 +71,9 @@ class generictrafo():
         if self.parameters["Torus_radii"] == None:
             print ("Torus_radii is not defined")
             print ("Throw exception")
-        if type(self.parameters["Torus_radii"]) != 'float':
-            self.parameters["Torus_radii"] = float(self.parameters["Torus_radii"])
+        if type(self.parameters["Torus_radii"][0]) != 'float':
+            self.parameters["Torus_radii"][0] = float(self.parameters["Torus_radii"][0])
+            self.parameters["Torus_radii"][1] = float(self.parameters["Torus_radii"][1])
         if self.parameters["Torus_thickness"] == None:
             print ("Torus_thickness is not defined")
             print ("Throw exception")
@@ -97,9 +100,9 @@ class generictrafo():
             
             
         # Calculate all the internal parameters
-        self.inductance = 
-        self.rise_time =
-        self.droop_time =
+        self.parameters['Inductance'] = self.parameters["Torus_permeability"]*beam.PERMEABILITY_SPACE* self.parameters["Torus_thickness"]*np.power(self.parameters["Num_windings"],2)*np.log(self.parameters["Torus_radii"][1]/self.parameters["Torus_radii"][0])/(2*np.pi)
+        self.parameters['rise_time'] = self.parameters["Output_resistance"]*self.parameters["Stray_capacitance"]
+        self.parameters['droop_time'] = self.parameters["Inductance"]/self.parameters["Output_resistance"]
         
         # Print all the class instance variables
         
@@ -128,6 +131,7 @@ class generictrafo():
             print (" Successfully written at"+ filename)
              
     def load(self,name_of_file):
+        """ Loads the specific trafo settings """
         dir = os.path.dirname(__file__)
         current_module = str(__name__)
         rel_dir_name = 'defined_'+current_module+'s'
@@ -139,6 +143,9 @@ class generictrafo():
             reader = csv.reader(open(filename, 'r'))
             temp = dict(x for x in reader) 
         return temp
+        
+    def combine_systems(self, *args, **kwargs):
+        """ Combines all the subsystems to the common sensor """
         
         
     def __repr__(self):
