@@ -36,11 +36,7 @@ dict_machine = machine.staticmachine(**dictionary_machine)
 observable_linac = observable.staticobservable(defined_beam,defined_machine) # A dictionary of all beam observables
 observable_sis18 = observable.staticobservable(dict_beam,defined_machine) # A dictionary of all beam observables
 
-<<<<<<< HEAD
 print ("The calculated current is",  observable_linac.current)
-=======
-print ("The calculated current is", observable_linac.current)
->>>>>>> 956bc732c2c0ab3356dd63f3e85e58f954624432
 
 trafo_dic_1st ={'Torus_radii': [70,90], 'Torus_thickness': 16, 'Torus_permeability': 10000, 'Num_windings': 10, 'Output_resistance': 50,  'Stray_capacitance': 10,  'Magnetic_noise' : None} # Trafo parameters for first transformer
 trafo_dic_2nd ={'Torus_radii': [30,45], 'Torus_thickness': 25, 'Torus_permeability': 10000, 'Num_windings': 20,'Output_resistance': 50, 'Stray_capacitance': 10,  'Magnetic_noise' : None} # Trafo parameters for the second transformer

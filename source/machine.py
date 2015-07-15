@@ -22,7 +22,6 @@ __lastchanged__ ='13072015'
 
 import os
 import sys
-import inspect
 import csv
 
 # Typical beam parameters
@@ -36,8 +35,6 @@ class staticmachine():
     def __init__(self,*args,**kwargs):
         """ Instantiation behaviour for the beam class, the arguments can be file name with beam parameters, a dictionary object or a list of beam parameters """
         # 
-        argspec = inspect.getargspec(staticmachine)
-        #print (len(argspec[2])
         if len(args) == 0:
             self.parameters = {}
             self.parameters = kwargs
