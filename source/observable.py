@@ -28,7 +28,8 @@ class staticobservable():
     
     def __init__(self,beam_in,machine_in):
         """This function will calculate all the observables"""
-        self.current = (beam_in.parameters['par_num']*beam_in.parameters['charge_state']*beam_in.parameters['beta']*beam.VEL_LIGHT)/(machine_in.parameters['Length'])
+        self.parameters = {}
+        self.parameters['current'] = (beam_in.parameters['par_num']*beam_in.parameters['charge_state']*beam_in.parameters['beta']*beam.VEL_LIGHT)*beam.CHARGE/(machine_in.parameters['Length'])
         
 class dynamicobservable():
     """ The machine class defines all the machine parameters"""

@@ -23,6 +23,7 @@ import csv
 import beam
 import machine
 import numpy as np
+from mpmath import mpf
 
 # Typical beam parameters
 
@@ -116,7 +117,8 @@ class generictrafo():
         
         dir = os.path.dirname(__file__)
         current_module = __name__
-        rel_dir_name = 'defined_'+current_module+'s'
+        path= current_module.split('.')
+        rel_dir_name = 'defined_'+path[1]+'s'
         filename = os.path.join(dir,rel_dir_name,name_of_file)
         if os.path.isfile(filename) == True:
             in_keyboard = input("Filename specified" + name_of_file + "already exists, do you want to overwrite, yes [y] or no [n]?")
@@ -125,9 +127,14 @@ class generictrafo():
             filename = os.path.join(dir,rel_dir_name,name_of_file)
             if os.path.isfile(filename) == True:
                 print('Gave the same file name again, overwriting the file!!!!!')
+                writer = csv.writer(open(filename, 'w'))
+                writer.writerow(['Description',description])
+                for key, value in self.parameters.items():
+                    writer.writerow([key, value])
+                print (" Successfully written at"+ filename)
         else:
             writer = csv.writer(open(filename, 'w'))
-            writer.writerow('Description',description)
+            writer.writerow(['Description',description])
             for key, value in self.parameters.items():
                 writer.writerow([key, value])
             print (" Successfully written at"+ filename)
@@ -136,7 +143,8 @@ class generictrafo():
         """ Loads the specific trafo settings """
         dir = os.path.dirname(__file__)
         current_module = str(__name__)
-        rel_dir_name = 'defined_'+current_module+'s'
+        path= current_module.split('.')
+        rel_dir_name = 'defined_'+path[1]+'s'
         filename = os.path.join(dir,rel_dir_name,name_of_file)
         if os.path.isfile(filename) == False:
             print('Specified file '+filename+' to read beam parameter does not exist')
@@ -153,28 +161,68 @@ class generictrafo():
         for arg in args:
             index = 'DA'+ str(i) 
             self.parameters[index] = args[i-1]
+            i=i+1
             
         # Get a list of optimizable parameters and their range
+        # Confirm the object types to be combined
         
-    def output(observable_in):
+    def output(self,observable_in):
         """ Calculates the output of the device module or the system """
         output_dict = {}
         voltage_sensor = self.parameters['sensitivity']*observable_in.parameters['current'] # Only scalar at present, play with FFT and inverse later
+        #print (voltage_sensor)
         voltage_DA1 = voltage_sensor*(self.parameters['DA1']).parameters['Gain'][0]
-        noise_voltage_DA1 = sqrt((self.parameters['DA1']).parameters['Bandwidth'][0])*10e(-6)*(self.parameters['DA1']).parameters['Input_noise']
-        if voltage_DA1 > parameters['DA2']).parameters['ADC_maximum'][0]:
-            voltage_DA2 = parameters['DA2']).parameters['ADC_maximum'][0]
-        elif voltage_DA1 < parameters['DA2']).parameters['ADC_minimum'][0]:
-            voltage_DA2 = parameters['DA2']).parameters['ADC_minimum'][0]
+        #print (voltage_DA1)
+        noise_voltage_DA1 = np.sqrt((self.parameters['DA1']).parameters['Bandwidth'][0]*mpf(10e-6))*(self.parameters['DA1']).parameters['Input_noise']*(self.parameters['DA1']).parameters['Gain'][0]
+        #print (noise_voltage_DA1)
+        if voltage_DA1 > (self.parameters['DA2']).parameters['ADC_maximum'][0]:
+            #voltage_DA2 = (self.parameters['DA2']).parameters['ADC_maximum'][0]
+            #print (" ADC is saturated ")
+            voltage_DA2 = voltage_DA1
+        elif voltage_DA1 < (self.parameters['DA2']).parameters['ADC_minimum'][0]:
+            #voltage_DA2 = (self.parameters['DA2']).parameters['ADC_minimum'][0]
+            #print (" ADC is saturated ")
+            voltage_DA2 = voltage_DA1
         else:
             voltage_DA2 = voltage_DA1
             
         noise_voltage_DA2 = noise_voltage_DA1
-        return [voltage_DA2,noise_voltage_DA1]
+        return [voltage_DA2,noise_voltage_DA2]
         
     
-    def optimize():
+    def optimize(self,observable_in,constraints):
         """ Predicts optimal settings for all the variable parameters in the device module, common module or any combination """
+        
+        """ First is a brute force method """
+        
+        Output = constraints["Output"]
+        current_output = self.output(observable_in)
+        print ("Optimize the ", constraints["Amp"][0], "setting\n" )
+        print ("Initial gain setting", (self.parameters['DA1']).parameters[constraints["Amp"][0]][0])
+        gain = (self.parameters['DA1']).parameters[constraints["Amp"][0]][0]
+        while (gain < (self.parameters['DA1']).parameters['Gain'][2] and gain > (self.parameters['DA1']).parameters['Gain'][1]):
+            if Output[0][0] - current_output[0] > Output[0][1]:
+                gain = gain*(self.parameters['DA1']).parameters['Gain'][3]
+                (self.parameters['DA1']).parameters['Gain'][0] = gain
+                current_output = self.output(observable_in)
+                if Output[0][0]- current_output[0] < Output[0][1]:
+                    break
+            if Output[0][0]- current_output[0] < -1*Output[0][1]:
+                gain = gain/(self.parameters['DA1']).parameters['Gain'][3]
+                (self.parameters['DA1']).parameters['Gain'][0] = gain
+                current_output = self.output(observable_in)
+                if Output[0][0]- current_output[0] > -1*Output[0][1]:
+                    break
+        print ("Final gain setting", (self.parameters['DA1']).parameters['Gain'][0])
+        print (self.output(observable_in))
+        return [(self.parameters['DA1']).parameters['Gain'][0]]
+        
+        #bandwidth = (self.parameters['DA1']).parameters['Bandwidth'][0]
+        #while (bandwidth > (self.parameters['DA1']).parameters['Bandwidth'][2] and (gain > (self.parameters['DA1']).parameters['Bandwidth'][1]):
+        
+        
+        """ Second would use convex optimization """
+        
         
     def __repr__(self):
         return "%s(%r)" % (self.__class__, self.__dict__)

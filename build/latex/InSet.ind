@@ -9,6 +9,10 @@
   \item beam (module), \hyperpage{3}
 
   \indexspace
+  \bigletter C
+  \item combine\_systems() (TrafoModule.generictrafo method), \hyperpage{5}
+
+  \indexspace
   \bigletter D
   \item dynamicbeam (class in beam), \hyperpage{3}
   \item dynamicmachine (class in machine), \hyperpage{4}
@@ -20,15 +24,24 @@
 
   \indexspace
   \bigletter L
-  \item load() (beam.staticbeam method), \hyperpage{3}
+  \item listfiles() (beam.dynamicbeam method), \hyperpage{3}
+  \item listfiles() (beam.staticbeam method), \hyperpage{4}
+  \item load() (beam.staticbeam method), \hyperpage{4}
+  \item load() (TrafoModule.generictrafo method), \hyperpage{5}
 
   \indexspace
   \bigletter M
   \item machine (module), \hyperpage{4}
 
   \indexspace
+  \bigletter O
+  \item optimize() (TrafoModule.generictrafo method), \hyperpage{5}
+  \item output() (TrafoModule.generictrafo method), \hyperpage{5}
+
+  \indexspace
   \bigletter P
-  \item plot() (in module beam), \hyperpage{3}
+  \item plot() (beam.dynamicbeam method), \hyperpage{3}
+  \item plot() (beam.staticbeam method), \hyperpage{4}
 
   \indexspace
   \bigletter S
@@ -36,11 +49,12 @@
   \item save() (beam.dynamicbeam method), \hyperpage{3}
   \item save() (beam.staticbeam method), \hyperpage{4}
   \item save() (machine.dynamicmachine method), \hyperpage{4}
-  \item save() (machine.staticmachine method), \hyperpage{4}
+  \item save() (machine.staticmachine method), \hyperpage{5}
   \item save() (TrafoModule.generictrafo method), \hyperpage{5}
   \item staticbeam (class in beam), \hyperpage{3}
-  \item staticmachine (class in machine), \hyperpage{4}
-  \item structure() (in module beam), \hyperpage{4}
+  \item staticmachine (class in machine), \hyperpage{5}
+  \item structure() (beam.dynamicbeam method), \hyperpage{3}
+  \item structure() (beam.staticbeam method), \hyperpage{4}
 
   \indexspace
   \bigletter T

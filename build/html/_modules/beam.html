@@ -87,6 +87,7 @@
 <span class="n">PROTON_MASS</span> <span class="o">=</span> <span class="n">mpf</span><span class="p">(</span><span class="mf">9.31e-27</span><span class="p">)</span>  <span class="c"># Kg  removed e-30</span>
 <span class="n">VEL_LIGHT</span> <span class="o">=</span> <span class="n">mpf</span><span class="p">(</span><span class="mf">3e8</span><span class="p">)</span> <span class="c"># m/s</span>
 <span class="n">CHARGE</span> <span class="o">=</span> <span class="n">mpf</span><span class="p">(</span><span class="mf">1.6e-19</span><span class="p">)</span> <span class="c"># Coulomb removed e-30</span>
+<span class="n">PERMEABILITY_SPACE</span> <span class="o">=</span> <span class="n">mpf</span><span class="p">(</span><span class="mf">1.256e-6</span><span class="p">)</span>
 
 <span class="c"># Typical beam parameters</span>
 
@@ -102,8 +103,6 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Instantiation behaviour for the beam class, the arguments can be file name with beam parameters, a dictionary object or a list of beam parameters &quot;&quot;&quot;</span>
         <span class="c"># </span>
-        <span class="c">#argspec = inspect.getargspec(staticbeam)</span>
-        <span class="c">#print (len(argspec[2])</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">kwargs</span>
@@ -136,6 +135,7 @@
         
         
         <span class="c"># Check if the some parameters are not defined or assigned to None or have the wrong type</span>
+        
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;charge_state&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">print</span> <span class="p">(</span><span class="s">&quot;Charge State is not defined&quot;</span><span class="p">)</span>
             <span class="k">print</span> <span class="p">(</span><span class="s">&quot;Throw exception&quot;</span><span class="p">)</span>
@@ -156,14 +156,18 @@
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;kin_energy&quot;</span><span class="p">])</span> <span class="o">!=</span> <span class="s">&#39;float&#39;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;kin_energy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;kin_energy&quot;</span><span class="p">])</span>
             
-                    
+           
+        <span class="c"># Calculate all the internal parameters</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;gamma&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;kin_energy&#39;</span><span class="p">]</span><span class="o">*</span><span class="mf">10e6</span><span class="o">*</span><span class="n">CHARGE</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">PROTON_MASS</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">VEL_LIGHT</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;beta&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;gamma&#39;</span><span class="p">],</span><span class="mi">2</span><span class="p">))</span>
         
-        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
-            <span class="k">print</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+        <span class="c"># Print all the parameters</span>
+        <span class="c">#print (&#39;Parameters of the beam object \n&#39;  )</span>
+        <span class="c">#for key in self.parameters:</span>
+         <span class="c">#   print (key, &#39;\t&#39;, self.parameters[key])</span>
         
-<div class="viewcode-block" id="staticbeam.save"><a class="viewcode-back" href="../beam.html#beam.staticbeam.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">):</span>
+<div class="viewcode-block" id="staticbeam.save"><a class="viewcode-back" href="../beam.html#beam.staticbeam.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">,</span><span class="n">description</span><span class="p">):</span>
         
         <span class="sd">&quot;&quot;&quot; This function will save the beam object to an external file in the directory called &quot;defined_beams&quot; in the source directory&quot;&quot;&quot;</span>
         
@@ -172,19 +176,32 @@
         <span class="n">rel_dir_name</span> <span class="o">=</span> <span class="s">&#39;defined_&#39;</span><span class="o">+</span><span class="n">current_module</span><span class="o">+</span><span class="s">&#39;s&#39;</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span><span class="n">rel_dir_name</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
-            <span class="n">in_keyboard</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">&quot;Filename specified&quot;</span> <span class="o">+</span> <span class="n">name_of_file</span> <span class="o">+</span> <span class="s">&quot;already exists, do you want to overwrite, yes [y] or no [n]?&quot;</span><span class="p">)</span>
+            <span class="n">in_keyboard</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">&quot;Filename specified by you -- &gt; &quot;</span> <span class="o">+</span> <span class="n">name_of_file</span> <span class="o">+</span> <span class="s">&quot; already exists, do you want to overwrite, yes [y] or no [n]?&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">in_keyboard</span> <span class="o">==</span> <span class="s">&#39;n&#39;</span><span class="p">:</span>
                 <span class="n">name_of_file</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">&#39;Enter new file name&#39;</span><span class="p">)</span>
             <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span><span class="n">rel_dir_name</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
-                <span class="k">print</span><span class="p">(</span><span class="s">&#39;Gave the same file name again, overwriting the file!!!!!&#39;</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">&#39;Gave the same file name again, overwriting the file!&#39;</span><span class="p">)</span>
+                <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">))</span>
+                <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="s">&#39;Description&#39;</span><span class="p">,</span><span class="n">description</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">])</span>
+                <span class="k">print</span> <span class="p">(</span><span class="s">&quot; Successfully written at &quot;</span><span class="o">+</span> <span class="n">filename</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">))</span>
+                <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="s">&#39;Description&#39;</span><span class="p">,</span><span class="n">description</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">])</span>
+                <span class="k">print</span> <span class="p">(</span><span class="s">&quot; Successfully written at a new file at </span><span class="se">\t</span><span class="s">&quot;</span><span class="o">+</span> <span class="n">filename</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">))</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="s">&#39;Description&#39;</span><span class="p">,</span><span class="n">description</span><span class="p">])</span>
             <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">])</span>
-            <span class="k">print</span> <span class="p">(</span><span class="s">&quot; Successfully written at&quot;</span><span class="o">+</span> <span class="n">filename</span><span class="p">)</span>
+            <span class="k">print</span> <span class="p">(</span><span class="s">&quot; Successfully written at a new file at </span><span class="se">\t</span><span class="s">&quot;</span><span class="o">+</span> <span class="n">filename</span><span class="p">)</span>
              </div>
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">):</span>
+<div class="viewcode-block" id="staticbeam.load"><a class="viewcode-back" href="../beam.html#beam.staticbeam.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; This function will load the beam object from the specified file in the directory called &quot;defined_beams&quot; in the source directory&quot;&quot;&quot;</span>
         <span class="nb">dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span>
         <span class="n">current_module</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
         <span class="n">rel_dir_name</span> <span class="o">=</span> <span class="s">&#39;defined_&#39;</span><span class="o">+</span><span class="n">current_module</span><span class="o">+</span><span class="s">&#39;s&#39;</span>
@@ -194,13 +211,44 @@
             <span class="nb">exit</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">))</span>
+            <span class="n">description</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span>
             <span class="n">temp</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">)</span> 
         <span class="k">return</span> <span class="n">temp</span>
-        
-        
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">(</span><span class="si">%r</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span>
+        </div>
+<div class="viewcode-block" id="staticbeam.structure"><a class="viewcode-back" href="../beam.html#beam.staticbeam.structure">[docs]</a>    <span class="k">def</span> <span class="nf">structure</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot; This function defines the structure of the beam based on the beam parameters&quot;&quot;&quot;</span>
+    
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;This is the stucture&#39;</span><span class="p">)</span>
     </div>
+<div class="viewcode-block" id="staticbeam.plot"><a class="viewcode-back" href="../beam.html#beam.staticbeam.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot; This function will plot the profile of the beam in the mentioned axis&quot;&quot;&quot;</span>
+    
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;This is the plot&#39;</span><span class="p">)</span>        
+        </div>
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns the value of the object &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">(</span><span class="si">%r</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span>
+        
+<div class="viewcode-block" id="staticbeam.listfiles"><a class="viewcode-back" href="../beam.html#beam.staticbeam.listfiles">[docs]</a>    <span class="k">def</span> <span class="nf">listfiles</span><span class="p">(</span><span class="n">staticbeam</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; THis function will list all the static and dynamic beams &quot;&quot;&quot;</span>
+        <span class="nb">dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span>
+        <span class="n">rel_dir_name</span> <span class="o">=</span> <span class="s">&#39;defined_&#39;</span><span class="o">+</span><span class="n">__name__</span> <span class="o">+</span><span class="s">&#39;s&#39;</span>
+        <span class="n">mypath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span><span class="n">rel_dir_name</span><span class="p">)</span>
+        <span class="c">#print (mypath)</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="n">dirnames</span><span class="p">,</span> <span class="n">filenames</span><span class="p">)</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">mypath</span><span class="p">):</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">filenames</span><span class="p">)</span>
+            <span class="k">break</span>
+        <span class="n">desc_index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">print</span> <span class="p">(</span><span class="s">&#39;Beamfile&#39;</span><span class="p">,</span><span class="s">&#39;---&#39;</span><span class="p">,</span><span class="s">&#39;Description</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mypath</span><span class="p">,</span><span class="n">filename</span><span class="p">),</span> <span class="s">&#39;r&#39;</span><span class="p">))</span>
+            <span class="n">description</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">reader</span><span class="p">))</span>
+            <span class="k">print</span> <span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s">&#39;---&#39;</span><span class="p">,</span><span class="n">description</span><span class="p">[</span><span class="n">desc_index</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">desc_index</span> <span class="o">=</span> <span class="n">desc_index</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">print</span> <span class="p">(</span><span class="s">&#39;----------------------------</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+    </div></div>
 <div class="viewcode-block" id="dynamicbeam"><a class="viewcode-back" href="../beam.html#beam.dynamicbeam">[docs]</a><span class="k">class</span> <span class="nc">dynamicbeam</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;This attributes are similar to a static beam, however, the beam energy, number of beam particles and beam structure is updated for several turns (depends on the length of list) and stored&quot;&quot;&quot;</span>
     
@@ -242,10 +290,10 @@
         
         <span class="c"># Check if the some parameters are not defined or assigned to None</span>
         
-        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
-            <span class="k">print</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+        <span class="c">#for key in self.parameters:</span>
+         <span class="c">#   print (key, &#39;\t&#39;, self.parameters[key])</span>
         
-<div class="viewcode-block" id="dynamicbeam.save"><a class="viewcode-back" href="../beam.html#beam.dynamicbeam.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">):</span>
+<div class="viewcode-block" id="dynamicbeam.save"><a class="viewcode-back" href="../beam.html#beam.dynamicbeam.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">,</span><span class="n">description</span><span class="p">):</span>
         
         <span class="sd">&quot;&quot;&quot; This function will save the beam object to an external file in the directory called &quot;defined_beams&quot; in the source directory&quot;&quot;&quot;</span>
         
@@ -262,6 +310,7 @@
                 <span class="k">print</span><span class="p">(</span><span class="s">&#39;Gave the same file name again, overwriting the file!!!!!&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">))</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="s">&#39;Description&#39;</span><span class="p">,</span><span class="n">description</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">])</span>
             <span class="k">print</span> <span class="p">(</span><span class="s">&quot; Successfully written at&quot;</span><span class="o">+</span> <span class="n">filename</span><span class="p">)</span>
@@ -276,22 +325,42 @@
             <span class="nb">exit</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">))</span>
+            <span class="n">description</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span>
             <span class="n">temp</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">)</span> 
         <span class="k">return</span> <span class="n">temp</span>
         
-        
+<div class="viewcode-block" id="dynamicbeam.structure"><a class="viewcode-back" href="../beam.html#beam.dynamicbeam.structure">[docs]</a>    <span class="k">def</span> <span class="nf">structure</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot; This function defines the structure of the beam based on the beam parameters&quot;&quot;&quot;</span>
+    
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;This is the stucture&#39;</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="dynamicbeam.plot"><a class="viewcode-back" href="../beam.html#beam.dynamicbeam.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot; This function will plot the profile of the beam in the mentioned axis&quot;&quot;&quot;</span>
+    
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;This is the plot&#39;</span><span class="p">)</span>        
+        </div>
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">(</span><span class="si">%r</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span>
-    </div>
-<div class="viewcode-block" id="structure"><a class="viewcode-back" href="../beam.html#beam.structure">[docs]</a><span class="k">def</span> <span class="nf">structure</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot; This function defines the structure of the beam based on the beam parameters&quot;&quot;&quot;</span>
     
-    <span class="k">print</span><span class="p">(</span><span class="s">&#39;This is the stucture&#39;</span><span class="p">)</span>
-    </div>
-<div class="viewcode-block" id="plot"><a class="viewcode-back" href="../beam.html#beam.plot">[docs]</a><span class="k">def</span> <span class="nf">plot</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot; This function will plot the profile of the beam in the mentioned axis&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="dynamicbeam.listfiles"><a class="viewcode-back" href="../beam.html#beam.dynamicbeam.listfiles">[docs]</a>    <span class="k">def</span> <span class="nf">listfiles</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; THis function will list all the static and dynamic beams &quot;&quot;&quot;</span>
+        <span class="nb">dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span>
+        <span class="n">rel_dir_name</span> <span class="o">=</span> <span class="s">&#39;defined_&#39;</span><span class="o">+</span><span class="n">__name__</span> <span class="o">+</span><span class="s">&#39;s&#39;</span>
+        <span class="n">mypath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span><span class="n">rel_dir_name</span><span class="p">)</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="n">dirnames</span><span class="p">,</span> <span class="n">filenames</span><span class="p">)</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">mypath</span><span class="p">):</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">filenames</span><span class="p">)</span>
+            <span class="k">break</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">))</span>
+            <span class="n">description</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">reader</span><span class="p">))</span>
+            <span class="n">filename</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">print</span> <span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="s">&#39;---&#39;</span><span class="p">,</span><span class="n">filename</span><span class="p">)</span>
     
-    <span class="k">print</span><span class="p">(</span><span class="s">&#39;This is the plot&#39;</span><span class="p">)</span></div>
+        
+    
+    </div></div>
 </pre></div>
 
           </div>

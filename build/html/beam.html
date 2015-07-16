@@ -65,17 +65,29 @@
 <em class="property">class </em><code class="descclassname">beam.</code><code class="descname">dynamicbeam</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#dynamicbeam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.dynamicbeam" title="Permalink to this definition">¶</a></dt>
 <dd><p>This attributes are similar to a static beam, however, the beam energy, number of beam particles and beam structure is updated for several turns (depends on the length of list) and stored</p>
 <dl class="method">
+<dt id="beam.dynamicbeam.listfiles">
+<code class="descname">listfiles</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#dynamicbeam.listfiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.dynamicbeam.listfiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>THis function will list all the static and dynamic beams</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beam.dynamicbeam.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#dynamicbeam.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.dynamicbeam.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function will plot the profile of the beam in the mentioned axis</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="beam.dynamicbeam.save">
-<code class="descname">save</code><span class="sig-paren">(</span><em>name_of_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#dynamicbeam.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.dynamicbeam.save" title="Permalink to this definition">¶</a></dt>
+<code class="descname">save</code><span class="sig-paren">(</span><em>name_of_file</em>, <em>description</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#dynamicbeam.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.dynamicbeam.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function will save the beam object to an external file in the directory called &#8220;defined_beams&#8221; in the source directory</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="beam.dynamicbeam.structure">
+<code class="descname">structure</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#dynamicbeam.structure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.dynamicbeam.structure" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function defines the structure of the beam based on the beam parameters</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="beam.plot">
-<code class="descclassname">beam.</code><code class="descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function will plot the profile of the beam in the mentioned axis</p>
 </dd></dl>
 
 <dl class="class">
@@ -85,17 +97,35 @@
 <p>It creates a beam object instance the parameters in a special order are specified, or simply by passing a beam dictionary</p>
 <p>A save keyword &#8216;s&#8217; can be used to save the beam object in a file, which can be loaded later</p>
 <dl class="method">
+<dt id="beam.staticbeam.listfiles">
+<code class="descname">listfiles</code><span class="sig-paren">(</span><em>staticbeam</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#staticbeam.listfiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.staticbeam.listfiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>THis function will list all the static and dynamic beams</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beam.staticbeam.load">
+<code class="descname">load</code><span class="sig-paren">(</span><em>name_of_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#staticbeam.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.staticbeam.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function will load the beam object from the specified file in the directory called &#8220;defined_beams&#8221; in the source directory</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beam.staticbeam.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#staticbeam.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.staticbeam.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function will plot the profile of the beam in the mentioned axis</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="beam.staticbeam.save">
-<code class="descname">save</code><span class="sig-paren">(</span><em>name_of_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#staticbeam.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.staticbeam.save" title="Permalink to this definition">¶</a></dt>
+<code class="descname">save</code><span class="sig-paren">(</span><em>name_of_file</em>, <em>description</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#staticbeam.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.staticbeam.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function will save the beam object to an external file in the directory called &#8220;defined_beams&#8221; in the source directory</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="beam.staticbeam.structure">
+<code class="descname">structure</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#staticbeam.structure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.staticbeam.structure" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function defines the structure of the beam based on the beam parameters</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="beam.structure">
-<code class="descclassname">beam.</code><code class="descname">structure</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#structure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.structure" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function defines the structure of the beam based on the beam parameters</p>
 </dd></dl>
 
 </div>

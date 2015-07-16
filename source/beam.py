@@ -135,18 +135,29 @@ class staticbeam():
         rel_dir_name = 'defined_'+current_module+'s'
         filename = os.path.join(dir,rel_dir_name,name_of_file)
         if os.path.isfile(filename) == True:
-            in_keyboard = input("Filename specified" + name_of_file + "already exists, do you want to overwrite, yes [y] or no [n]?")
+            in_keyboard = input("Filename specified by you -- > " + name_of_file + " already exists, do you want to overwrite, yes [y] or no [n]?")
             if in_keyboard == 'n':
                 name_of_file = input('Enter new file name')
             filename = os.path.join(dir,rel_dir_name,name_of_file)
             if os.path.isfile(filename) == True:
-                print('Gave the same file name again, overwriting the file!!!!!')
+                print('Gave the same file name again, overwriting the file!')
+                writer = csv.writer(open(filename, 'w'))
+                writer.writerow(['Description',description])
+                for key, value in self.parameters.items():
+                    writer.writerow([key, value])
+                print (" Successfully written at "+ filename)
+            else:
+                writer = csv.writer(open(filename, 'w'))
+                writer.writerow(['Description',description])
+                for key, value in self.parameters.items():
+                    writer.writerow([key, value])
+                print (" Successfully written at a new file at \t"+ filename)
         else:
             writer = csv.writer(open(filename, 'w'))
             writer.writerow(['Description',description])
             for key, value in self.parameters.items():
                 writer.writerow([key, value])
-            print (" Successfully written at"+ filename)
+            print (" Successfully written at a new file at \t"+ filename)
              
     def load(self,name_of_file):
         """ This function will load the beam object from the specified file in the directory called "defined_beams" in the source directory"""
@@ -182,18 +193,20 @@ class staticbeam():
         dir = os.path.dirname(__file__)
         rel_dir_name = 'defined_'+__name__ +'s'
         mypath = os.path.join(dir,rel_dir_name)
-        print (mypath)
+        #print (mypath)
         f = []
         description = []
         for (dirpath, dirnames, filenames) in os.walk(mypath):
             f.extend(filenames)
             break
         desc_index = 0
+        print ('Beamfile','---','Description\n')
         for filename in f:
             reader = csv.reader(open(os.path.join(mypath,filename), 'r'))
             description.append(next(reader))
-            print (filename,'---',description[desc_index])
+            print (filename,'---',description[desc_index][1])
             desc_index = desc_index + 1
+        print ('----------------------------\n')
     
 class dynamicbeam():
     """This attributes are similar to a static beam, however, the beam energy, number of beam particles and beam structure is updated for several turns (depends on the length of list) and stored"""
@@ -288,7 +301,7 @@ class dynamicbeam():
     def __repr__(self):
         return "%s(%r)" % (self.__class__, self.__dict__)
     
-    def list(cls):
+    def listfiles(cls):
         """ THis function will list all the static and dynamic beams """
         dir = os.path.dirname(__file__)
         rel_dir_name = 'defined_'+__name__ +'s'

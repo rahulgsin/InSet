@@ -63,7 +63,6 @@
 
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">inspect</span>
 <span class="kn">import</span> <span class="nn">csv</span>
 
 <span class="c"># Typical beam parameters</span>
@@ -77,8 +76,6 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Instantiation behaviour for the beam class, the arguments can be file name with beam parameters, a dictionary object or a list of beam parameters &quot;&quot;&quot;</span>
         <span class="c"># </span>
-        <span class="n">argspec</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getargspec</span><span class="p">(</span><span class="n">staticmachine</span><span class="p">)</span>
-        <span class="c">#print (len(argspec[2])</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">kwargs</span>
@@ -113,10 +110,16 @@
         
         <span class="c"># Check if the some parameters are not defined or assigned to None</span>
         
-        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
-            <span class="k">print</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
         
-<div class="viewcode-block" id="staticmachine.save"><a class="viewcode-back" href="../machine.html#machine.staticmachine.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">):</span>
+        <span class="c"># Calculate all the internal machine parameters</span>
+        
+        
+        <span class="c"># Print the class instance variables</span>
+        
+        <span class="c">#for key in self.parameters:</span>
+        <span class="c">#    print (key, &#39;\t&#39;, self.parameters[key])</span>
+        
+<div class="viewcode-block" id="staticmachine.save"><a class="viewcode-back" href="../machine.html#machine.staticmachine.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">,</span><span class="n">description</span><span class="p">):</span>
         
         <span class="sd">&quot;&quot;&quot; This function will save the beam object to an external file in the directory called &quot;defined_beams&quot; in the source directory&quot;&quot;&quot;</span>
         
@@ -133,6 +136,7 @@
                 <span class="k">print</span><span class="p">(</span><span class="s">&#39;Gave the same file name again, overwriting the file!!!!!&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">))</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="s">&#39;Description&#39;</span><span class="p">,</span><span class="n">description</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">])</span>
             <span class="k">print</span> <span class="p">(</span><span class="s">&quot; Successfully written at&quot;</span><span class="o">+</span> <span class="n">filename</span><span class="p">)</span>
@@ -147,6 +151,7 @@
             <span class="nb">exit</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">))</span>
+            <span class="n">description</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span>
             <span class="n">temp</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">)</span> 
         <span class="k">return</span> <span class="n">temp</span>
         
@@ -195,11 +200,11 @@
         
         
         <span class="c"># Check if the some parameters are not defined or assigned to None</span>
+        <span class="c">#print (&#39;Parameters of the machine object \n&#39;  )</span>
+        <span class="c">#for key in self.parameters:</span>
+        <span class="c">#    print (key, &#39;\t&#39;, self.parameters[key])</span>
         
-        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
-            <span class="k">print</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
-        
-<div class="viewcode-block" id="dynamicmachine.save"><a class="viewcode-back" href="../machine.html#machine.dynamicmachine.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">):</span>
+<div class="viewcode-block" id="dynamicmachine.save"><a class="viewcode-back" href="../machine.html#machine.dynamicmachine.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">,</span><span class="n">description</span><span class="p">):</span>
         
         <span class="sd">&quot;&quot;&quot; This function will save the beam object to an external file in the directory called &quot;defined_beams&quot; in the source directory&quot;&quot;&quot;</span>
         
@@ -216,9 +221,10 @@
                 <span class="k">print</span><span class="p">(</span><span class="s">&#39;Gave the same file name again, overwriting the file!!!!!&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">))</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="s">&#39;Description&#39;</span><span class="p">,</span><span class="n">description</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">])</span>
-            <span class="k">print</span> <span class="p">(</span><span class="s">&quot; Successfully written at&quot;</span><span class="o">+</span> <span class="n">filename</span><span class="p">)</span>
+            <span class="k">print</span> <span class="p">(</span><span class="s">&quot; Successfully written at &quot;</span><span class="o">+</span> <span class="n">filename</span><span class="p">)</span>
              </div>
     <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">):</span>
         <span class="nb">dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span>
@@ -230,6 +236,7 @@
             <span class="nb">exit</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">))</span>
+            <span class="n">description</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span>
             <span class="n">temp</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">)</span> 
         <span class="k">return</span> <span class="n">temp</span>
         
