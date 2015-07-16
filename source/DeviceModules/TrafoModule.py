@@ -103,13 +103,14 @@ class generictrafo():
         self.parameters['Inductance'] = self.parameters["Torus_permeability"]*beam.PERMEABILITY_SPACE* self.parameters["Torus_thickness"]*np.power(self.parameters["Num_windings"],2)*np.log(self.parameters["Torus_radii"][1]/self.parameters["Torus_radii"][0])/(2*np.pi)
         self.parameters['rise_time'] = self.parameters["Output_resistance"]*self.parameters["Stray_capacitance"]
         self.parameters['droop_time'] = self.parameters["Inductance"]/self.parameters["Output_resistance"]
+        self.parameters['sensitivity'] = self.parameters["Output_resistance"]/self.parameters["Num_windings"]
         
         # Print all the class instance variables
         
-        for key in self.parameters:
-            print (key, '\t', self.parameters[key])
+        #for key in self.parameters:
+        #    print (key, '\t', self.parameters[key])
         
-    def save(self,name_of_file):
+    def save(self,name_of_file,description):
         
         """ This function will save the beam object to an external file in the directory called "defined_beams" in the source directory"""
         
@@ -126,6 +127,7 @@ class generictrafo():
                 print('Gave the same file name again, overwriting the file!!!!!')
         else:
             writer = csv.writer(open(filename, 'w'))
+            writer.writerow('Description',description)
             for key, value in self.parameters.items():
                 writer.writerow([key, value])
             print (" Successfully written at"+ filename)
@@ -145,8 +147,34 @@ class generictrafo():
         return temp
         
     def combine_systems(self, *args, **kwargs):
-        """ Combines all the subsystems to the common sensor """
+        """ Combines all the subsystems to the sensor """
+        # First append the common module parameters to the sensor parameters
+        i=1
+        for arg in args:
+            index = 'DA'+ str(i) 
+            self.parameters[index] = args[i-1]
+            
+        # Get a list of optimizable parameters and their range
         
+    def output(observable_in):
+        """ Calculates the output of the device module or the system """
+        output_dict = {}
+        voltage_sensor = self.parameters['sensitivity']*observable_in.parameters['current'] # Only scalar at present, play with FFT and inverse later
+        voltage_DA1 = voltage_sensor*(self.parameters['DA1']).parameters['Gain'][0]
+        noise_voltage_DA1 = sqrt((self.parameters['DA1']).parameters['Bandwidth'][0])*10e(-6)*(self.parameters['DA1']).parameters['Input_noise']
+        if voltage_DA1 > parameters['DA2']).parameters['ADC_maximum'][0]:
+            voltage_DA2 = parameters['DA2']).parameters['ADC_maximum'][0]
+        elif voltage_DA1 < parameters['DA2']).parameters['ADC_minimum'][0]:
+            voltage_DA2 = parameters['DA2']).parameters['ADC_minimum'][0]
+        else:
+            voltage_DA2 = voltage_DA1
+            
+        noise_voltage_DA2 = noise_voltage_DA1
+        return [voltage_DA2,noise_voltage_DA1]
+        
+    
+    def optimize():
+        """ Predicts optimal settings for all the variable parameters in the device module, common module or any combination """
         
     def __repr__(self):
         return "%s(%r)" % (self.__class__, self.__dict__)

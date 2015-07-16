@@ -15,22 +15,26 @@ defined_beam = beam.staticbeam('Ur',28,238,11.4,10e9,'gpg',[0,4],[0,7],[0,50000]
 print ("Defined directly")
 dict_beam = beam.staticbeam(**dictionary_beam) # dict_beam is a beam object, dont forget ** while passing a dictionary
 print ("Defined using dictionary")
-#defined_beam.save('UrBeam') # save the directly defined beam
-#print ("Saved beam")
+defined_beam.save('UrBeam','Uranium beam on the following experiment day') # save the directly defined beam
+print ("Saved beam")
+print (defined_beam)
 #recalled_beam_dict = defined_beam.load('UrBeam') # Recall the defined beam
 #print (recalled_beam_dict)
 #Make a new beam object
 #recalled_beam = beam.staticbeam(**recalled_beam_dict)
 #print (recalled_beam)
 
-old_beam = beam.staticbeam('UrBeam')
-print ("Defined using a saved beam file")
-print (old_beam) # define this function
+#old_beam = beam.staticbeam('UrBeam')
+#print ("Defined using a saved beam file")
+#print (old_beam) # define this function
+
+beam.staticbeam.listfiles(beam.staticbeam)
 
 dictionary_machine = {'Type': 'Synchrotron', 'Length': 216.02, 'Tr_gamma': 5.33, 'Impedances' : [None], 'Set_tune': [None], 'Set_chromaticity': [None], 'Dispersion': [None],  'Lattice_settings': 'link to mad file', 'RF_parameters' : [4000, 216000*4, 4, 'a'], 'Injection_settings': [None]}
 defined_machine = machine.staticmachine('LINAC',100,105,None,None,None,None,None,[5000,350e6],None)
 dict_machine = machine.staticmachine(**dictionary_machine)
-#defined_machine.save('LowEnergyUrSIS18')
+defined_machine.save('LowEnergyUrSIS18','Machine settings at injection energies')
+print (defined_machine)
 #recalled_machine = defined_machine.load('LowEnergyUrSIS18')
 
 observable_linac = observable.staticobservable(defined_beam,defined_machine) # A dictionary of all beam observables
@@ -49,13 +53,17 @@ trafo_amp2 = AmpAttModule.genericAmpAtt([10000,10,10e6,10,'lb'],[2,0.1,100,0.01,
 
 trafo_adc = AdcModule.genericAdc([1,0,2,0.1,'lt'],[-1,-2,0,0.1,'lb'],12,None) # Maximum, Minimum (in V) and effective number of bits, Distortion value or table
 
-trafo_system_one = special_trafo.combine_systems(trafo_amp1,trafo_adc) #  This function combines sensor with its accesories for full DA system
-trafo_system_two = special_trafo_2nd.combine_systems(trafo_amp2,trafo_adc)
+special_trafo.combine_systems(trafo_amp1,trafo_adc) #  This function combines sensor with its accesories for full DA system
+special_trafo.save('FullSystemLINACTrafo', ' Saves the full system with the Amp and ADCs')
+special_trafo_2nd.combine_systems(trafo_amp2,trafo_adc)
+special_trafo.save('FullSystemSIS-18Trafo', ' Saves the full system with the Amp and ADCs')
 
-results1 = trafo_system_one.output(observable_linac)
-results2 = trafo_system_two.output(observable_sis18)
-settings = trafo_system_one.optimize(observable_linac, constraints_linac)
-settings = trafo_system_two.optimize(observable_sis18, constraints_sis18)
+results1 = special_trafo.output(observable_linac)
+print (results1)
+results2 = special_trafo_2nd.output(observable_sis18)
+print (results2)
+settings = special_trafo.optimize(observable_linac, constraints_linac)
+settings = special_trafo_2nd.optimize(observable_sis18, constraints_sis18)
 
 
 

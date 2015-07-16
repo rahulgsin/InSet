@@ -122,11 +122,11 @@ class staticbeam():
         self.parameters['beta'] = np.sqrt(1-1/np.power(self.parameters['gamma'],2))
         
         # Print all the parameters
+        #print ('Parameters of the beam object \n'  )
+        #for key in self.parameters:
+         #   print (key, '\t', self.parameters[key])
         
-        for key in self.parameters:
-            print (key, '\t', self.parameters[key])
-        
-    def save(self,name_of_file):
+    def save(self,name_of_file,description):
         
         """ This function will save the beam object to an external file in the directory called "defined_beams" in the source directory"""
         
@@ -143,6 +143,7 @@ class staticbeam():
                 print('Gave the same file name again, overwriting the file!!!!!')
         else:
             writer = csv.writer(open(filename, 'w'))
+            writer.writerow(['Description',description])
             for key, value in self.parameters.items():
                 writer.writerow([key, value])
             print (" Successfully written at"+ filename)
@@ -158,13 +159,41 @@ class staticbeam():
             exit()
         else:
             reader = csv.reader(open(filename, 'r'))
+            description = next(reader)
             temp = dict(x for x in reader) 
         return temp
         
+    def structure():
+        """ This function defines the structure of the beam based on the beam parameters"""
+    
+        print('This is the stucture')
+    
+    def plot():
+        """ This function will plot the profile of the beam in the mentioned axis"""
+    
+        print('This is the plot')        
         
     def __repr__(self):
         """ Returns the value of the object """
         return "%s(%r)" % (self.__class__, self.__dict__)
+        
+    def listfiles(staticbeam):
+        """ THis function will list all the static and dynamic beams """
+        dir = os.path.dirname(__file__)
+        rel_dir_name = 'defined_'+__name__ +'s'
+        mypath = os.path.join(dir,rel_dir_name)
+        print (mypath)
+        f = []
+        description = []
+        for (dirpath, dirnames, filenames) in os.walk(mypath):
+            f.extend(filenames)
+            break
+        desc_index = 0
+        for filename in f:
+            reader = csv.reader(open(os.path.join(mypath,filename), 'r'))
+            description.append(next(reader))
+            print (filename,'---',description[desc_index])
+            desc_index = desc_index + 1
     
 class dynamicbeam():
     """This attributes are similar to a static beam, however, the beam energy, number of beam particles and beam structure is updated for several turns (depends on the length of list) and stored"""
@@ -207,10 +236,10 @@ class dynamicbeam():
         
         # Check if the some parameters are not defined or assigned to None
         
-        for key in self.parameters:
-            print (key, '\t', self.parameters[key])
+        #for key in self.parameters:
+         #   print (key, '\t', self.parameters[key])
         
-    def save(self,name_of_file):
+    def save(self,name_of_file,description):
         
         """ This function will save the beam object to an external file in the directory called "defined_beams" in the source directory"""
         
@@ -227,6 +256,7 @@ class dynamicbeam():
                 print('Gave the same file name again, overwriting the file!!!!!')
         else:
             writer = csv.writer(open(filename, 'w'))
+            writer.writerow('Description',description)
             for key, value in self.parameters.items():
                 writer.writerow([key, value])
             print (" Successfully written at"+ filename)
@@ -241,19 +271,39 @@ class dynamicbeam():
             exit()
         else:
             reader = csv.reader(open(filename, 'r'))
+            description = next(reader)
             temp = dict(x for x in reader) 
         return temp
         
+    def structure():
+        """ This function defines the structure of the beam based on the beam parameters"""
+    
+        print('This is the stucture')
+    
+    def plot():
+        """ This function will plot the profile of the beam in the mentioned axis"""
+    
+        print('This is the plot')        
         
     def __repr__(self):
         return "%s(%r)" % (self.__class__, self.__dict__)
     
-def structure():
-    """ This function defines the structure of the beam based on the beam parameters"""
+    def list(cls):
+        """ THis function will list all the static and dynamic beams """
+        dir = os.path.dirname(__file__)
+        rel_dir_name = 'defined_'+__name__ +'s'
+        mypath = os.path.join(dir,rel_dir_name)
+        f = []
+        description = []
+        for (dirpath, dirnames, filenames) in os.walk(mypath):
+            f.extend(filenames)
+            break
+        for filename in f:
+            reader = csv.reader(open(filename, 'r'))
+            description.append(next(reader))
+            filename.close()
+            print (f,'---',filename)
     
-    print('This is the stucture')
+        
     
-def plot():
-    """ This function will plot the profile of the beam in the mentioned axis"""
     
-    print('This is the plot')

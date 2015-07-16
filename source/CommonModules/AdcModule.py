@@ -79,10 +79,10 @@ class genericAdc():
         
         # Print all the class instance variables
         
-        for key in self.parameters:
-            print (key, '\t', self.parameters[key])
+        #for key in self.parameters:
+        #    print (key, '\t', self.parameters[key])
         
-    def save(self,name_of_file):
+    def save(self,name_of_file,description):
         
         """ This function will save the beam object to an external file in the directory called "defined_beams" in the source directory"""
         
@@ -99,6 +99,7 @@ class genericAdc():
                 print('Gave the same file name again, overwriting the file!!!!!')
         else:
             writer = csv.writer(open(filename, 'w'))
+            writer.writerow('Description',description)
             for key, value in self.parameters.items():
                 writer.writerow([key, value])
             print (" Successfully written at"+ filename)
@@ -113,6 +114,7 @@ class genericAdc():
             exit()
         else:
             reader = csv.reader(open(filename, 'r'))
+            description = next(reader)
             temp = dict(x for x in reader) 
         return temp
         
