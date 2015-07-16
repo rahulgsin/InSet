@@ -31,7 +31,7 @@ print ('Dictionary defined beam\n', dict_beam,'\n')
 #print (old_beam) # define this function
 
 #print a list of all beam files
-beam.staticbeam.listfiles()
+beam.staticbeam.listfiles() # Sometimes, it insists passing an instance even though it is a class method
 
 
 defined_machine = machine.staticmachine('LINAC',100,105,None,None,None,None,None,[5000,350e6],None)
