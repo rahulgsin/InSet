@@ -188,6 +188,7 @@ class staticbeam():
         """ Returns the value of the object """
         return "%s(%r)" % (self.__class__, self.__dict__)
         
+    @classmethod
     def listfiles(staticbeam):
         """ THis function will list all the static and dynamic beams """
         dir = os.path.dirname(__file__)
