@@ -1,0 +1,13 @@
+Description, Saves the full system with the Amp and ADCs
+Torus_radii,"[70.0, 90.0]"
+DA1,"<class 'CommonModules.AmpAttModule.genericAmpAtt'>({'parameters': {'Input_noise': 5.0, 'Distortion': None, 'Gain': [100.0, 10.0, 10000000.0, 10.0, 'lb'], 'Bandwidth': [1.0, 0.1, 100.0, 0.01, 'lt']}})"
+rise_time,500.0
+Torus_permeability,10000.0
+Output_resistance,50.0
+Torus_thickness,16.0
+Num_windings,10
+Inductance,0.803798472243394
+Magnetic_noise,
+droop_time,0.0160759694448679
+Stray_capacitance,10.0
+sensitivity,5.0

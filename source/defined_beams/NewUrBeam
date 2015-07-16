@@ -1,0 +1,12 @@
+Description,Uranium beam on the following experiment day
+dist_type,gpg
+beta,0.20531915065136
+x_dist,"[0, 4]"
+atomic_mass,238
+par_num,10000000000.0
+gamma,1.02176870748299
+z_dist,"[0, 50000]"
+charge_state,28
+y_dist,"[0, 7]"
+par_type,Ur
+kin_energy,11.4
