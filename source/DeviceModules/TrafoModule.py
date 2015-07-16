@@ -198,24 +198,43 @@ class generictrafo():
         Output = constraints["Output"]
         current_output = self.output(observable_in)
         print ("Optimize the ", constraints["Amp"][0], "setting\n" )
-        print ("Initial gain setting", (self.parameters['DA1']).parameters[constraints["Amp"][0]][0])
-        gain = (self.parameters['DA1']).parameters[constraints["Amp"][0]][0]
-        while (gain < (self.parameters['DA1']).parameters['Gain'][2] and gain > (self.parameters['DA1']).parameters['Gain'][1]):
+        print ("Initial "+ constraints["Amp"][0] + " setting", (self.parameters['DA1']).parameters[constraints["Amp"][0]][0])
+        setting1 = (self.parameters['DA1']).parameters[constraints["Amp"][0]][0]
+        while (setting1 < (self.parameters['DA1']).parameters[constraints["Amp"][0]][2] and setting1 > (self.parameters['DA1']).parameters[constraints["Amp"][0]][1]):
             if Output[0][0] - current_output[0] > Output[0][1]:
-                gain = gain*(self.parameters['DA1']).parameters['Gain'][3]
-                (self.parameters['DA1']).parameters['Gain'][0] = gain
+                setting1 = setting1*(self.parameters['DA1']).parameters[constraints["Amp"][0]][3]
+                (self.parameters['DA1']).parameters[constraints["Amp"][0]][0] = setting1
                 current_output = self.output(observable_in)
                 if Output[0][0]- current_output[0] < Output[0][1]:
                     break
             if Output[0][0]- current_output[0] < -1*Output[0][1]:
-                gain = gain/(self.parameters['DA1']).parameters['Gain'][3]
-                (self.parameters['DA1']).parameters['Gain'][0] = gain
+                setting1 = setting1/(self.parameters['DA1']).parameters[constraints["Amp"][0]][3]
+                (self.parameters['DA1']).parameters[constraints["Amp"][0]][0] = setting1
                 current_output = self.output(observable_in)
                 if Output[0][0]- current_output[0] > -1*Output[0][1]:
                     break
-        print ("Final gain setting", (self.parameters['DA1']).parameters['Gain'][0])
-        print (self.output(observable_in))
-        return [(self.parameters['DA1']).parameters['Gain'][0]]
+        print ("Final "+ constraints["Amp"][0] + " setting", (self.parameters['DA1']).parameters[constraints["Amp"][0]][0],"\n")
+        #print (self.output(observable_in))
+        
+        print ("Optimize the ",constraints["Amp"][1], "setting\n" )
+        print ("Initial "+ constraints["Amp"][1] + " setting", (self.parameters['DA1']).parameters[constraints["Amp"][1]][0])
+        setting1 = (self.parameters['DA1']).parameters[constraints["Amp"][1]][0]
+        while (setting1 < (self.parameters['DA1']).parameters[constraints["Amp"][1]][2] and setting1 > (self.parameters['DA1']).parameters[constraints["Amp"][1]][1]):
+            if current_output[1] > Output[1][0]:
+                setting1 = setting1/(self.parameters['DA1']).parameters[constraints["Amp"][1]][3]
+                (self.parameters['DA1']).parameters[constraints["Amp"][1]][0] = setting1
+                current_output = self.output(observable_in)
+                if current_output[1] < Output[1][0]:
+                    break
+            if current_output[1] < Output[1][0]/Output[1][1]:
+                setting1 = setting1*(self.parameters['DA1']).parameters[constraints["Amp"][1]][3]
+                (self.parameters['DA1']).parameters[constraints["Amp"][1]][0] = setting1
+                current_output = self.output(observable_in)
+                if current_output[1] > Output[1][0]/Output[1][1]:
+                    break
+        print ("Final "+ constraints["Amp"][1] + " setting", (self.parameters['DA1']).parameters[constraints["Amp"][1]][0],"\n")
+        #print (self.output(observable_in))
+        return [(self.parameters['DA1']).parameters[constraints["Amp"][0]][0],(self.parameters['DA1']).parameters[constraints["Amp"][1]][0]]
         
         #bandwidth = (self.parameters['DA1']).parameters['Bandwidth'][0]
         #while (bandwidth > (self.parameters['DA1']).parameters['Bandwidth'][2] and (gain > (self.parameters['DA1']).parameters['Bandwidth'][1]):

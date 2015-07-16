@@ -10,11 +10,11 @@ import mpmath
 
 
 
-defined_beam = beam.staticbeam('Ur',28,238,11.4,10e9,'gpg',[0,4],[0,7],[0,50000]) # defined_beam is a beam object, the order has to be maintained
+defined_beam = beam.staticbeam('Ur',28,238,11.4,10e8,'gpg',[0,4],[0,7],[0,50000]) # defined_beam is a beam object, the order has to be maintained
 print ('Directly defined beam\n', defined_beam,'\n')
 
 # Write a help beam command, to help filling this
-dictionary_beam = {'par_type':'Ur','charge_state': 73, 'atomic_mass': 238, 'kin_energy' : 11.4, 'par_num': 10e8, 'dist_type': 'ggg', 'x_dist': [0, 5], 'y_dist': [0, 3], 'z_dist' : [0, 1000]} 
+dictionary_beam = {'par_type':'Ur','charge_state': 73, 'atomic_mass': 238, 'kin_energy' : 11.4, 'par_num': 10e7, 'dist_type': 'ggg', 'x_dist': [0, 5], 'y_dist': [0, 3], 'z_dist' : [0, 1000]} 
 dict_beam = beam.staticbeam(**dictionary_beam) # dict_beam is a beam object, dont forget ** while passing a dictionary
 print ('Dictionary defined beam\n', dict_beam,'\n')
 
@@ -54,9 +54,9 @@ trafo_dic_2nd ={'Torus_radii': [30,45], 'Torus_thickness': 25, 'Torus_permeabili
 special_trafo = TrafoModule.generictrafo(**trafo_dic_1st)
 special_trafo_2nd = TrafoModule.generictrafo(**trafo_dic_2nd)
 
-trafo_amp1 = AmpAttModule.genericAmpAtt([100,0.0001,10e6,10,'lb'],[1,0.1,100,0.01,'lt'],5,None)
+trafo_amp1 = AmpAttModule.genericAmpAtt([100,0.0001,10e6,2,'lb'],[1,0.00001,100,2,'lt'],5,None)
  # Gain (factor), Bandwidth in MHz, , Input noise nV/sqrt(Hz)(FUnction of bandwidth and gain, save in a table) Can be saved and recalled
-trafo_amp2 = AmpAttModule.genericAmpAtt([10000,0.0001,10e6,10,'lb'],[2,0.1,100,0.01,'lt'],5,None)
+trafo_amp2 = AmpAttModule.genericAmpAtt([10000,0.0001,10e6,2,'lb'],[2,0.00001,100,2,'lt'],5,None)
 
 trafo_adc = AdcModule.genericAdc([1,0,2,0.1,'lt'],[-1,-2,0,0.1,'lb'],12,None) # Maximum, Minimum (in V) and effective number of bits, Distortion value or table
 
@@ -71,8 +71,13 @@ results2 = special_trafo_2nd.output(observable_sis18)
 print ('Output voltage and noise voltage for the second Trafo',results2,'\n')
 
 
-constraints_linac = {"Output": [[0.75,0.2],[0.001,0]], "Amp":['Gain','Bandwidth']} # No playing with ADCs "ADC":[ADC_maximum,ADC_minimum]
+constraints_linac = {"Output": [[0.75,0.2],[0.1,5]], "Amp":['Gain','Bandwidth']} # No playing with ADCs "ADC":[ADC_maximum,ADC_minimum]
 settings = special_trafo.optimize(observable_linac, constraints_linac)
+
+print("Gain =", settings[0], "Bandwidth=", settings[1])
+
+new_output = special_trafo.output(observable_linac)
+print ('Output voltage and noise voltage for the first Trafo',new_output,'\n')
 #settings = special_trafo_2nd.optimize(observable_sis18, constraints_sis18)
 
 
