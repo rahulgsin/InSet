@@ -30,6 +30,7 @@ class staticobservable():
         """This function will calculate all the observables"""
         self.parameters = {}
         self.parameters['current'] = (beam_in.parameters['par_num']*beam_in.parameters['charge_state']*beam_in.parameters['beta']*beam.VEL_LIGHT)*beam.CHARGE/(machine_in.parameters['Length'])
+        self.parameters['current_profile'] = (beam_in.parameters['Z Profile']*beam_in.parameters['charge_state']*beam_in.parameters['beta']*beam.VEL_LIGHT)*beam.CHARGE/(machine_in.parameters['Length'])
         
 class dynamicobservable():
     """ The machine class defines all the machine parameters"""

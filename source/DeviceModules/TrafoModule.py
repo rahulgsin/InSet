@@ -170,10 +170,13 @@ class generictrafo():
         """ Calculates the output of the device module or the system """
         output_dict = {}
         voltage_sensor = self.parameters['sensitivity']*observable_in.parameters['current'] # Only scalar at present, play with FFT and inverse later
+        voltage_sensor_profile = self.parameters['sensitivity']*observable_in.parameters['current_profile'] 
         #print (voltage_sensor)
         voltage_DA1 = voltage_sensor*(self.parameters['DA1']).parameters['Gain'][0]
         #print (voltage_DA1)
-        noise_voltage_DA1 = np.sqrt((self.parameters['DA1']).parameters['Bandwidth'][0]*mpf(10e-6))*(self.parameters['DA1']).parameters['Input_noise']*(self.parameters['DA1']).parameters['Gain'][0]
+        noise_voltage_DA1 = np.sqrt((self.parameters['DA1']).parameters['Bandwidth'][0]*mpf(1e-6))*(self.parameters['DA1']).parameters['Input_noise']*(self.parameters['DA1']).parameters['Gain'][0]
+        noise_profile = [np.random.normal(0,noise_voltage_DA1) for x in range(0, len(voltage_sensor_profile))]
+        voltage_sensor_profile= voltage_sensor_profile + noise_profile
         #print (noise_voltage_DA1)
         if voltage_DA1 > (self.parameters['DA2']).parameters['ADC_maximum'][0]:
             #voltage_DA2 = (self.parameters['DA2']).parameters['ADC_maximum'][0]
@@ -187,7 +190,7 @@ class generictrafo():
             voltage_DA2 = voltage_DA1
             
         noise_voltage_DA2 = noise_voltage_DA1
-        return [voltage_DA2,noise_voltage_DA2]
+        return [voltage_DA2,noise_voltage_DA2,voltage_sensor_profile]
         
     
     def optimize(self,observable_in,constraints):
@@ -196,42 +199,61 @@ class generictrafo():
         """ First is a brute force method """
         
         Output = constraints["Output"]
-        current_output = self.output(observable_in)
+        present_output = self.output(observable_in)
         print ("Optimize the ", constraints["Amp"][0], "setting\n" )
         print ("Initial "+ constraints["Amp"][0] + " setting", (self.parameters['DA1']).parameters[constraints["Amp"][0]][0])
         setting1 = (self.parameters['DA1']).parameters[constraints["Amp"][0]][0]
+        counter = 0 # Avoid run-aways
         while (setting1 < (self.parameters['DA1']).parameters[constraints["Amp"][0]][2] and setting1 > (self.parameters['DA1']).parameters[constraints["Amp"][0]][1]):
-            if Output[0][0] - current_output[0] > Output[0][1]:
+            counter = counter + 1
+            if Output[0][0] - present_output[0] >= Output[0][1]:
                 setting1 = setting1*(self.parameters['DA1']).parameters[constraints["Amp"][0]][3]
                 (self.parameters['DA1']).parameters[constraints["Amp"][0]][0] = setting1
-                current_output = self.output(observable_in)
-                if Output[0][0]- current_output[0] < Output[0][1]:
+                present_output = self.output(observable_in)
+                if Output[0][0]- present_output[0] < Output[0][1]:
                     break
-            if Output[0][0]- current_output[0] < -1*Output[0][1]:
+            if Output[0][0]- present_output[0] < -1*Output[0][1]:
                 setting1 = setting1/(self.parameters['DA1']).parameters[constraints["Amp"][0]][3]
                 (self.parameters['DA1']).parameters[constraints["Amp"][0]][0] = setting1
-                current_output = self.output(observable_in)
-                if Output[0][0]- current_output[0] > -1*Output[0][1]:
+                present_output = self.output(observable_in)
+                if Output[0][0]- present_output[0] > -1*Output[0][1]:
                     break
+                    
+            else:
+                print ('Fine setting')
+                break
+                
+            if counter > 100: # Just in case
+                break
         print ("Final "+ constraints["Amp"][0] + " setting", (self.parameters['DA1']).parameters[constraints["Amp"][0]][0],"\n")
         #print (self.output(observable_in))
         
         print ("Optimize the ",constraints["Amp"][1], "setting\n" )
         print ("Initial "+ constraints["Amp"][1] + " setting", (self.parameters['DA1']).parameters[constraints["Amp"][1]][0])
         setting1 = (self.parameters['DA1']).parameters[constraints["Amp"][1]][0]
+        counter = 0 # Avoid run-aways
         while (setting1 < (self.parameters['DA1']).parameters[constraints["Amp"][1]][2] and setting1 > (self.parameters['DA1']).parameters[constraints["Amp"][1]][1]):
-            if current_output[1] > Output[1][0]:
+            counter = counter + 1
+            if present_output[1] >= Output[1][0]:
                 setting1 = setting1/(self.parameters['DA1']).parameters[constraints["Amp"][1]][3]
                 (self.parameters['DA1']).parameters[constraints["Amp"][1]][0] = setting1
-                current_output = self.output(observable_in)
-                if current_output[1] < Output[1][0]:
+                present_output = self.output(observable_in)
+                if present_output[1] < Output[1][0]:
                     break
-            if current_output[1] < Output[1][0]/Output[1][1]:
+            elif present_output[1] < Output[1][0]/Output[1][1]:
                 setting1 = setting1*(self.parameters['DA1']).parameters[constraints["Amp"][1]][3]
                 (self.parameters['DA1']).parameters[constraints["Amp"][1]][0] = setting1
-                current_output = self.output(observable_in)
-                if current_output[1] > Output[1][0]/Output[1][1]:
+                present_output = self.output(observable_in)
+                if present_output[1] > Output[1][0]/Output[1][1]:
                     break
+            else:
+                print ('Fine setting')
+                break
+                
+            if counter > 100: # Just in case
+                break
+                
+        
         print ("Final "+ constraints["Amp"][1] + " setting", (self.parameters['DA1']).parameters[constraints["Amp"][1]][0],"\n")
         #print (self.output(observable_in))
         return [(self.parameters['DA1']).parameters[constraints["Amp"][0]][0],(self.parameters['DA1']).parameters[constraints["Amp"][1]][0]]

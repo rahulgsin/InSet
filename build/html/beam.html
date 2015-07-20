@@ -65,9 +65,21 @@
 <em class="property">class </em><code class="descclassname">beam.</code><code class="descname">dynamicbeam</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#dynamicbeam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.dynamicbeam" title="Permalink to this definition">¶</a></dt>
 <dd><p>This attributes are similar to a static beam, however, the beam energy, number of beam particles and beam structure is updated for several turns (depends on the length of list) and stored</p>
 <dl class="method">
+<dt id="beam.dynamicbeam.gaussian">
+<code class="descname">gaussian</code><span class="sig-paren">(</span><em>x</em>, <em>mu</em>, <em>sig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#dynamicbeam.gaussian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.dynamicbeam.gaussian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the normal distribution with x number of points, and mean mu, and sig</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="beam.dynamicbeam.listfiles">
 <code class="descname">listfiles</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#dynamicbeam.listfiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.dynamicbeam.listfiles" title="Permalink to this definition">¶</a></dt>
 <dd><p>THis function will list all the static and dynamic beams</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beam.dynamicbeam.parabolic">
+<code class="descname">parabolic</code><span class="sig-paren">(</span><em>x</em>, <em>xmin</em>, <em>xmax</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#dynamicbeam.parabolic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.dynamicbeam.parabolic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the normal distribution with x number of points, and mean mu, and sig</p>
 </dd></dl>
 
 <dl class="method">
@@ -97,8 +109,14 @@
 <p>It creates a beam object instance the parameters in a special order are specified, or simply by passing a beam dictionary</p>
 <p>A save keyword &#8216;s&#8217; can be used to save the beam object in a file, which can be loaded later</p>
 <dl class="method">
+<dt id="beam.staticbeam.gaussian">
+<code class="descname">gaussian</code><span class="sig-paren">(</span><em>x</em>, <em>mu</em>, <em>sig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#staticbeam.gaussian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.staticbeam.gaussian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the normal distribution with x number of points, and mean mu, and sig</p>
+</dd></dl>
+
+<dl class="classmethod">
 <dt id="beam.staticbeam.listfiles">
-<code class="descname">listfiles</code><span class="sig-paren">(</span><em>staticbeam</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#staticbeam.listfiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.staticbeam.listfiles" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">listfiles</code><span class="sig-paren">(</span><em>staticbeam</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#staticbeam.listfiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.staticbeam.listfiles" title="Permalink to this definition">¶</a></dt>
 <dd><p>THis function will list all the static and dynamic beams</p>
 </dd></dl>
 
@@ -106,6 +124,12 @@
 <dt id="beam.staticbeam.load">
 <code class="descname">load</code><span class="sig-paren">(</span><em>name_of_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#staticbeam.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.staticbeam.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function will load the beam object from the specified file in the directory called &#8220;defined_beams&#8221; in the source directory</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beam.staticbeam.parabolic">
+<code class="descname">parabolic</code><span class="sig-paren">(</span><em>x</em>, <em>xmin</em>, <em>xmax</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#staticbeam.parabolic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.staticbeam.parabolic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the normal distribution with x number of points, and mean mu, and sig</p>
 </dd></dl>
 
 <dl class="method">

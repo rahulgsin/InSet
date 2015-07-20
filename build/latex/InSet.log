@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2013.10.17)  16 JUL 2015 11:58
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2013.10.17)  20 JUL 2015 17:15
 entering extended mode
  %&-line parsing enabled.
 **InSet.tex
@@ -833,18 +833,18 @@ File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <10> not available
 (Font)              Font shape `T1/pcr/b/n' tried instead on input line 175.
  [3]
-LaTeX Font Info:    Try loading font information for TS1+ptm on input line 268.
+LaTeX Font Info:    Try loading font information for TS1+ptm on input line 300.
 
 
 (/usr/share/texmf/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 ) [4]
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 338.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 370.
 
 
 LaTeX Warning: Hyper reference `machine:sphinxdoc' on page 5 undefined on input
- line 360.
+ line 392.
 
 [5] [6] [7] [8
 
@@ -870,13 +870,13 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 6506 strings out of 256216
- 83925 string characters out of 1917071
- 152129 words of memory out of 1500000
- 9527 multiletter control sequences out of 10000+200000
+ 6514 strings out of 256216
+ 84097 string characters out of 1917071
+ 152257 words of memory out of 1500000
+ 9531 multiletter control sequences out of 10000+200000
  57958 words of font info for 63 fonts, out of 1200000 for 2000
  646 hyphenation exceptions out of 8191
- 34i,12n,45p,247b,460s stack positions out of 5000i,500n,6000p,200000b,15000s
+ 34i,12n,45p,247b,522s stack positions out of 5000i,500n,6000p,200000b,15000s
 pdfTeX warning (dest): name{??} has been referenced but does not exist, repla
 ced by a fixed one
 
@@ -886,9 +886,9 @@ share/texmf/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texmf/fonts/type1/u
 rw/helvetic/uhvbo8a.pfb></usr/share/texmf/fonts/type1/urw/helvetic/uhvr8a.pfb><
 /usr/share/texmf/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf/fonts/type1
 /urw/times/utmr8a.pfb></usr/share/texmf/fonts/type1/urw/times/utmri8a.pfb>
-Output written on InSet.pdf (19 pages, 130309 bytes).
+Output written on InSet.pdf (19 pages, 132379 bytes).
 PDF statistics:
- 277 PDF objects out of 1000 (max. 8388607)
- 70 named destinations out of 1000 (max. 131072)
+ 287 PDF objects out of 1000 (max. 8388607)
+ 74 named destinations out of 1000 (max. 131072)
  101 words of extra memory for PDF output out of 10000 (max. 10000000)
 

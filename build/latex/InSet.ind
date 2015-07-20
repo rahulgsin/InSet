@@ -15,17 +15,19 @@
   \indexspace
   \bigletter D
   \item dynamicbeam (class in beam), \hyperpage{3}
-  \item dynamicmachine (class in machine), \hyperpage{4}
+  \item dynamicmachine (class in machine), \hyperpage{5}
 
   \indexspace
   \bigletter G
+  \item gaussian() (beam.dynamicbeam method), \hyperpage{3}
+  \item gaussian() (beam.staticbeam method), \hyperpage{4}
   \item genericAmpAtt (class in AmpAttModule), \hyperpage{6}
   \item generictrafo (class in TrafoModule), \hyperpage{5}
 
   \indexspace
   \bigletter L
   \item listfiles() (beam.dynamicbeam method), \hyperpage{3}
-  \item listfiles() (beam.staticbeam method), \hyperpage{4}
+  \item listfiles() (beam.staticbeam class method), \hyperpage{4}
   \item load() (beam.staticbeam method), \hyperpage{4}
   \item load() (TrafoModule.generictrafo method), \hyperpage{5}
 
@@ -35,11 +37,13 @@
 
   \indexspace
   \bigletter O
-  \item optimize() (TrafoModule.generictrafo method), \hyperpage{5}
-  \item output() (TrafoModule.generictrafo method), \hyperpage{5}
+  \item optimize() (TrafoModule.generictrafo method), \hyperpage{6}
+  \item output() (TrafoModule.generictrafo method), \hyperpage{6}
 
   \indexspace
   \bigletter P
+  \item parabolic() (beam.dynamicbeam method), \hyperpage{3}
+  \item parabolic() (beam.staticbeam method), \hyperpage{4}
   \item plot() (beam.dynamicbeam method), \hyperpage{3}
   \item plot() (beam.staticbeam method), \hyperpage{4}
 
@@ -48,12 +52,12 @@
   \item save() (AmpAttModule.genericAmpAtt method), \hyperpage{6}
   \item save() (beam.dynamicbeam method), \hyperpage{3}
   \item save() (beam.staticbeam method), \hyperpage{4}
-  \item save() (machine.dynamicmachine method), \hyperpage{4}
+  \item save() (machine.dynamicmachine method), \hyperpage{5}
   \item save() (machine.staticmachine method), \hyperpage{5}
-  \item save() (TrafoModule.generictrafo method), \hyperpage{5}
-  \item staticbeam (class in beam), \hyperpage{3}
+  \item save() (TrafoModule.generictrafo method), \hyperpage{6}
+  \item staticbeam (class in beam), \hyperpage{4}
   \item staticmachine (class in machine), \hyperpage{5}
-  \item structure() (beam.dynamicbeam method), \hyperpage{3}
+  \item structure() (beam.dynamicbeam method), \hyperpage{4}
   \item structure() (beam.staticbeam method), \hyperpage{4}
 
   \indexspace

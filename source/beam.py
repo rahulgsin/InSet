@@ -40,7 +40,7 @@ import inspect
 import csv
 import numpy as np
 from mpmath import mpf
-
+from matplotlib.pyplot import plot,subplot
 
 # Global constants
 PROTON_MASS = mpf(9.31e-27)  # Kg  removed e-30
@@ -121,6 +121,11 @@ class staticbeam():
         self.parameters['gamma'] = 1 + (self.parameters['kin_energy']*10e6*CHARGE)/(PROTON_MASS*np.power(VEL_LIGHT,2))
         self.parameters['beta'] = np.sqrt(1-1/np.power(self.parameters['gamma'],2))
         
+        self.parameters['x_range'] = np.arange(-1*self.parameters['x_dist'][2],self.parameters['x_dist'][2],2*self.parameters['x_dist'][2]/self.parameters['x_dist'][3])
+        self.parameters['y_range']= np.arange(-1*self.parameters['y_dist'][2],self.parameters['y_dist'][2],2*self.parameters['y_dist'][2]/self.parameters['y_dist'][3])
+        self.parameters['z_range'] = np.arange(-1*self.parameters['z_dist'][2],self.parameters['z_dist'][2],2*self.parameters['z_dist'][2]/self.parameters['z_dist'][3])
+               
+        self.structure()
         # Print all the parameters
         #print ('Parameters of the beam object \n'  )
         #for key in self.parameters:
@@ -174,15 +179,74 @@ class staticbeam():
             temp = dict(x for x in reader) 
         return temp
         
-    def structure():
+    def structure(self):
         """ This function defines the structure of the beam based on the beam parameters"""
     
-        print('This is the stucture')
+        #print('This is the stucture')
+        beam_Profile = np.ones((self.parameters['x_dist'][3],self.parameters['y_dist'][3],self.parameters['z_dist'][3]))
+        #print("The grid size is", beam_Profile.shape)
+
+        
+        if self.parameters['dist_type'][0] == 'g':
+            beam_Profile_X = pow(self.parameters['par_num'],1/3)*self.gaussian(self.parameters['x_range'],self.parameters['x_dist'][0],self.parameters['x_dist'][1])
+
+        if self.parameters['dist_type'][1] == 'g':
+            beam_Profile_Y = pow(self.parameters['par_num'],1/3)*self.gaussian(self.parameters['y_range'],self.parameters['y_dist'][0],self.parameters['y_dist'][1])
+            
+        if self.parameters['dist_type'][2] == 'g':
+            beam_Profile_Z = pow(self.parameters['par_num'],1/3)*self.gaussian(self.parameters['z_range'],self.parameters['z_dist'][0],self.parameters['z_dist'][1])           
+
+        beam_Profile=beam_Profile*beam_Profile_X[:,None,None]
+
+        beam_Profile=beam_Profile*beam_Profile_Y[None,:,None]
+
+        beam_Profile=beam_Profile*beam_Profile_Z[None,None,:]
+
+        # Check the total number of particles,
+        total_Particles = beam_Profile.sum()
+        #print (total_Particles)
+        if total_Particles - self.parameters['par_num'] < 0.0001*self.parameters['par_num']:
+            self.parameters['Beam Grid'] = beam_Profile
+            
+        temp = np.sum(self.parameters['Beam Grid'],2)    
+        beam_Profile_X = np.sum(temp,1)
+        #print (self.parameters['par_num'])
+        #print (beam_Profile_X.sum())
+        self.parameters['X Profile'] = beam_Profile_X
+        temp = np.sum(self.parameters['Beam Grid'],2)
+        beam_Profile_Y = np.sum(temp,0)
+        #print (beam_Profile_Y.sum())
+        self.parameters['Y Profile'] = beam_Profile_Y
+        temp = np.sum(self.parameters['Beam Grid'],0)
+        beam_Profile_Z = np.sum(temp,0)
+        #print (beam_Profile_Z.sum())
+        self.parameters['Z Profile'] = beam_Profile_Z
     
-    def plot():
+    def plot(self):
         """ This function will plot the profile of the beam in the mentioned axis"""
     
-        print('This is the plot')        
+        #print('This is the plot')        
+        subplot(1,3,1)
+        plot(self.parameters['x_range'],self.parameters['X Profile'])
+        subplot(1,3,2)
+        plot(self.parameters['y_range'],self.parameters['Y Profile'])
+        subplot(1,3,3)
+        plot(self.parameters['z_range'],self.parameters['Z Profile'])
+
+    def gaussian(self, x, mu, sig):
+        """ Returns the normal distribution with x number of points, and mean mu, and sig """
+        grid_size = (x[1]-x[0])
+        return_array = np.power(sig*np.sqrt(2*np.pi),-1)*np.exp(-np.power(x - mu, 2) /( 2 * np.power(sig, 2)))*grid_size
+        #print('The gaussian is normalized', (return_array*grid_Size).sum());
+        # http://ftp.arl.mil/random/random.pdf Good document for distribution generation
+        return return_array
+        
+        
+    def parabolic(self, x, xmin, xmax):
+        """ Returns the normal distribution with x number of points, and mean mu, and sig """
+        return_array = np.power(sig*np.sqrt(2*np.pi),-1)*np.exp(-np.power(x - mu, 2) /( 2 * np.power(sig, 2)))
+        #print('The gaussian is normalized', (return_array*grid_Size).sum());
+        return return_array
         
     def __repr__(self):
         """ Returns the value of the object """
@@ -247,11 +311,15 @@ class dynamicbeam():
         else:
             print('You have the wrong number of arguments, Please use help...')
         
+        #initiate the beam shape in the three dimensions
+        structure(self)
         
         # Check if the some parameters are not defined or assigned to None
         
         #for key in self.parameters:
          #   print (key, '\t', self.parameters[key])
+        
+        
         
     def save(self,name_of_file,description):
         
@@ -274,6 +342,8 @@ class dynamicbeam():
             for key, value in self.parameters.items():
                 writer.writerow([key, value])
             print (" Successfully written at"+ filename)
+            
+            
              
     def load(self,name_of_file):
         dir = os.path.dirname(__file__)
@@ -289,10 +359,63 @@ class dynamicbeam():
             temp = dict(x for x in reader) 
         return temp
         
-    def structure():
+    def structure(self):
         """ This function defines the structure of the beam based on the beam parameters"""
-    
+        
         print('This is the stucture')
+            
+        beam_Profile = np.ones((self.parameters['xdist'][3],self.parameters['ydist'][3],self.parameters['zdist'][3]))
+        print("The grid size is", beam_Profile.shape)
+        if self.parameters['dist_type'][0] == 'g':
+            beam_Profile_X = pow(self.parameters['par_num'],1/3)*gaussian(self.parameters['xdist'][3],self.parameters['xdist'][0],self.parameters['xdist'][1])
+            #photons_X = photon_Profile_X.sum()
+            #print('The gaussian is normalized', photons_X, pow(mean_Photons,1/3))
+            #subplot(2,3,1)
+        if self.parameters['dist_type'][1] == 'g':
+            beam_Profile_Y = pow(self.parameters['par_num'],1/3)*gaussian(self.parameters['ydist'][3],self.parameters['ydist'][0],self.parameters['ydist'][1])
+            
+        if self.parameters['dist_type'][2] == 'g':
+            beam_Profile_Z = pow(self.parameters['par_num'],1/3)*gaussian(self.parameters['zdist'][3],self.parameters['zdist'][0],self.parameters['zdist'][1])           
+
+        beam_Profile=beam_Profile*beam_Profile_X[:,None,None]
+
+        beam_Profile=beam_Profile*beam_Profile_Y[None,:,None]
+
+        beam_Profile=beam_Profile*beam_Profile_Z[None,None,:]
+
+        # Check the total number of particles,
+        total_Particles = beam_Profile.sum()
+        if total_Particles - self.parameters['par_num'] < 0.0001*self.parameters['par_num']:
+            self.parameters['Beam Grid'] = beam_Profile
+            
+        temp = sum(self.parameters['Beam Grid'],2)    
+        beam_Profile_X = sum(temp,1)
+        self.parameters['X Profile'] = beam_Profile_X
+        temp = sum(self.parameters['Beam Grid'],2)
+        beam_Profile_Y = sum(temp,0)
+        self.parameters['Y Profile'] = beam_Profile_Y
+        temp = sum(self.parameters['Beam Grid'],0)
+        beam_Profile_Z = sum(temp,0)
+        self.parameters['Z Profile'] = beam_Profile_Z
+
+
+        
+    def gaussian(x, mu, sig):
+        """ Returns the normal distribution with x number of points, and mean mu, and sig """
+        grid_size = (x[1]-x[0])
+        return_array = np.power(sig*np.sqrt(2*np.pi),-1)*np.exp(-np.power(x - mu, 2) /( 2 * np.power(sig, 2)))*grid_size
+        #print('The gaussian is normalized', (return_array*grid_Size).sum());
+        # http://ftp.arl.mil/random/random.pdf Good document for distribution generation
+        return return_array
+        
+        
+    def parabolic(x, xmin, xmax):
+        """ Returns the normal distribution with x number of points, and mean mu, and sig """
+        return_array = np.power(sig*np.sqrt(2*np.pi),-1)*np.exp(-np.power(x - mu, 2) /( 2 * np.power(sig, 2)))
+        #print('The gaussian is normalized', (return_array*grid_Size).sum());
+        return return_array
+    
+
     
     def plot():
         """ This function will plot the profile of the beam in the mentioned axis"""

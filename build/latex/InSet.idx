@@ -1,27 +1,31 @@
 \indexentry{beam (module)|hyperpage}{3}
 \indexentry{dynamicbeam (class in beam)|hyperpage}{3}
+\indexentry{gaussian() (beam.dynamicbeam method)|hyperpage}{3}
 \indexentry{listfiles() (beam.dynamicbeam method)|hyperpage}{3}
+\indexentry{parabolic() (beam.dynamicbeam method)|hyperpage}{3}
 \indexentry{plot() (beam.dynamicbeam method)|hyperpage}{3}
 \indexentry{save() (beam.dynamicbeam method)|hyperpage}{3}
-\indexentry{structure() (beam.dynamicbeam method)|hyperpage}{3}
-\indexentry{staticbeam (class in beam)|hyperpage}{3}
-\indexentry{listfiles() (beam.staticbeam method)|hyperpage}{4}
+\indexentry{structure() (beam.dynamicbeam method)|hyperpage}{4}
+\indexentry{staticbeam (class in beam)|hyperpage}{4}
+\indexentry{gaussian() (beam.staticbeam method)|hyperpage}{4}
+\indexentry{listfiles() (beam.staticbeam class method)|hyperpage}{4}
 \indexentry{load() (beam.staticbeam method)|hyperpage}{4}
+\indexentry{parabolic() (beam.staticbeam method)|hyperpage}{4}
 \indexentry{plot() (beam.staticbeam method)|hyperpage}{4}
 \indexentry{save() (beam.staticbeam method)|hyperpage}{4}
 \indexentry{structure() (beam.staticbeam method)|hyperpage}{4}
 \indexentry{machine (module)|hyperpage}{4}
-\indexentry{dynamicmachine (class in machine)|hyperpage}{4}
-\indexentry{save() (machine.dynamicmachine method)|hyperpage}{4}
+\indexentry{dynamicmachine (class in machine)|hyperpage}{5}
+\indexentry{save() (machine.dynamicmachine method)|hyperpage}{5}
 \indexentry{staticmachine (class in machine)|hyperpage}{5}
 \indexentry{save() (machine.staticmachine method)|hyperpage}{5}
 \indexentry{TrafoModule (module)|hyperpage}{5}
 \indexentry{generictrafo (class in TrafoModule)|hyperpage}{5}
 \indexentry{combine\_systems() (TrafoModule.generictrafo method)|hyperpage}{5}
 \indexentry{load() (TrafoModule.generictrafo method)|hyperpage}{5}
-\indexentry{optimize() (TrafoModule.generictrafo method)|hyperpage}{5}
-\indexentry{output() (TrafoModule.generictrafo method)|hyperpage}{5}
-\indexentry{save() (TrafoModule.generictrafo method)|hyperpage}{5}
+\indexentry{optimize() (TrafoModule.generictrafo method)|hyperpage}{6}
+\indexentry{output() (TrafoModule.generictrafo method)|hyperpage}{6}
+\indexentry{save() (TrafoModule.generictrafo method)|hyperpage}{6}
 \indexentry{AmpAttModule (module)|hyperpage}{6}
 \indexentry{genericAmpAtt (class in AmpAttModule)|hyperpage}{6}
 \indexentry{save() (AmpAttModule.genericAmpAtt method)|hyperpage}{6}
