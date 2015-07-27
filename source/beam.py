@@ -43,7 +43,7 @@ from mpmath import mpf
 from matplotlib.pyplot import plot,subplot
 
 # Global constants
-PROTON_MASS = mpf(9.31e-27)  # Kg  removed e-30
+PROTON_MASS = mpf(1.67e-27)  # Kg  removed e-30
 VEL_LIGHT = mpf(3e8) # m/s
 CHARGE = mpf(1.6e-19) # Coulomb removed e-30
 PERMEABILITY_SPACE = mpf(1.256e-6)

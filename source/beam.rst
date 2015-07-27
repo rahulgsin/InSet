@@ -19,4 +19,3 @@ Indices and tables
 * :ref:`search`
 * :doc:`Home<index>`
 * :ref:`Table of contents<index_label>`
-* :ref:`Table of page<beam_label>`

@@ -10,6 +10,12 @@ Generic Transformer object
 .. automodule:: TrafoModule
    :members:
 
+Beam Position Monitor
+======================
+
+.. automodule:: bpm
+   :members:
+
 Add functions from Python library
 ==================================
 

@@ -1,0 +1,579 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Alabaster: a Sphinx theme &mdash; InSet 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="InSet 0.0.1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">InSet 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="alabaster-a-sphinx-theme">
+<h1>Alabaster: a Sphinx theme<a class="headerlink" href="#alabaster-a-sphinx-theme" title="Permalink to this headline">¶</a></h1>
+<p>This theme is a modified &#8220;Kr&#8221; Sphinx theme from &#64;kennethreitz (especially as
+used in his <a class="reference external" href="https://python-requests.org">Requests</a> project), which was
+itself originally based on &#64;mitsuhiko&#8217;s theme used for <a class="reference external" href="http://flask.pocoo.org/">Flask</a> &amp; related projects.</p>
+<p>Live examples of this theme can be seen on <a class="reference external" href="http://paramiko.org">paramiko.org</a>, <a class="reference external" href="http://fabfile.org">fabfile.org</a> and <a class="reference external" href="http://pyinvoke.org">pyinvoke.org</a>.</p>
+<p>A <a class="reference internal" href="#changelog">changelog</a> can be found at the bottom of this page.</p>
+<p>Alabaster is Python 2+3 compatible.</p>
+<div class="section" id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<p>Specifically, as compared to Kenneth&#8217;s theme:</p>
+<ul class="simple">
+<li>Easy ability to install/use as a Python package (tip o&#8217; the hat to <a class="reference external" href="https://github.com/snide/sphinx_rtd_theme">Dave &amp;
+Eric&#8217;s sphinx_rtd_theme</a> for
+showing the way);</li>
+<li>Style tweaks, such as better code-block alignment, Gratipay and Github button
+placement, page source link moved to footer, improved (optional)
+related-items sidebar item, etc;</li>
+<li>Many customization hooks, including toggle of various sidebar &amp; footer
+components; header/link/etc color control; etc;</li>
+<li>Improved documentation for all customizations (pre-existing &amp; new).</li>
+</ul>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>The bare minimum required to install is as follows:</p>
+<ol class="arabic">
+<li><p class="first"><tt class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">alabaster</span></tt> (or equivalent).</p>
+</li>
+<li><p class="first">Enable the &#8216;alabaster&#8217; theme, mini-extension, and sidebar templates in your
+<tt class="docutils literal"><span class="pre">conf.py</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">alabaster</span>
+
+<span class="n">html_theme_path</span> <span class="o">=</span> <span class="p">[</span><span class="n">alabaster</span><span class="o">.</span><span class="n">get_path</span><span class="p">()]</span>
+<span class="n">extensions</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;alabaster&#39;</span><span class="p">]</span>
+<span class="n">html_theme</span> <span class="o">=</span> <span class="s">&#39;alabaster&#39;</span>
+<span class="n">html_sidebars</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;**&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s">&#39;about.html&#39;</span><span class="p">,</span>
+        <span class="s">&#39;navigation.html&#39;</span><span class="p">,</span>
+        <span class="s">&#39;relations.html&#39;</span><span class="p">,</span>
+        <span class="s">&#39;searchbox.html&#39;</span><span class="p">,</span>
+        <span class="s">&#39;donate.html&#39;</span><span class="p">,</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>That&#8217;s it! You now have the standard Alabaster theme set up. Read on for more
+configuration options/concerns.</p>
+<div class="section" id="theme-location">
+<h3>Theme location<a class="headerlink" href="#theme-location" title="Permalink to this headline">¶</a></h3>
+<p>The function <tt class="docutils literal"><span class="pre">alabaster.get_path</span></tt> dynamically returns Alabaster&#8217;s install
+location, ensuring that Sphinx can find and load it regardless of where/how
+you installed Alabaster. Using it is highly recommended.</p>
+<p>If you&#8217;ve manually installed Alabaster and/or are doing funky things to your
+PYTHONPATH, you may need to replace the <tt class="docutils literal"><span class="pre">alabaster.get_path()</span></tt> call with your
+own explicit string, as per <a class="reference external" href="http://sphinx-doc.org/config.html#confval-html_theme_path">the Sphinx config docs</a>.</p>
+</div>
+<div class="section" id="sidebars">
+<h3>Sidebars<a class="headerlink" href="#sidebars" title="Permalink to this headline">¶</a></h3>
+<p>Feel free to adjust <tt class="docutils literal"><span class="pre">html_sidebars</span></tt> as desired - the theme is designed
+assuming you&#8217;ll always have <tt class="docutils literal"><span class="pre">about.html</span></tt> activated, but otherwise it doesn&#8217;t
+care much.</p>
+<ul class="simple">
+<li>See <a class="reference external" href="http://sphinx-doc.org/config.html#confval-html_sidebars">the Sphinx docs</a> for details on
+how this setting behaves.</li>
+<li>Alabaster provides <tt class="docutils literal"><span class="pre">about.html</span></tt> (logo, github button + blurb),
+<tt class="docutils literal"><span class="pre">donate.html</span></tt> (Gratipay blurb/button) and <tt class="docutils literal"><span class="pre">navigation.html</span></tt> (a more
+flexible version of the builtin <tt class="docutils literal"><span class="pre">localtoc</span></tt>/<tt class="docutils literal"><span class="pre">globaltoc</span></tt> templates).
+<tt class="docutils literal"><span class="pre">searchbox.html</span></tt> comes with Sphinx itself.</li>
+</ul>
+</div>
+<div class="section" id="images">
+<h3>Images<a class="headerlink" href="#images" title="Permalink to this headline">¶</a></h3>
+<p>If you&#8217;re using either of the image-related options outlined below (<tt class="docutils literal"><span class="pre">logo</span></tt> or
+<tt class="docutils literal"><span class="pre">touch-icon</span></tt>), you&#8217;ll also want to tell Sphinx where to get your images from.
+If so, add a line like this (changing the path if necessary; see <a class="reference external" href="http://sphinx-doc.org/config.html?highlight=static#confval-html_static_path">the Sphinx
+docs for &#8216;html_static_path&#8217;</a>):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">html_static_path</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;_static&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="theme-options">
+<h2>Theme options<a class="headerlink" href="#theme-options" title="Permalink to this headline">¶</a></h2>
+<p>Alabaster&#8217;s primary configuration route is the <tt class="docutils literal"><span class="pre">html_theme_options</span></tt> variable,
+set in <tt class="docutils literal"><span class="pre">conf.py</span></tt> alongside the rest. A brief example (<em>note</em>: snippet doesn&#8217;t
+include all possible options, see following list!):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">html_theme_options</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;logo&#39;</span><span class="p">:</span> <span class="s">&#39;logo.png&#39;</span><span class="p">,</span>
+    <span class="s">&#39;github_user&#39;</span><span class="p">:</span> <span class="s">&#39;bitprophet&#39;</span><span class="p">,</span>
+    <span class="s">&#39;github_repo&#39;</span><span class="p">:</span> <span class="s">&#39;alabaster&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="section" id="variables-and-feature-toggles">
+<h3>Variables and feature toggles<a class="headerlink" href="#variables-and-feature-toggles" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><tt class="docutils literal"><span class="pre">logo</span></tt>: Relative path (from <tt class="docutils literal"><span class="pre">$PROJECT/_static/</span></tt>) to a logo image, which
+will appear in the upper left corner above the name of the project.</p>
+<ul class="simple">
+<li>If <tt class="docutils literal"><span class="pre">logo</span></tt> is not set, your <tt class="docutils literal"><span class="pre">project</span></tt> name setting (from the top
+level Sphinx config) will be used in a text header instead. This
+preserves a link back to your homepage from inner doc pages.</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">logo_name</span></tt>: Set to <tt class="docutils literal"><span class="pre">true</span></tt> to insert your site&#8217;s <tt class="docutils literal"><span class="pre">project</span></tt> name
+under the logo image as text. Useful if your logo doesn&#8217;t include the
+project name itself. Defaults to <tt class="docutils literal"><span class="pre">false</span></tt>.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">logo_text_align</span></tt>: Which CSS <tt class="docutils literal"><span class="pre">text-align</span></tt> value to use for logo text
+(if there is any.)</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">description</span></tt>: Text blurb about your project, to appear under the logo.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">description_font_style</span></tt>: Which CSS <tt class="docutils literal"><span class="pre">font-style</span></tt> to use for description
+text. Defaults to <tt class="docutils literal"><span class="pre">normal</span></tt>.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">github_user</span></tt>, <tt class="docutils literal"><span class="pre">github_repo</span></tt>: Used by <tt class="docutils literal"><span class="pre">github_button</span></tt> and <tt class="docutils literal"><span class="pre">github_banner</span></tt>
+(see below); does nothing if both of those are set to <tt class="docutils literal"><span class="pre">false</span></tt>.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">github_button</span></tt>: <tt class="docutils literal"><span class="pre">true</span></tt> or <tt class="docutils literal"><span class="pre">false</span></tt> (default: <tt class="docutils literal"><span class="pre">true</span></tt>) - whether to link to
+your Github.</p>
+<blockquote>
+<div><ul>
+<li><p class="first">If <tt class="docutils literal"><span class="pre">true</span></tt>, requires that you set <tt class="docutils literal"><span class="pre">github_user</span></tt> and <tt class="docutils literal"><span class="pre">github_repo</span></tt>.</p>
+</li>
+<li><p class="first">See also these other related options, which behave as described in
+<a class="reference external" href="https://github.com/mdo/github-buttons#usage">Github Buttons&#8217; README</a>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">github_button_type</span></tt>: Defaults to <tt class="docutils literal"><span class="pre">watch</span></tt>.</li>
+<li><tt class="docutils literal"><span class="pre">github_button_count</span></tt>: Defaults to <tt class="docutils literal"><span class="pre">true</span></tt>.</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">github_banner</span></tt>: <tt class="docutils literal"><span class="pre">true</span></tt> or <tt class="docutils literal"><span class="pre">false</span></tt> (default: <tt class="docutils literal"><span class="pre">false</span></tt>) - whether to
+apply a &#8216;Fork me on Github&#8217; banner in the top right corner of the page.</p>
+<blockquote>
+<div><ul class="simple">
+<li>If <tt class="docutils literal"><span class="pre">true</span></tt>, requires that you set <tt class="docutils literal"><span class="pre">github_user</span></tt> and <tt class="docutils literal"><span class="pre">github_repo</span></tt>.</li>
+<li>May also submit a string file path (as with <tt class="docutils literal"><span class="pre">logo</span></tt>, relative to
+<tt class="docutils literal"><span class="pre">$PROJECT/_static/</span></tt>) to be used as the banner image instead of the
+default.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">travis_button</span></tt>: <tt class="docutils literal"><span class="pre">true</span></tt>, <tt class="docutils literal"><span class="pre">false</span></tt> or a Github-style
+<tt class="docutils literal"><span class="pre">&quot;account/repo&quot;</span></tt> string - used to display a Travis-CI build status
+button in the sidebar. If <tt class="docutils literal"><span class="pre">true</span></tt>, uses your <tt class="docutils literal"><span class="pre">github_(user|repo)</span></tt>
+settings; defaults to <tt class="docutils literal"><span class="pre">false.</span></tt></p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">gratipay_user</span></tt>: Set to your <a class="reference external" href="https://gratipay.com">Gratipay</a> username
+if you want a Gratipay &#8216;Donate&#8217; section in your sidebar.</p>
+<ul class="simple">
+<li>This used to be <tt class="docutils literal"><span class="pre">gittip_user</span></tt> before that service changed its name to
+Gratipay; we&#8217;ve left the old setting in place as an alias for backwards
+compatibility reasons. It may be removed in the future.</li>
+<li>If both options are given, <tt class="docutils literal"><span class="pre">gratipay_user</span></tt> wins.</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">analytics_id</span></tt>: Set to your <a class="reference external" href="http://www.google.com/analytics/">Google Analytics</a> ID (e.g. <tt class="docutils literal"><span class="pre">UA-#######-##</span></tt>) to enable
+tracking.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">touch_icon</span></tt>: Path to an image (as with <tt class="docutils literal"><span class="pre">logo</span></tt>, relative to
+<tt class="docutils literal"><span class="pre">$PROJECT/_static/</span></tt>) to be used for an iOS application icon, for when
+pages are saved to an iOS device&#8217;s home screen via Safari.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">extra_nav_links</span></tt>: Dictionary mapping link names to link targets; these
+will be added in a UL below the main sidebar navigation (provided you&#8217;ve
+enabled <tt class="docutils literal"><span class="pre">navigation.html</span></tt>.) Useful for static links outside your Sphinx
+doctree.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">sidebar_includehidden</span></tt>: Boolean determining whether the TOC sidebar
+should include hidden Sphinx toctree elements. Defaults to <tt class="docutils literal"><span class="pre">true</span></tt> so you
+can use <tt class="docutils literal"><span class="pre">:hidden:</span></tt> in your index page&#8217;s root toctree &amp; avoid having 2x
+copies of your navigation on your landing page.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">show_powered_by</span></tt>: Boolean controlling display of the <tt class="docutils literal"><span class="pre">Powered</span> <span class="pre">by</span>
+<span class="pre">Sphinx</span> <span class="pre">N.N.N.</span> <span class="pre">&amp;</span> <span class="pre">Alabaster</span> <span class="pre">M.M.M</span></tt> section of the footer. When <tt class="docutils literal"><span class="pre">true</span></tt>, is
+displayed next to the copyright information; when <tt class="docutils literal"><span class="pre">false</span></tt>, is hidden.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">show_related</span></tt>: Boolean controlling whether the &#8216;next/previous/related&#8217;
+secondary navigation elements are hidden or displayed. Defaults to <tt class="docutils literal"><span class="pre">false</span></tt>
+since on many sites these elements are superfluous.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">page_width</span></tt>: CSS width specifier controlling default content/page width.
+Defaults to <tt class="docutils literal"><span class="pre">940px</span></tt>.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">sidebar_width</span></tt>: CSS width specifier controlling default sidebar width.
+Defaults to <tt class="docutils literal"><span class="pre">220px</span></tt>.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="style-colors">
+<h3>Style colors<a class="headerlink" href="#style-colors" title="Permalink to this headline">¶</a></h3>
+<p>These should be fully qualified CSS color specifiers such as <tt class="docutils literal"><span class="pre">#004B6B</span></tt> or
+<tt class="docutils literal"><span class="pre">#444</span></tt>. The first few items in the list are &#8220;global&#8221; colors used as defaults
+for many of the others; update these to make sweeping changes to the
+colorscheme. The more granular settings can be used to override as needed.</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">gray_1</span></tt>: Dark gray.</li>
+<li><tt class="docutils literal"><span class="pre">gray_2</span></tt>: Light gray.</li>
+<li><tt class="docutils literal"><span class="pre">gray_3</span></tt>: Medium gray.</li>
+<li><tt class="docutils literal"><span class="pre">pink_1</span></tt>: Light pink.</li>
+<li><tt class="docutils literal"><span class="pre">pink_2</span></tt>: Medium pink.</li>
+<li><tt class="docutils literal"><span class="pre">body_text</span></tt>: Main content text.</li>
+<li><tt class="docutils literal"><span class="pre">footer_text</span></tt>: Footer text (includes links.)</li>
+<li><tt class="docutils literal"><span class="pre">link</span></tt>: Non-hovered body links.</li>
+<li><tt class="docutils literal"><span class="pre">link_hover</span></tt>: Body links, hovered.</li>
+<li><tt class="docutils literal"><span class="pre">sidebar_header</span></tt>: Sidebar headers. Defaults to <tt class="docutils literal"><span class="pre">gray_1</span></tt>.</li>
+<li><tt class="docutils literal"><span class="pre">sidebar_text</span></tt>: Sidebar paragraph text.</li>
+<li><tt class="docutils literal"><span class="pre">sidebar_link</span></tt>: Sidebar links (there is no hover variant.) Applies to
+both header &amp; text links. Defaults to <tt class="docutils literal"><span class="pre">gray_1</span></tt>.</li>
+<li><tt class="docutils literal"><span class="pre">sidebar_link_underscore</span></tt>: Sidebar links&#8217; underline (technically a
+bottom-border).</li>
+<li><tt class="docutils literal"><span class="pre">sidebar_search_button</span></tt>: Background color of the search field&#8217;s &#8216;Go&#8217;
+button.</li>
+<li><tt class="docutils literal"><span class="pre">sidebar_list</span></tt>: Foreground color of sidebar list bullets &amp; unlinked text.</li>
+<li><tt class="docutils literal"><span class="pre">sidebar_hr</span></tt>: Color of sidebar horizontal rule dividers. Defaults to
+<tt class="docutils literal"><span class="pre">gray_3</span></tt>.</li>
+<li><tt class="docutils literal"><span class="pre">anchor</span></tt>: Foreground color of section anchor links (the &#8216;paragraph&#8217;
+symbol that shows up when you mouseover page section headers.)</li>
+<li><tt class="docutils literal"><span class="pre">anchor_hover_fg</span></tt>: Foreground color of section anchor links (as above)
+when moused over. Defaults to <tt class="docutils literal"><span class="pre">gray_1</span></tt>.</li>
+<li><tt class="docutils literal"><span class="pre">anchor_hover_bg</span></tt>: Background color of above.</li>
+<li><tt class="docutils literal"><span class="pre">note_bg</span></tt>: Background of <tt class="docutils literal"><span class="pre">..</span> <span class="pre">note::</span></tt> blocks. Defaults to <tt class="docutils literal"><span class="pre">gray_2</span></tt>.</li>
+<li><tt class="docutils literal"><span class="pre">note_border</span></tt>: Border of same.</li>
+<li><tt class="docutils literal"><span class="pre">seealso_bg</span></tt>: Background of <tt class="docutils literal"><span class="pre">..</span> <span class="pre">seealso::</span></tt> blocks. Defaults to
+<tt class="docutils literal"><span class="pre">gray_2</span></tt>.</li>
+<li><tt class="docutils literal"><span class="pre">seealso_border</span></tt>: Border of same.</li>
+<li><tt class="docutils literal"><span class="pre">warn_bg</span></tt>: Background of <tt class="docutils literal"><span class="pre">..</span> <span class="pre">warn::</span></tt> blocks. Defaults to <tt class="docutils literal"><span class="pre">pink_1</span></tt>.</li>
+<li><tt class="docutils literal"><span class="pre">warn_border</span></tt>: Border of same. Defaults to <tt class="docutils literal"><span class="pre">pink_2</span></tt>.</li>
+<li><tt class="docutils literal"><span class="pre">footnote_bg</span></tt>: Background of footnote blocks.</li>
+<li><tt class="docutils literal"><span class="pre">footnote_border</span></tt>: Border of same. Defaults to <tt class="docutils literal"><span class="pre">gray_2</span></tt>.</li>
+<li><tt class="docutils literal"><span class="pre">pre_bg</span></tt>: Background of preformatted text blocks (including code
+snippets.) Defaults to <tt class="docutils literal"><span class="pre">gray_2</span></tt>.</li>
+<li><tt class="docutils literal"><span class="pre">narrow_sidebar_bg</span></tt>: Background of &#8216;sidebar&#8217; when narrow window forces
+it to the bottom of the page.</li>
+<li><tt class="docutils literal"><span class="pre">narrow_sidebar_fg</span></tt>: Text color of same.</li>
+<li><tt class="docutils literal"><span class="pre">narrow_sidebar_link</span></tt>: Link color of same. Defaults to <tt class="docutils literal"><span class="pre">gray_3</span></tt>.</li>
+<li><tt class="docutils literal"><span class="pre">code_highlight</span></tt>: Color of highlight when using <tt class="docutils literal"><span class="pre">:emphasize-lines:</span></tt> in a code block.</li>
+</ul>
+</div>
+<div class="section" id="fonts">
+<h3>Fonts<a class="headerlink" href="#fonts" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">font_family</span></tt>: Font family of body text.  Defaults to <tt class="docutils literal"><span class="pre">'goudy</span> <span class="pre">old</span> <span class="pre">style',</span>
+<span class="pre">'minion</span> <span class="pre">pro',</span> <span class="pre">'bell</span> <span class="pre">mt',</span> <span class="pre">Georgia,</span> <span class="pre">'Hiragino</span> <span class="pre">Mincho</span> <span class="pre">Pro',</span> <span class="pre">serif</span></tt>.</li>
+<li><tt class="docutils literal"><span class="pre">head_font_family</span></tt>: Font family of headings.  Defaults to <tt class="docutils literal"><span class="pre">'Garamond',</span>
+<span class="pre">'Georgia',</span> <span class="pre">serif</span></tt>.</li>
+<li><tt class="docutils literal"><span class="pre">code_font_size</span></tt>: Font size of code block text. Defaults to <tt class="docutils literal"><span class="pre">0.9em</span></tt>.</li>
+<li><tt class="docutils literal"><span class="pre">code_font_family</span></tt>: Font family of code block text. Defaults to
+<tt class="docutils literal"><span class="pre">'Consolas',</span> <span class="pre">'Menlo',</span> <span class="pre">'Deja</span> <span class="pre">Vu</span> <span class="pre">Sans</span> <span class="pre">Mono',</span> <span class="pre">'Bitstream</span> <span class="pre">Vera</span> <span class="pre">Sans</span> <span class="pre">Mono',</span>
+<span class="pre">monospace</span></tt>.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="additional-info-background">
+<h2>Additional info / background<a class="headerlink" href="#additional-info-background" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/fabric/fabric/issues/419">Fabric #419</a> contains a lot of
+general exposition &amp; thoughts as I developed Alabaster, specifically with a
+mind towards using it on two nearly identical &#8216;sister&#8217; sites (single-version
+www &#8216;info&#8217; site &amp; versioned API docs site).</li>
+<li>Alabaster includes/requires a tiny Sphinx extension on top of the theme
+itself; this is just so we can inject dynamic metadata (like Alabaster&#8217;s own
+version number) into template contexts. It doesn&#8217;t add any additional
+directives or the like, at least not yet.</li>
+</ul>
+</div>
+<div class="section" id="changelog">
+<span id="id1"></span><h2>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h3>0.1.0 (2013-12-31)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>First tagged/PyPI&#8217;d version.</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h3>0.2.0 (2014-01-28)<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Allow control of logo replacement text&#8217;s alignment.</li>
+<li>Add customized navigation sidebar element.</li>
+<li>Tweak page margins a bit.</li>
+<li>Add a 3rd level of medium-gray to the stylesheet &amp; apply in a few places.</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>0.3.0 (2014-02-03)<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Display Alabaster version in footers alongside Sphinx version. (This
+necessitates using a mini Sphinx extension).</li>
+<li>Other footer tweaks.</li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h3>0.3.1 (2014-03-13)<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Improved Python 3 compatibility.</li>
+<li>Update styling of changelog pages generated by <a class="reference external" href="https://github.com/bitprophet/releases">bitprophet/releases</a>.</li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h3>0.4.0 (2014-04-06)<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Add an option to allow un-hiding one&#8217;s toctree.</li>
+</ul>
+</div>
+<div class="section" id="id7">
+<h3>0.4.1 (2014-04-06)<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fix an inaccuracy in the descriptin of <tt class="docutils literal"><span class="pre">logo_text_align</span></tt>.</li>
+<li>Update logo &amp; text styling to be more sensible.</li>
+</ul>
+</div>
+<div class="section" id="id8">
+<h3>0.5.0 (2014-04-09)<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Add support for sidebar Travis status buttons.</li>
+</ul>
+</div>
+<div class="section" id="id9">
+<h3>0.5.1 (2014-04-15)<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fix a bug in the new Travis support, re: its default value.</li>
+</ul>
+</div>
+<div class="section" id="id10">
+<h3>0.6.0 (2014-04-17)<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Allow hiding the &#8216;powered by&#8217; section of the footer.</li>
+<li>Fix outdated name in <tt class="docutils literal"><span class="pre">setup.py</span></tt> URL field.</li>
+</ul>
+</div>
+<div class="section" id="id11">
+<h3>0.6.1 (2014-09-04)<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Update Gittip support to acknowledge the service&#8217;s rename to Gratipay.</li>
+</ul>
+</div>
+<div class="section" id="id12">
+<h3>0.6.2 (2014-11-25)<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Make <tt class="docutils literal"><span class="pre">..</span> <span class="pre">warn::</span></tt> blocks have a pink background (instead of having no
+background, which was apparently an oversight of the themes Alabaster is
+based on) and also make that color configurable.</li>
+</ul>
+</div>
+<div class="section" id="id13">
+<h3>0.7.1 (2015-02-27)<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There is no 0.7.0, there was some PyPI fun and replacing sdists isn&#8217;t
+permitted :)</p>
+</div>
+<ul class="simple">
+<li>Finally add a changelog. To the README, for now, because a full doc site
+isn&#8217;t worthwhile just yet.</li>
+<li>Allow configuring a custom Github banner image (instead of simply toggling a
+default on or off). Thanks to Nicola Iarocci for the original patch.</li>
+<li>Explicitly note Python version support in the README and <tt class="docutils literal"><span class="pre">setup.py</span></tt>.</li>
+<li>Update Github button image link to use the newly-available HTTPS version of
+the URL; this helps prevent errors on doc pages served via HTTPS. Thanks to
+Gustavo Narea for the report.</li>
+<li>Add control over the font size &amp; family of code blocks. Credit to Steven
+Loria.</li>
+<li>Allow control over font family of body text and headings. Thanks to Georg
+Brandl.</li>
+<li>Stylize <tt class="docutils literal"><span class="pre">..</span> <span class="pre">seealso::</span></tt> blocks same as <tt class="docutils literal"><span class="pre">..</span> <span class="pre">note::</span></tt> blocks for
+consistency&#8217;s sake (previously, <tt class="docutils literal"><span class="pre">..</span> <span class="pre">seealso::</span></tt> used the Sphinx default
+styling, which clashed). We may update these again later but for now, this is
+an improvement! Thanks again to Steven Loria.</li>
+<li>Allow control over CSS <tt class="docutils literal"><span class="pre">font-style</span></tt> for the site description/tagline
+element. Credit: Steven Loria.</li>
+<li>Add styling to disable default cell borders on <tt class="docutils literal"><span class="pre">..</span> <span class="pre">bibliography::</span></tt>
+directives&#8217; output. Thanks to Philippe Dessus for the report.</li>
+</ul>
+</div>
+<div class="section" id="id14">
+<h3>0.7.2 (2015-03-10)<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Updated CSS stylesheets to apply monospace styling to both <tt class="docutils literal"><span class="pre">tt</span></tt> and
+<tt class="docutils literal"><span class="pre">code</span></tt> elements, instead of just to <tt class="docutils literal"><span class="pre">tt</span></tt>. This addresses a change in HTML
+generation in Sphinx 1.3 while retaining support for Sphinx 1.2. Thanks to
+Eric Holscher for the heads up.</li>
+</ul>
+</div>
+<div class="section" id="id15">
+<h3>0.7.3 (2015-03-20)<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Hide <tt class="docutils literal"><span class="pre">shadow</span></tt> related styles on bibliography elements, in addition to the
+earlier change re: <tt class="docutils literal"><span class="pre">border</span></tt>. Thanks again to Philippe Dessus.</li>
+</ul>
+</div>
+<div class="section" id="id16">
+<h3>0.7.4 (2015-05-03)<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Add <tt class="docutils literal"><span class="pre">code_highlight</span></tt> option (which includes general fixes to styling of
+code blocks containing highlighted lines). Thanks to Steven Loria.</li>
+</ul>
+</div>
+<div class="section" id="id17">
+<h3>0.7.5 (2015-06-15)<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">Honor Sphinx&#8217;s core <tt class="docutils literal"><span class="pre">html_show_copyright</span></tt> option when rendering page
+footer. Thanks to Marcin Wojdyr for the report.</p>
+</li>
+<li><p class="first">Pre-history versions of Alabaster attempted to remove the &#8220;related&#8221;
+sub-navigation (typically found as next/previous links in other themes) but
+this didn&#8217;t work right for mobile-oriented styling.</p>
+<p>This has been fixed by (re-)adding an improved sidebar nav element for these
+links and making its display controllable via the new <tt class="docutils literal"><span class="pre">show_related</span></tt> theme
+option (which defaults to <tt class="docutils literal"><span class="pre">false</span></tt> for backwards compatibility).</p>
+<p><strong>NOTE</strong>: to enable the related-links nav, you&#8217;ll need to set
+<tt class="docutils literal"><span class="pre">show_related</span></tt> to <tt class="docutils literal"><span class="pre">true</span></tt> <strong>and</strong> add <tt class="docutils literal"><span class="pre">relations.html</span></tt> to your
+<tt class="docutils literal"><span class="pre">html_sidebars</span></tt> (we&#8217;ve updated the example config in this README to
+indicate this for new installs).</p>
+<p>Thanks to Tomi Pieviläinen for the bug report.</p>
+</li>
+<li><p class="first">Update the &#8220;Fork me on Github&#8221; banner image to use an <tt class="docutils literal"><span class="pre">https://</span></tt> URI so
+sites hosted over HTTPS don&#8217;t encounter mixed-content errors. Thanks to
+<tt class="docutils literal"><span class="pre">&#64;nikolas</span></tt> for the patch.</p>
+</li>
+<li><p class="first">Remove an orphaned <tt class="docutils literal"><span class="pre">&lt;/li&gt;</span></tt> from the footer &#8216;show source&#8217; section. Credit to
+Marcin Wojdyr.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="id18">
+<h3>0.7.6 (2015-06-22)<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Update how <tt class="docutils literal"><span class="pre">setup.py</span></tt> handles the <tt class="docutils literal"><span class="pre">README.rst</span></tt> file - load it explicitly
+as UTF-8 so the changelog containing non-ASCII characters doesn&#8217;t generate
+<tt class="docutils literal"><span class="pre">UnicodeDecodeError</span></tt> in terminal environments whose default encoding is not
+UTF-8 or other Unicode-compatible encodings. Thanks to Arun Persaud for the
+report and Max Tepkeev for the suggested fix.</li>
+<li>Fix left-margin &amp; padding styling for code blocks within list-item elements,
+making them consistent with earlier changes applied to top-level code blocks.</li>
+<li>Expose page &amp; sidebar widths as theme options <tt class="docutils literal"><span class="pre">page_width</span></tt> and
+<tt class="docutils literal"><span class="pre">sidebar_width</span></tt>. Their defaults are the same as the previously static
+values.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Alabaster: a Sphinx theme</a><ul>
+<li><a class="reference internal" href="#features">Features</a></li>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#theme-location">Theme location</a></li>
+<li><a class="reference internal" href="#sidebars">Sidebars</a></li>
+<li><a class="reference internal" href="#images">Images</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#theme-options">Theme options</a><ul>
+<li><a class="reference internal" href="#variables-and-feature-toggles">Variables and feature toggles</a></li>
+<li><a class="reference internal" href="#style-colors">Style colors</a></li>
+<li><a class="reference internal" href="#fonts">Fonts</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#additional-info-background">Additional info / background</a></li>
+<li><a class="reference internal" href="#changelog">Changelog</a><ul>
+<li><a class="reference internal" href="#id2">0.1.0 (2013-12-31)</a></li>
+<li><a class="reference internal" href="#id3">0.2.0 (2014-01-28)</a></li>
+<li><a class="reference internal" href="#id4">0.3.0 (2014-02-03)</a></li>
+<li><a class="reference internal" href="#id5">0.3.1 (2014-03-13)</a></li>
+<li><a class="reference internal" href="#id6">0.4.0 (2014-04-06)</a></li>
+<li><a class="reference internal" href="#id7">0.4.1 (2014-04-06)</a></li>
+<li><a class="reference internal" href="#id8">0.5.0 (2014-04-09)</a></li>
+<li><a class="reference internal" href="#id9">0.5.1 (2014-04-15)</a></li>
+<li><a class="reference internal" href="#id10">0.6.0 (2014-04-17)</a></li>
+<li><a class="reference internal" href="#id11">0.6.1 (2014-09-04)</a></li>
+<li><a class="reference internal" href="#id12">0.6.2 (2014-11-25)</a></li>
+<li><a class="reference internal" href="#id13">0.7.1 (2015-02-27)</a></li>
+<li><a class="reference internal" href="#id14">0.7.2 (2015-03-10)</a></li>
+<li><a class="reference internal" href="#id15">0.7.3 (2015-03-20)</a></li>
+<li><a class="reference internal" href="#id16">0.7.4 (2015-05-03)</a></li>
+<li><a class="reference internal" href="#id17">0.7.5 (2015-06-15)</a></li>
+<li><a class="reference internal" href="#id18">0.7.6 (2015-06-22)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/alabaster/README.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">InSet 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Rajesh.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
