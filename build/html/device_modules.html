@@ -101,8 +101,49 @@
 </dd></dl>
 
 </div>
-<div class="section" id="beam-position-monitor">
-<h2>4.2. Beam Position Monitor<a class="headerlink" href="#beam-position-monitor" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-bpm">
+<span id="beam-position-monitor"></span><h2>4.2. Beam Position Monitor<a class="headerlink" href="#module-bpm" title="Permalink to this headline">¶</a></h2>
+<p>Beam position measurement(BPM) module takes beam and machine object and returns the beam position</p>
+<p>The module takes the following arguments</p>
+<p>Beam &#8212; Beam object fully specifying the beam</p>
+<p>Machine &#8212; Accelerator setting object</p>
+<p>bpm_Type &#8212; button or shoe type</p>
+<dl class="class">
+<dt id="bpm.button_pickup">
+<em class="property">class </em><tt class="descclassname">bpm.</tt><tt class="descname">button_pickup</tt><big>(</big><em>observable_in</em><big>)</big><a class="reference internal" href="_modules/bpm.html#button_pickup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bpm.button_pickup" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class calculate voltages for button pickup type BPM&#8217;S</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="bpm.parainfo">
+<em class="property">class </em><tt class="descclassname">bpm.</tt><tt class="descname">parainfo</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/bpm.html#parainfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bpm.parainfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>The parainfo class defines all the pick up related parameters</p>
+<dl class="method">
+<dt id="bpm.parainfo.combine_systems">
+<tt class="descname">combine_systems</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/bpm.html#parainfo.combine_systems"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bpm.parainfo.combine_systems" title="Permalink to this definition">¶</a></dt>
+<dd><p>Combines all the subsystems to the sensor</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bpm.parainfo.load">
+<tt class="descname">load</tt><big>(</big><em>name_of_file</em><big>)</big><a class="reference internal" href="_modules/bpm.html#parainfo.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bpm.parainfo.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads the specific bpm settings</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bpm.parainfo.save">
+<tt class="descname">save</tt><big>(</big><em>name_of_file</em>, <em>description</em><big>)</big><a class="reference internal" href="_modules/bpm.html#parainfo.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bpm.parainfo.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function will save the beam object to an external file in the directory called &#8220;defined_beams&#8221; in the source directory</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="bpm.shoe_pickup">
+<em class="property">class </em><tt class="descclassname">bpm.</tt><tt class="descname">shoe_pickup</tt><big>(</big><em>observable_in</em><big>)</big><a class="reference internal" href="_modules/bpm.html#shoe_pickup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bpm.shoe_pickup" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class calculate voltages for shoe pickup type BPM&#8217;S</p>
+</dd></dl>
+
 </div>
 <div class="section" id="add-functions-from-python-library">
 <h2>4.3. Add functions from Python library<a class="headerlink" href="#add-functions-from-python-library" title="Permalink to this headline">¶</a></h2>
@@ -131,7 +172,7 @@
   <ul>
 <li><a class="reference internal" href="#">4. Device Modules</a><ul>
 <li><a class="reference internal" href="#current-transformers">4.1. Current Transformers</a></li>
-<li><a class="reference internal" href="#beam-position-monitor">4.2. Beam Position Monitor</a></li>
+<li><a class="reference internal" href="#module-bpm">4.2. Beam Position Monitor</a></li>
 <li><a class="reference internal" href="#add-functions-from-python-library">4.3. Add functions from Python library</a></li>
 <li><a class="reference internal" href="#indices-and-tables">4.4. Indices and tables</a></li>
 </ul>
@@ -186,7 +227,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2015, Rajesh.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
   </body>
 </html>

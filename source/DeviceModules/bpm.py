@@ -28,9 +28,9 @@ from scipy import integrate
 
 # Typical beam parameters
 
-class pickupinfo():
+class parainfo():
     
-    """ The pickupinfo class defines all the pick up related parameters"""
+    """ The parainfo class defines all the pick up related parameters"""
     
     """ bpm settings can be stored in an external file and retrieved"""
 
@@ -154,19 +154,21 @@ class pickupinfo():
 
     def output(self,observable_in):
         #calculate the desired output for specific type of BPM method
-        if p.parameters['bpm_type'] is 'shoe_pickup':
-            self.x = p.parameter['half_aperture']*(b.parameters['Uright']-b.parameters['Uleft'])/(b.parameters['Uright']+b.parameters['Uleft'])
-            self.y = p.parameter['half_aperture']*(b.parameters['Uup']-b.parameters['Udown'])/(b.parameters['Uup']+b.parameters['Udown'])
-        elif p.parameters['bpm_type'] is 'button_pickup':
-            self.x = (s.parameters[U2]+s.parameters[U4])-(s.parameters[U1]+s.parameters[U3])/(s.parameters[U1]+s.parameters[U2]+s.parameters[U3]+s.parameters[U4])
-            self.Y = (s.parameters[U1]+s.parameters[U2])-(s.parameters[U3]+s.parameters[U4])/(s.parameters[U1]+s.parameters[U2]+s.parameters[U3]+s.parameters[U4])
+        if parainfo.parameters['bpm_type'] is 'shoe_pickup':
+            self.x = parainfo.parameter['half_aperture']*(button_pickup.parameters['Uright']-button_pickup.parameters['Uleft'])/(button_pickup.parameters['Uright']+button_pickup.parameters['Uleft'])
+            self.y = parainfo.parameter['half_aperture']*(button_pickup.parameters['Uup']-button_pickup.parameters['Udown'])/(button_pickup.parameters['Uup']+button_pickup.parameters['Udown'])
+        elif parainfo.parameters['bpm_type'] is 'button_pickup':
+            self.x = (shoe_pickup.parameters[U2]+shoe_pickup.parameters[U4])-(shoe_pickup.parameters[U1]+shoe_pickup.parameters[U3])/(shoe_pickup.parameters[U1]+shoe_pickup.parameters[U2]+shoe_pickup.parameters[U3]+shoe_pickup.parameters[U4])
+            self.Y = (shoe_pickup.parameters[U1]+shoe_pickup.parameters[U2])-(shoe_pickup.parameters[U3]+shoe_pickup.parameters[U4])/(shoe_pickup.parameters[U1]+shoe_pickup.parameters[U2]+shoe_pickup.parameters[U3]+shoe_pickup.parameters[U4])
         else:
             print("please type the correct type name: shoe_pickup or button_pickup")
+    def __repr__(self):
+ 	       return "%s(%r)" % (self.__class__, self.__dict__) 
 
         #capacitive pickup class
-p = pickupinfo()
-b = button_pickup()
-s = shoe_pickup()
+#p = pickupinfo()
+#b = button_pickup()
+#s = shoe_pickup()
 """ 
 class capacitive_pickup(p):
     def __init__(self,observable_in):
@@ -178,14 +180,21 @@ class capacitive_pickup(p):
         self.x = (self.parameters['Uright']-self.parameters['Uleft'])/(p.parameters['Position_sensitivity_x']*(self.parameters['Uright']+self.parameters['Uleft']))
         self.y = (self.parameters['Uup']-self.parameters['Udown'])/(p.parameters['Position_sensitivity_y']*(self.parameters['Uup']+self.parameters['Udown']))
 """
-class shoe_pickup(p):
+
+class shoe_pickup(parainfo):
+
+    """ This class calculate voltages for shoe pickup type BPM'S"""
+
     def __init__(self,observable_in):
         self.parameters['Uright'] = (p.parameters['Area_plate']*p.parameters['acc_freq']*p.parameters['Resistance']*p.parameters['Capacitance']*observable_in.parameters['current']*1j)/(p.parameters['Beam_vel']*p.parameters['half_aperture']*2*np.pi*(1+1j*p.parameters['acc_freq']*p.parameters['Resistance']*p.parameters['Capacitance'])*beam.VEL_LIGHT)
         self.parameters['Uleft']  = (p.parameters['Area_plate']*p.parameters['acc_freq']*p.parameters['Resistance']*p.parameters['Capacitance']*observable_in.parameters['current']*1j)/(p.parameters['Beam_vel']*p.parameters['half_aperture']*2*np.pi*(1+1j*p.parameters['acc_freq']*p.parameters['Resistance']*p.parameters['Capacitance'])*beam.VEL_LIGHT)
         self.parameters['Uup']    = (p.parameters['Area_plate']*p.parameters['acc_freq']*p.parameters['Resistance']*p.parameters['Capacitance']*observable_in.parameters['current']*1j)/(p.parameters['Beam_vel']*p.parameters['half_aperture']*2*np.pi*(1+1j*p.parameters['acc_freq']*p.parameters['Resistance']*p.parameters['Capacitance'])*beam.VEL_LIGHT)
         self.parameters['Udown']  = (p.parameters['Area_plate']*p.parameters['acc_freq']*p.parameters['Resistance']*p.parameters['Capacitance']*observable_in.parameters['current']*1j)/(p.parameters['Beam_vel']*p.parameters['half_aperture']*2*np.pi*(1+1j*p.parameters['acc_freq']*p.parameters['Resistance']*p.parameters['Capacitance'])*beam.VEL_LIGHT)
         
-class button_pickup(p):
+class button_pickup(parainfo):
+
+    """ This class calculate voltages for button pickup type BPM'S"""
+    
     def __init__(self,observable_in):
         #calculate image current density 
         self.Jim = lambda phi: (observable_in.parameters['current']*(p.parameters['beam_pipe_R']**2-p.parameters['displacement']**2))/2*np.pi*p.parameters['beam_pipe_R']*((p.parameters['beam_pipe_R']**2+p.parameters['displacement']**2)-2*p.parameters['beam_pipe_R']*p.parameters['displacement']*cos(phi-p.parameters['theta']))

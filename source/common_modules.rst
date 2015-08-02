@@ -10,6 +10,13 @@ Generic amplifier and attenuator definition
 .. automodule:: AmpAttModule
    :members:
 
+NGspice and python interfacing for BPM
+=======================================
+Customary for Gaussian function
+
+.. automodule:: BPM_pytho_NG
+   :members:
+
 Lenses
 =======
 
