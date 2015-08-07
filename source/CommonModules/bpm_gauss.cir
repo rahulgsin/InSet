@@ -1,0 +1,29 @@
+BPM simulation program for NGspice
+
+R1 2 0 10k
+
+C1 1 2 50PF
+
+C2 2 0 50PF
+
+AVSRC %V([1]) filesrc
+.include Input_signal.txt
+*.model filesrc filesource (file="current_profile.txt")
+
+*Vdummy 0 1 0
+
+.CONTROL
+
+TRAN 1ns 1us
+
+PLOT v(1) V(2) 
+
+wrdata inputdata V(1) 
+wrdata outputdata v(2)
+
+*set noaskquit
+
+.endc
+.END
+
+  

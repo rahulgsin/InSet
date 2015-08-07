@@ -1,0 +1,38 @@
+BPM simulation program for NGspice
+
+.include Terminal_imp.txt
+*Rt 2 0 10meg
+
+C1 1 2 50PF
+
+C2 2 0 50PF
+
+VIN 1 0 AC SIN(-1.0 1.0 1)
+
+*VIN 1 0 AC PULSE(0 1m 2NS 2NS 2NS 1uS 2uS )
+
+.CONTROL
+.include freq_analysis.txt
+*AC DEC 101 1 100MEG
+*plot V(1) $ r e a l p a r t !
+*plot mag(v(2)/V(1)) xlog $ m a g nit u d e
+*plot db(v(2)) $ same a s vdb ( 2 )
+*plot imag (v(2)) $ i m a gi n a r y p a r t o f v ( 2 )
+*plot real(v(2)) $ same a s p l o t v ( 2 )
+*plot phase(v(2)) $ p h a s e i n r a d
+*plot cph(v(2)) xlog  $ p h a s e i n ra d , c o n t i n u o u s beyond p i
+*plot (180/PI)*phase(v(2)/v(1)) xlog $ p h a s e i n deg
+*plot 180/pi*phase(V(1)) xlog
+
+*TRAN 1ns 10us
+*PLOT V(1) 
+*plot V(2)
+
+wrdata zmagnitude mag(v(2)/V(1)) 
+wrdata zphase phase(v(2)/v(1)) 
+
+
+.endc
+.END
+
+  

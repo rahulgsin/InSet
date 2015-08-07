@@ -5,16 +5,30 @@ The common modules consist of electronics, optics systems cables etc. They are d
 
 Amplifiers and Attenuators
 ===========================
+Figure shows the example of amplificaiton of current profile of 10Mhz frequnecy with a gain of 20db
+
+.. image:: amp.png
 Generic amplifier and attenuator definition
 
 .. automodule:: AmpAttModule
    :members:
 
+Transfer Function
+==================
+Figure shows the example of Transfer function module
+
+.. image:: tf.png
+
+.. automodule:: TransferFunction
+   :members:
+
 NGspice and python interfacing for BPM
 =======================================
-Customary for Gaussian function
+Figure shows the output at one of the plate of BPM in Python and Ngspice
 
-.. automodule:: BPM_pytho_NG
+.. image:: ngsp.png
+
+.. automodule:: ngspice
    :members:
 
 Lenses
