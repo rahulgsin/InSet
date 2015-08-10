@@ -39,6 +39,9 @@ dict_beam = beam.staticbeam(**dictionary_beam) # dict_beam is a beam object, don
 defined_beam = beam.staticbeam('Ur',28,238,11.4,1e10,'ggg',[0,0.007,SIS_18_machine.parameters['Pipe_radii'][0],beam_mesh_points[0]],[0,0.004,SIS_18_machine.parameters['Pipe_radii'][1],beam_mesh_points[1]],[0,50,SIS_18_machine.parameters['Length'],beam_mesh_points[2],SIS_18_machine.parameters['RF_parameters'][2]]) # defined_beam is a beam object, the order has to be maintained
 
 
+dictionary_beam = {'par_type':'Ur','charge_state': 73, 'atomic_mass': 238, 'kin_energy' : 11.4, 'par_num': 1e10, 'dist_type': 'ggg', 'x_dist': [0, 0.005,0,0.007,SIS_18_machine.parameters['Pipe_radii'][0],beam_mesh_points[0]], 'y_dist': [0, 0.003,0,0.01,SIS_18_machine.parameters['Pipe_radii'][1],beam_mesh_points[1]], 'z_dist' : [0,10,0,0.001,SIS_18_machine.parameters['Length'],beam_mesh_points[2],SIS_18_machine.parameters['RF_parameters'][2]]} 
+dict_beam = beam.dynamicbeam(**dictionary_beam) # dict_beam is a beam object, dont forget ** while passing a dictionary
+# print ('Dictionary defined beam\n', dict_beam,'\n')
 #defined_beam.save('UrBeam','Uranium beam on the following experiment day') # save the directly defined beam
 
 #print a list of all the save beam files, to select which beam one wants to load
