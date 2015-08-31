@@ -1,0 +1,13 @@
+Attenuator of -20db
+
+.SUBCKT att20 41 6
+.include max477.cir
+Xmax	0 2 3 4 5	MAX477
+R1	41	2	1000
+R2	2	5	100
+cL	5	6	15nf
+rl	6	0	1meg
+VCC 	3 0 DC 15V
+VEE	4 0 DC -15V
+.ENDS
+

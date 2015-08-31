@@ -22,7 +22,9 @@ Contents
    machine
    device_modules
    common_modules
+   ElectronicDesign
    Install_ngspice
+   topos
 
 Indices and tables
 ==================

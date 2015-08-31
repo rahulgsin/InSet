@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="InSet 0.0.1 documentation" href="index.html" />
-    <link rel="next" title="6. Ngspice user guide" href="Install_ngspice.html" />
+    <link rel="next" title="6. Electronic Circuit Design Of BPM" href="ElectronicDesign.html" />
     <link rel="prev" title="4. Device Modules" href="device_modules.html" /> 
   </head>
   <body>
@@ -39,7 +39,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="Install_ngspice.html" title="6. Ngspice user guide"
+          <a href="ElectronicDesign.html" title="6. Electronic Circuit Design Of BPM"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="device_modules.html" title="4. Device Modules"
@@ -84,50 +84,11 @@
 <h2>5.2. Transfer Function<a class="headerlink" href="#transfer-function" title="Permalink to this headline">¶</a></h2>
 <p>Figure shows the example of Transfer function module</p>
 <img alt="_images/tf.png" src="_images/tf.png" />
-<span class="target" id="module-TransferFunction"></span><p>Generic Transfer function Module</p>
-<p>The module takes the following arguments</p>
-<p>Schematic name &#8212; Name of the NGspice schematic</p>
-<p>Freq_range &#8212; Specify the frequency range for frequency analysis</p>
-<p>Terminal_imp &#8212; Specify the terminal impedance</p>
-<dl class="class">
-<dt id="TransferFunction.genericTF">
-<em class="property">class </em><tt class="descclassname">TransferFunction.</tt><tt class="descname">genericTF</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/TransferFunction.html#genericTF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TransferFunction.genericTF" title="Permalink to this definition">¶</a></dt>
-<dd><p>The Generic Transfer function class defines all the generic TF parameters</p>
-<dl class="method">
-<dt id="TransferFunction.genericTF.NGspice">
-<tt class="descname">NGspice</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/TransferFunction.html#genericTF.NGspice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TransferFunction.genericTF.NGspice" title="Permalink to this definition">¶</a></dt>
-<dd><p>this function will invoke NGspice and shows the output from NGspice</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="TransferFunction.genericTF.save">
-<tt class="descname">save</tt><big>(</big><em>name_of_file</em>, <em>description</em><big>)</big><a class="reference internal" href="_modules/TransferFunction.html#genericTF.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TransferFunction.genericTF.save" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function will save the beam object to an external file in the directory called &#8220;defined_beams&#8221; in the source directory</p>
-</dd></dl>
-
-</dd></dl>
-
 </div>
 <div class="section" id="ngspice-and-python-interfacing-for-bpm">
 <h2>5.3. NGspice and python interfacing for BPM<a class="headerlink" href="#ngspice-and-python-interfacing-for-bpm" title="Permalink to this headline">¶</a></h2>
 <p>Figure shows the output at one of the plate of BPM in Python and Ngspice</p>
 <img alt="_images/ngsp.png" src="_images/ngsp.png" />
-<span class="target" id="module-ngspice"></span><p>Generic ngspice Module</p>
-<p>The module takes the following arguments</p>
-<p>Schematic name &#8212; Name of the NGspice schematic</p>
-<p>Input_signal &#8212; Input signal .txt file</p>
-<dl class="class">
-<dt id="ngspice.spice">
-<em class="property">class </em><tt class="descclassname">ngspice.</tt><tt class="descname">spice</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/ngspice.html#spice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ngspice.spice" title="Permalink to this definition">¶</a></dt>
-<dd><p>The Generic spice class defines all the generic spice parameters</p>
-<dl class="method">
-<dt id="ngspice.spice.NGspice">
-<tt class="descname">NGspice</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/ngspice.html#spice.NGspice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ngspice.spice.NGspice" title="Permalink to this definition">¶</a></dt>
-<dd><p>this function will invoke NGspice and shows the output from NGspice</p>
-</dd></dl>
-
-</dd></dl>
-
 </div>
 <div class="section" id="lenses">
 <h2>5.4. Lenses<a class="headerlink" href="#lenses" title="Permalink to this headline">¶</a></h2>
@@ -167,8 +128,8 @@
   <p class="topless"><a href="device_modules.html"
                         title="previous chapter">4. Device Modules</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="Install_ngspice.html"
-                        title="next chapter">6. Ngspice user guide</a></p>
+  <p class="topless"><a href="ElectronicDesign.html"
+                        title="next chapter">6. Electronic Circuit Design Of BPM</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/common_modules.txt"
@@ -201,7 +162,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="Install_ngspice.html" title="6. Ngspice user guide"
+          <a href="ElectronicDesign.html" title="6. Electronic Circuit Design Of BPM"
              >next</a> |</li>
         <li class="right" >
           <a href="device_modules.html" title="4. Device Modules"

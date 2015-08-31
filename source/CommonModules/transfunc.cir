@@ -1,13 +1,13 @@
 BPM simulation program for NGspice
 
-.include Terminal_imp.txt
-*Rt 2 0 10meg
+*.include Terminal_imp.txt
+Rt 2 0 50
 
 C1 1 2 50PF
 
 C2 2 0 50PF
 
-VIN 1 0 AC SIN(-1.0 1.0 1)
+VIN 1 0 AC SIN(-1.0 1.0 10MEG)
 
 *VIN 1 0 AC PULSE(0 1m 2NS 2NS 2NS 1uS 2uS )
 
@@ -28,10 +28,10 @@ VIN 1 0 AC SIN(-1.0 1.0 1)
 *PLOT V(1) 
 *plot V(2)
 
-wrdata zmagnitude mag(v(2)/V(1)) 
-wrdata zphase phase(v(2)/v(1)) 
+*wrdata zmagnitude mag(v(2)/V(1)) 
+*wrdata zphase phase(v(2)/v(1)) 
 
-
+.include plotng.txt
 .endc
 .END
 

@@ -1,1 +1,1 @@
-.model filesrc filesource (file="current_profile.txt")
+.model filesrc filesource (file="x1_profile.txt")

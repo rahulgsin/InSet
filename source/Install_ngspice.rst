@@ -1,6 +1,6 @@
 Ngspice user guide
 **************************************
-.. image:: nglogo.jpg
+.. image:: /images/nglogo.jpg
 
 Download the latest version of ngspice by clicking the following link:
 http://sourceforge.net/projects/ngspice/files/

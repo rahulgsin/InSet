@@ -1,0 +1,41 @@
+BPM simulation program for NGspice
+
+R1 2 0 1meg
+
+C1 1 2 50PF
+
+C2 2 0 50PF
+
+vin 1 0 ac sin(0 1m 10meg)
+*AVSRC %V([1]) filesrc
+*.model filesrc filesource (file="current_profile.txt" amploffset=[0 0] amplscale=[1 1]
+*+ timeoffset=0 timescale=1
+*+ timerelative=false amplstep=false) )
+
+R11 22 0 50
+
+C11 11 22 50PF
+
+C21 22 0 50PF
+
+vin2 11 0 ac sin(0 1m 10meg)
+*AVSRC1 %V([11]) filesrc
+*.model filesrc filesource (file="current_profile.txt" amploffset=[0 0] amplscale=[1 1]
+*+ timeoffset=0 timescale=1
+*+ timerelative=false amplstep=false) )
+.CONTROL
+
+*TRAN 1ns 5us
+AC DEC 101 1 1000MEG
+*PLOT v(1) 
+*plot V(2) 
+
+*wrdata plot1 V(1) 
+*wrdata plot2 v(2)
+*.include freq_analysis.txt
+.include plotng.txt
+
+.endc
+.END
+
+  

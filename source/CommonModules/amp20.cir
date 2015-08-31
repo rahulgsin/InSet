@@ -1,0 +1,19 @@
+Amplifier of 20db
+
+.SUBCKT amp20 1 6
+.include lt1192.cir
+XOP	1 2 3 4 5	LT1192
+R1	2	0	100
+R2	2	5	1000
+cL	5	6	15nf
+rl	6	0	10k
+VCC 	3 0 DC 15V
+VEE	4 0 DC -15V
+.ENDS
+
+*Xamp 1 2 amp20
+*vin 1 0 ac sin(0 1m 10meg)
+*.control
+*AC DEC 100 1k 100MEG
+*.include plotng.txt
+*plot db(v(2))

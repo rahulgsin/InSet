@@ -49,7 +49,7 @@ AC DEC 100 1 100MEG
 
 TRAN 	1NS  1US
 * VIEW RESULTS
-plot v(4) V(99)
+plot v(4) V(99) 
 
 wrdata inputdata v(4) 
 wrdata outputdata v(99) 
