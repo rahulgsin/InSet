@@ -23,6 +23,7 @@ import sys
 import time
 from subprocess import call
 import os
+import scipy.fftpack as fft
 
 class spice():
     
@@ -98,7 +99,7 @@ class spice():
         Plot the results from user defined voltage nodes """
         
         call(["gnome-terminal","--command=ngspice"+" "+ self.parameters["Schematic"]])  #Calls Terminal and Runs NGspice program and specified command
-        time.sleep(10)  #give some time to NGspice
+        time.sleep(15)  #give some time to NGspice
         plotHandles = []
         for N in range(0,int(self.parameters["No_of_plots"])):
             if os.path.isfile('plot'+str(N)+'.data') == False:
@@ -110,27 +111,42 @@ class spice():
             globals()["ypt"+str(N)]= 0*np.ones(len(self.mag))
             
             for i in range(len(self.mag)):
-                globals()["xpt"+str(N)][i] = float(self.line1[i][0])	#collecting input points for plotting
+                globals()["xpt"+str(N)][i] = float(self.line1[i][0])/1.0e6	#collecting input points for plotting
                 globals()["ypt"+str(N)][i] = float(self.line1[i][1])	#collecting input points for plotting
            
-            x, = plt.plot(globals()["xpt"+str(N)], globals()["ypt"+str(N)]) #need the ',' per ** below
+            x, = plt.plot(globals()["xpt"+str(N)], globals()["ypt"+str(N)],linewidth=1.5) #need the ',' per ** below
             plotHandles.append(x)
       
-        
+
+        #plt.xlabel('time t/sec',fontsize=18)
+        #plt.ylabel('V',fontsize=18)
+        #plt.plot(xpt,ypt,'r',xpt2,ypt2,'g',xpt3,ypt3,'+',xpt4,ypt4,'m',linewidth=2)
+        #plt.legend(['Input','TOPOS op'],loc='best')
+#plt.figure(1)
+#plt.plot(xpt,ypt2-ypt,xpt,ypt2+ypt)
+#plt.figure(2)
+#plt.plot(xpt3,ypt3-ypt4,xpt3,ypt3+ypt4)
+        #plt.xticks(fontsize = 22) 
+        #plt.yticks(fontsize = 22)
+        #plt.xlabel('time t/ usec',fontsize=22)
+        #plt.ylabel('V',fontsize=22)
         #plt.xscale('log')
         plt.grid(True)
         #plt.xlabel('time t/sec')
         #plt.ylabel('input voltage v')
-        plt.legend(self.parameters['Voltage_nodes'],loc='upper right')
+        #plt.legend(self.parameters['Voltage_nodes'],loc='upper right')
+        #plt.legend(['Input','Peak detector output'],loc='best')
         plt.show()
         os.remove("plotng.txt")
         for N in range(0,int(self.parameters["No_of_plots"])):          #removing files which were created during simulation 
             os.remove("plot"+str(N)+".data")
-        
+            
+       
     def __repr__(self):
         return "%s(%r)" % (self.__class__, self.__dict__)
 
-dict_tfx1 = {'Schematic':'envelope2.cir', 'Input_signal':None, 'Voltage_nodes': ['v(1)','v(7)','v(8)','v(15)']}
+dict_tfx1 = {'Schematic':'envelope2.cir', 'Input_signal':None, 'Voltage_nodes': ['v(1)','v(8)','v(19)','v(89)','v(14)','v(149)','(v(14)-v(149))']}
+
 
 tfx = spice(**dict_tfx1)
 tfx.NGspice()

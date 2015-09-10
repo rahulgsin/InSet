@@ -131,7 +131,7 @@ class iir_filter():
         plt.grid()
         plt.show()
 
-dict_tf = {'Res':'50', 'Cap':'100e-12','Input_signal':'current_profile.txt'}
+dict_tf = {'Res':'1e6', 'Cap':'100e-12','Input_signal':'current_profile.txt'}
 
 filt = iir_filter(**dict_tf)
 filt.filter_design()

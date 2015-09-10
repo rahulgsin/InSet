@@ -6,7 +6,7 @@ TOPOS SIGNAL CHAIN from BPM plates to ADC
 .include amp10.cir
 .include amp20.cir
 
-.MODEL switch1 SW (RON=0.1 ROFF=1e12 VT=0.95 VH=0)
+.MODEL switch1 SW (RON=0.1 ROFF=1e12)
 
 Rb 22 0 1k
 Cb1 1 22 50pF
@@ -18,9 +18,9 @@ Vin 1 0 ac sin(0 1m 10meg)
 
 *switchable attenuator of -30db
 *Vsw1=-1 and vsaw1=1 for On  
-Vsw1 sn1 0 DC 1	
+Vsw1 sn1 0 DC -1	
 swa1 22 2 sn1 0 switch1
-Vswa1 sna1 0 DC -1		
+Vswa1 sna1 0 DC 1		
 Xatt35 img1 2 att30
 swaimg2 22 img1 sna1 0 switch1
 *
@@ -37,9 +37,9 @@ Xamp20 3 4 amp20
 *
 *
 *switchable attenuator of -20db
-Vsw4 sn4 0 DC -1
+Vsw4 sn4 0 DC 1
 swa4 4 5 sn4 0 switch1
-Vswa4 sna4 0 DC 1		
+Vswa4 sna4 0 DC -1		
 Xatt20 img4 5 att20
 swaimg5 4 img4 sna4 0 switch1
 *
@@ -68,8 +68,8 @@ Xamp10 8 9 amp10
 *ac 	DEC 1000 1k 1000MEG
 *plot db(v(9))-db(v(1)) xlog
 *plot 180/pi*phase(V(4)/v(1)) 
-tran 10ns 5us 
-*plot v(1) v(22) v(2) v(3) 
+tran 100ns 5us 
+plot v(1) v(9) 
 *plot v(1)
 *plot v(22)
 *plot v(2)
@@ -80,4 +80,4 @@ tran 10ns 5us
 *plot v(7)
 *plot  v(8)
 *plot v(9) 
-*.include plotng.txt
+.include plotng.txt

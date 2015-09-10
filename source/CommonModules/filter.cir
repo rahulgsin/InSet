@@ -1,0 +1,11 @@
+
+rf1	14 	15	1.5k 
+rf2	15	16	1.5k
+cf1	15 	0	50pf
+cf2	16 	0	50pf 
+
+vin2 14 0 ac sin(0 1m 10meg)
+
+.control
+AC DEC 50 10 1000MEG 
+plot db(v(16))

@@ -24,7 +24,7 @@ Xtop3 5 6 topos3
 Xtop4 7 8 topos4
 
 .CONTROL
-tran 10ns 5us
+tran 10ns 2us
 plot v(1) v(3) v(5) v(7) 
 plot v(2) v(4)
 plot v(6) v(8)
@@ -34,6 +34,7 @@ plot v(2)+v(4)
 plot v(6)+v(8)
 
 *.include plotng.txt
+wrdata ninput1 v(1)
 wrdata nplotx1 v(2)
 wrdata nplotx2 v(4)
 wrdata nploty1 v(6)

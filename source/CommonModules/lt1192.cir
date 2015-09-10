@@ -2,8 +2,10 @@
 *
 .SUBCKT LT1192 3 nois 7 4 6 ;(+IN -IN V+ V- OUT)
 * INPUT
-*nois
-VNoiw nois 2 dc 0 TRNOISE (2m 1n 0 0 )
+
+*Here noise is added into the input of amplifier
+
+VNoiw nois 2 dc 0 TRNOISE (0.1m 1n 0 0 )
 
 RC1 7 80 11.789
 RC2 7 90 11.789

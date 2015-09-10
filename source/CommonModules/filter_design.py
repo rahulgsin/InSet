@@ -166,7 +166,7 @@ class gen_filter():
         #import ngplot
         plt.show()
 
-dict_tf = {'Res':'50', 'Cap':'100e-12','Area':'50e-4','Input_signal':'current_profile.txt', 'a_dist':'50e-3', 'beta':'0.5'}
+dict_tf = {'Res':'1e6', 'Cap':'100e-12','Area':'50e-4','Input_signal':'current_profile.txt', 'a_dist':'50e-3', 'beta':'0.5'}
 
 filt = gen_filter(**dict_tf)
 filt.filter_design()

@@ -1,6 +1,6 @@
 BPM simulation program for NGspice
 
-R1 2 0 10meg
+R1 2 0 50
 
 C1 1 2 50PF
 
@@ -8,18 +8,27 @@ C2 2 0 50PF
 
 *vin 1 0 ac sin(0 1m 10meg)
 AVSRC %V([1]) filesrc
-.model filesrc filesource (file="y1_profile.txt" amploffset=[0 0] amplscale=[1 1]
-+ timeoffset=0 timescale=1
-+ timerelative=false amplstep=false) )
+.model filesrc filesource (file="daata/y1_profileext_volt2.txt")
+
+R11 21 0 1meg
+
+C11 11 21 50PF
+
+C21 21 0 50PF
+
+*vin 1 0 ac sin(0 1m 10meg)
+AVSRC1 %V([11]) filesrc
+.model filesrc filesource (file="daata/y1_profileext_volt2")
 
 .CONTROL
 
-TRAN 1ns 5us
+TRAN 1ns 1us
 *AC DEC 101 1 1000MEG
-PLOT v(1) V(2) 
+PLOT v(1) V(2) v(21)
 
-*wrdata plot1 V(1) 
-*wrdata plot2 v(2)
+wrdata plot1 V(1) 
+wrdata plot2 v(2)
+wrdata plot3 v(21)
 *.include freq_analysis.txt
 *.include plotng.txt
 

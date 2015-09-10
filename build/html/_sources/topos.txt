@@ -352,3 +352,319 @@ Phase response at the oputput
 
 .. image:: /images/ophase.png
 
+Using TOPOS for four plates
+============================
+
+Following Ngspice code can calculate the output of Topos chain for 20db(fixed) gain
+
+TOPOS SIGNAL CHAIN --> Simulation for 4 plates 
+
+| .include amp20.cir
+
+| ***First topos chain
+| Rb 22 0 100k
+| Cb1 1 22 50pF
+| Cb2 22 0 50pF
+| *Vin 1 0 ac sin(0 1m 10meg)
+| AVSRC %V([1]) filesrc
+| *.include Input_signal.txt
+| .model filesrc filesource (file="daata/x1_coast_v.txt" )
+
+| *head ampliflier of 20db
+| *rser1	3 0 10meg
+| Xamp20 22 4 amp20
+
+| ***second topos chain
+
+| Rb1 221 0 100k
+| Cb11 11 221 50pF
+| Cb21 221 0 50pF
+| *Vin1 11 0 ac sin(0 1m 10meg)
+| AVSRC1 %V([11]) filesrc1
+| *.include Input_signal.txt
+| .model filesrc1 filesource (file="daata/x2_coast_v.txt" )
+
+| *head ampliflier of 20db
+| *rser1	3 0 10meg
+| Xamp201 221 41 amp20
+
+| ***Third topos chain
+
+| Rb11 2211 0 100k
+| Cb111 111 2211 50pF
+| Cb211 2211 0 50pF
+| *Vin1 111 0 ac sin(0 1m 10meg)
+| AVSRC11 %V([111]) filesrc11
+| .model filesrc11 filesource (file="daata/y1_coast_v.txt" )
+
+| Xamp2011 2211 411 amp20
+
+
+| ***Fourth topos chain
+
+| Rb111 22111 0 100k
+| Cb1111 1111 22111 50pF
+| Cb2111 22111 0 50pF
+| *Vin1 1111 0 ac sin(0 1m 10meg)
+| AVSRC111 %V([1111]) filesrc111
+| .model filesrc111 filesource (file="daata/y2_coast_v.txt" )
+
+| Xamp20111 22111 4111 amp20
+
+
+| .CONTROL
+| *ac 	DEC 1000 1k 1000MEG
+| *plot db(v(4)/v(1)) xlog
+| *plot 180/pi*phase(V(4)/v(1)) 
+| tran 1ns 50us 
+| *plot v(1) v(11) 
+| *plot v(111) v(1111)
+| *plot v(4) v(41)
+| *plot v(411) v(4111)
+| *plot v(1) v(22) v(33) v(3)
+| *plot v(4)
+| *plot v(5)
+| *plot v(6)
+| *plot v(111) v(9)
+| *plot v(7) v(8) v(9) 
+| *.include plotng.txt
+| *setplot tran1
+| *linearize
+| wrdata ip v(1) 
+| wrdata op v(4)
+| *wrdata x2_coast_1 v(41)
+| *wrdata y1_coast_1 v(411)
+| *wrdata y2_coast_1 v(4111)
+
+
+Using BBQ without preamplifier for two plates
+==============================================
+
+Following Ngspice code can simualate the output for 2 plates for BBQ system without preampliflier
+
+* BBQ Circuit
+
+.include lt1192.cir
+
+***First BBQ Plate
+
+| *Input1
+| AVSRC1 %V([1]) filesrc
+| .model filesrc filesource (file="daata/y1_profilenat_volt2.txt" )
+
+| *BPM1
+| C1 1 2 50PF
+| R1 2 0 1k
+
+*peak detector-->select Tau changing R2 and C3
+
+| D1 2 8 new
+| C3 8 0 10pF 
+| R2 8 0 200k
+| *r3 9 0 1k
+| C4 8 9 1pf
+*
+
+*Amplifier--> change gain by changing RO3 and RO4 
+																																																																																																																																																													
+| XOP2	16 10 11 12 13	LT1192
+| RO3	10	0	100
+| RO4	10	13	100
+| C03	13 	14 	15nf
+| *ri2	9	0	10k
+| *CO4	10	0	10pf
+| R3	14	0	10k
+| *rl2	13	0	75
+| VCC2	11 0 DC 15v
+| VEE2	12 0 DC -15v
+
+| *FIlter 2nd order
+| rf1	9 	15	1.5k 
+| rf2	15	16	1.5k
+| cf1	15 	0	50pf
+| cf2	16 	0	50pf 
+
+*2nd bbq plate
+
+| *Input2
+| AVSRC2 %V([19]) filesrc2
+| .model filesrc2 filesource (file="daata/y2_profilenat_volt2.txt" )
+
+| *BPM2
+| C19 19 29 50PF
+| R19 29 0 1k
+
+| *Peak detector
+| D19 29 89 new
+| C39 89 0 10pF 
+| R29 89 0 200k
+| C49 89 99 1pf
+| *R490 99 0 1k
+
+| *Amplifier
+| XOP29	169 109 119 129 139	LT1192
+| RO39	109	0	100
+| RO49	109	139	100
+| C039	139 	149 	15nf
+| *ri2	9	0	10k
+| *CO4	10	0	10pf
+| R39	149	0	10k
+| *rl2	13	0	75
+| VCC29	119 0 DC 15v
+| VEE29	129 0 DC -15v
+
+
+*filter 2nd order
+
+| rf19	99 	159	1.5k 
+| rf29	159	169	1.5k
+| cf19	159	0	50pf
+| cf29	169 	0	50pf 
+
+
+| .CONTROL
+| *AC 	DEC 	 1k 500MEG
+| *PLOT mag(V(2,7)) xlog
+| TRAN 1NS 400us
+| *setplot tran1
+| *linearize 
+| *fft (V(14)-v(149))
+| *plot mag (V(14)-v(149))
+| *plot  (v(14)-v(149))  
+| *plot v(14) v(149)
+| *plot v(1411) v(142)
+| *.include plotng.txt
+| *wrdata x1_bbq_ext v(14)
+| *wrdata x2_bbq_ext v(149)
+| *wrdata x_bbq_extdiff (v(14)-v(149)) 
+| *wrdata plot3 v(16)
+| *wrdata pickinb v(19) 
+| *wrdata plot3b v(169)
+
+Using BBQ with preamplifier for two plates
+==============================================
+
+* BBQ Circuit
+
+.include lt1192.cir
+
+***First BBQ Plate
+
+| *Input1
+| AVSRC1 %V([1]) filesrc
+| .model filesrc filesource (file="daata/y1_profilenat_volt2.txt" )
+
+| *BPM1
+| C1 1 2 50PF
+| R1 2 0 1k
+
+| *preamplifier-->
+
+| XOP11	2 1011 1111 1211 1311	LT1192
+| RO311	1011	0	100
+| RO411	1011	1311	500
+| C0311	1311	1411 	1500pf
+| *ri2	9	0	10k
+| *CO4	10	0	10pf
+| R311	1411	0	100
+| *rl2	131	0	75
+| VCC211	1111 0 DC 15v
+| VEE211	1211 0 DC -15v
+
+| *peak detector-->select t_discharging changing R2 and C3
+
+| D1 1411 8 new
+| C3 8 0 10pF 
+| R2 8 0 200k
+| *r3 9 0 1k
+| C4 8 9 1pf
+
+
+*Amplifier--> change gain by changing RO3 and RO4 
+																																																																																																																																																													
+| XOP2	16 10 11 12 13	LT1192
+| RO3	10	0	100
+| RO4	10	13	100
+| C03	13 	14 	15nf
+| *ri2	9	0	10k
+| *CO4	10	0	10pf
+| R3	14	0	10k
+| *rl2	13	0	75
+| VCC2	11 0 DC 15v
+| VEE2	12 0 DC -15v
+
+*Filter 2nd order-->
+
+| rf1	9 	15	1.5k 
+| rf2	15	16	1.5k
+| cf1	15 	0	50pf
+| cf2	16 	0	50pf 
+
+*2nd Bbq Plate
+
+| *Input2
+| AVSRC2 %V([19]) filesrc2
+| .model filesrc2 filesource (file="daata/y2_profilenat_volt2.txt" )
+
+| *BPM2
+| C19 19 29 50PF
+| R19 29 0 1k
+
+| *Preamplifier
+| XOP22	29 102 112 122 132	LT1192
+| RO32	102	0	100
+| RO42	102	132	500
+| C032	132 	142 	1500pf
+| *ri2	9	0	10k
+| *CO4	10	0	10pf
+| R32	142	0	100
+| *rl2	13	0	75
+| VCC22	112 0 DC 15v
+| VEE22	122 0 DC -15v
+
+| *Peak detector
+| D19 142 89 new
+| C39 89 0 10pF 
+| R29 89 0 200k
+| C49 89 99 1pf
+| *R490 99 0 1k
+
+| *Head Amplifier
+| XOP29	169 109 119 129 139	LT1192
+| RO39	109	0	100
+| RO49	109	139	100
+| C039	139 	149 	15nf
+| *ri2	9	0	10k
+| *CO4	10	0	10pf
+| R39	149	0	10k
+| *rl2	13	0	75
+| VCC29	119 0 DC 15v
+| VEE29	129 0 DC -15v
+
+
+*filter 2nd order
+
+| rf19	99 	159	1.5k 
+| rf29	159	169	1.5k
+| cf19	159	0	50pf
+| cf29	169 	0	50pf 
+
+
+| .CONTROL
+| *AC 	DEC 	 1k 500MEG
+| *PLOT mag(V(2,7)) xlog
+| TRAN 1NS 400us
+| *setplot tran1
+| *linearize 
+| *fft (V(14)-v(149))
+| *plot mag (V(14)-v(149))
+| *plot  (v(14)-v(149))  
+| *plot v(14) v(149)
+| *plot v(1411) v(142)
+| *.include plotng.txt
+| *wrdata x1_bbq_ext v(14)
+| *wrdata x2_bbq_ext v(149)
+| *wrdata x_bbq_extdiff (v(14)-v(149)) 
+| *wrdata plot3 v(16)
+| *wrdata pickinb v(19) 
+| *wrdata plot3b v(169)
