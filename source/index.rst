@@ -22,6 +22,10 @@ Contents
    machine
    device_modules
    common_modules
+   ElectronicDesign
+   Install_ngspice
+   topos
+
 
 Indices and tables
 ==================
@@ -32,5 +36,8 @@ Indices and tables
 
 Use the tutorial here to learn about Sphinx: [SPHINXDOC]_.
 
+use the manual here to learn about NGspice: [NGSPICE]_.
 
 .. [SPHINXDOC] This is Sphinx doc documentation --> http://sphinx-doc.org/latest/tutorial.html.
+
+.. [NGSPICE] This is NGspice pdf documenration --> http://ngspice.sourceforge.net/docs/ngspice-manual.pdf
