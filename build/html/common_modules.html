@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>5. Common Modules &mdash; InSet 1 documentation</title>
+    <title>6. Common Modules &mdash; InSet 1 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -25,7 +25,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="InSet 1 documentation" href="index.html" />
-    <link rel="prev" title="4. Device Modules" href="device_modules.html" />
+    <link rel="next" title="7. Electronic Circuit Design Of BPM" href="ElectronicDesign.html" />
+    <link rel="prev" title="5. Device Modules" href="device_modules.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
@@ -39,35 +40,30 @@
           <div class="body" role="main">
             
   <div class="section" id="common-modules">
-<h1>5. Common Modules<a class="headerlink" href="#common-modules" title="Permalink to this headline">¶</a></h1>
+<h1>6. Common Modules<a class="headerlink" href="#common-modules" title="Permalink to this headline">¶</a></h1>
 <p>The common modules consist of electronics, optics systems cables etc. They are described and documented here.</p>
 <div class="section" id="amplifiers-and-attenuators">
-<h2>5.1. Amplifiers and Attenuators<a class="headerlink" href="#amplifiers-and-attenuators" title="Permalink to this headline">¶</a></h2>
+<h2>6.1. Amplifiers and Attenuators<a class="headerlink" href="#amplifiers-and-attenuators" title="Permalink to this headline">¶</a></h2>
+<p>Generic amplifier and attenuator definition
+Figure shows the example of amplificaiton of current profile of 10Mhz frequnecy with a gain of 20db</p>
+<img alt="_images/amp.png" src="_images/amp.png" />
 <p>Generic amplifier and attenuator definition</p>
-<span class="target" id="module-AmpAttModule"></span><p>Generic Amplifier Module</p>
-<p>The module takes the following arguments</p>
-<p>Amplification &#8212; The amplification/attenuation in (dB)</p>
-<p>Noise figure &#8212; Accelerator setting object</p>
-<p>Input Noise &#8212; When the input is open or terminated (in nV/sqrt(Hz))</p>
-<p>AmplifierType (Optional) &#8212; Specific amplifier implementation</p>
-<dl class="class">
-<dt id="AmpAttModule.genericAmpAtt">
-<em class="property">class </em><code class="descclassname">AmpAttModule.</code><code class="descname">genericAmpAtt</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/AmpAttModule.html#genericAmpAtt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AmpAttModule.genericAmpAtt" title="Permalink to this definition">¶</a></dt>
-<dd><p>The Generic trafo class defines all the generic trafo parameters</p>
-<dl class="method">
-<dt id="AmpAttModule.genericAmpAtt.save">
-<code class="descname">save</code><span class="sig-paren">(</span><em>name_of_file</em>, <em>description</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/AmpAttModule.html#genericAmpAtt.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AmpAttModule.genericAmpAtt.save" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function will save the beam object to an external file in the directory called &#8220;defined_beams&#8221; in the source directory</p>
-</dd></dl>
-
-</dd></dl>
-
+</div>
+<div class="section" id="transfer-function">
+<h2>6.2. Transfer Function<a class="headerlink" href="#transfer-function" title="Permalink to this headline">¶</a></h2>
+<p>Figure shows the example of Transfer function module</p>
+<img alt="_images/tf.png" src="_images/tf.png" />
+</div>
+<div class="section" id="ngspice-and-python-interfacing-for-bpm">
+<h2>6.3. NGspice and python interfacing for BPM<a class="headerlink" href="#ngspice-and-python-interfacing-for-bpm" title="Permalink to this headline">¶</a></h2>
+<p>Figure shows the output at one of the plate of BPM in Python and Ngspice</p>
+<img alt="_images/ngsp.png" src="_images/ngsp.png" />
 </div>
 <div class="section" id="lenses">
-<h2>5.2. Lenses<a class="headerlink" href="#lenses" title="Permalink to this headline">¶</a></h2>
+<h2>6.4. Lenses<a class="headerlink" href="#lenses" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="indices-and-tables">
-<h2>5.3. Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<h2>6.5. Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
 <li><a class="reference internal" href="py-modindex.html"><span>Module Index</span></a></li>
@@ -87,10 +83,12 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">5. Common Modules</a><ul>
-<li><a class="reference internal" href="#amplifiers-and-attenuators">5.1. Amplifiers and Attenuators</a></li>
-<li><a class="reference internal" href="#lenses">5.2. Lenses</a></li>
-<li><a class="reference internal" href="#indices-and-tables">5.3. Indices and tables</a></li>
+<li><a class="reference internal" href="#">6. Common Modules</a><ul>
+<li><a class="reference internal" href="#amplifiers-and-attenuators">6.1. Amplifiers and Attenuators</a></li>
+<li><a class="reference internal" href="#transfer-function">6.2. Transfer Function</a></li>
+<li><a class="reference internal" href="#ngspice-and-python-interfacing-for-bpm">6.3. NGspice and python interfacing for BPM</a></li>
+<li><a class="reference internal" href="#lenses">6.4. Lenses</a></li>
+<li><a class="reference internal" href="#indices-and-tables">6.5. Indices and tables</a></li>
 </ul>
 </li>
 </ul>
@@ -98,7 +96,8 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="device_modules.html" title="previous chapter">4. Device Modules</a></li>
+      <li>Previous: <a href="device_modules.html" title="previous chapter">5. Device Modules</a></li>
+      <li>Next: <a href="ElectronicDesign.html" title="next chapter">7. Electronic Circuit Design Of BPM</a></li>
   </ul></li>
 </ul>
 </div>

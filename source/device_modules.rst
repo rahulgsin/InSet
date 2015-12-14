@@ -7,13 +7,13 @@ Current Transformers
 ===========================
 Generic Transformer object
 
-.. automodule:: TrafoModule
+.. automodule::/DeviceModules/TrafoModule.py
    :members:
 
 Beam Position Monitor
 ======================
 
-.. automodule:: bpm
+.. automodule::/DeviceModules/bpm.py
    :members:
 
 Add functions from Python library

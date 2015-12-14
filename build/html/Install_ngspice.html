@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>8. Ngspice user guide &mdash; InSet 1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="InSet 1 documentation" href="index.html" />
+    <link rel="next" title="9. Tune, Orbit and POSition measurement system (TOPOS)" href="topos.html" />
+    <link rel="prev" title="7. Electronic Circuit Design Of BPM" href="ElectronicDesign.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="ngspice-user-guide">
+<h1>8. Ngspice user guide<a class="headerlink" href="#ngspice-user-guide" title="Permalink to this headline">¶</a></h1>
+<img alt="_images/nglogo.jpg" src="_images/nglogo.jpg" />
+<p>Download the latest version of ngspice by clicking the following link:
+<a class="reference external" href="http://sourceforge.net/projects/ngspice/files/">http://sourceforge.net/projects/ngspice/files/</a></p>
+<p>You can find detailed installation guide here: <a class="reference external" href="http://sourceforge.net/p/ngspice/ngspice/ci/master/tree/INSTALL?format=raw">http://sourceforge.net/p/ngspice/ngspice/ci/master/tree/INSTALL?format=raw</a></p>
+<div class="section" id="how-to-install-ngspice-on-linux">
+<h2>8.1. How to install ngspice on Linux<a class="headerlink" href="#how-to-install-ngspice-on-linux" title="Permalink to this headline">¶</a></h2>
+<p>The following software packages must be installed in your system to compile ngspice:</p>
+<div class="line-block">
+<div class="line"><em>bison, flex, X11 headers, libs</em></div>
+</div>
+<p>You can install the above requirements by executing the following commands in the terminal :</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">update</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">build-essential</span> <span class="pre">linux-headers-`uname</span> <span class="pre">-r`</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">libtool</span> <span class="pre">automake</span> <span class="pre">autoconf</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">flex</span> <span class="pre">bison</span> <span class="pre">texinfo</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">libx11-dev</span> <span class="pre">libxaw7-dev</span></code></div>
+</div>
+<p>1)After downloading the latest version of ngspice and required packages, unpack the tarball file(e.g. ngspice-26.tar.gz) by writing the following command in the terminal:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">$</span> <span class="pre">tar</span> <span class="pre">-zxvf</span> <span class="pre">ngspice-26.tar.gz</span></code></div>
+</div>
+<p>2)Now chnage the directory where you can find the INSTALL file. After doing this write the following commands in the terminal:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">$</span> <span class="pre">mkdir</span> <span class="pre">release</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">$</span> <span class="pre">cd</span> <span class="pre">release</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">$</span> <span class="pre">../configure</span> <span class="pre">--with-x</span> <span class="pre">--enable-xspice</span> <span class="pre">--disable-debug</span> <span class="pre">--enable-cider</span> <span class="pre">--with-readline=yes</span> <span class="pre">--enable-openmp</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">$</span> <span class="pre">make</span> <span class="pre">2&gt;&amp;1</span> <span class="pre">|</span> <span class="pre">tee</span> <span class="pre">make.log</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">$</span> <span class="pre">sudo</span> <span class="pre">make</span> <span class="pre">install</span></code></div>
+</div>
+<p>This will give you a fully featured ngspice in Linux.</p>
+</div>
+<div class="section" id="how-to-use-ngspice">
+<h2>8.2. How to use Ngspice<a class="headerlink" href="#how-to-use-ngspice" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">1)Open any editor.</div>
+</div>
+<div class="line-block">
+<div class="line">2)Write a code for your circuit and save it as <em>.cir</em> extension.</div>
+</div>
+<div class="line-block">
+<div class="line">3)Open Terminal</div>
+</div>
+<div class="line-block">
+<div class="line">4)Execute the following command:</div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">ngspice</span></code></div>
+</div>
+<div class="line-block">
+<div class="line">5)Change the directory where you save your file.</div>
+</div>
+<div class="line-block">
+<div class="line">6)Run the following command:</div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">source</span> <span class="pre">&lt;filename.cir&gt;</span></code></div>
+</div>
+<blockquote>
+<div>That&#8217;s it! you are done! Simple! Isn&#8217;t it?</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">8. Ngspice user guide</a><ul>
+<li><a class="reference internal" href="#how-to-install-ngspice-on-linux">8.1. How to install ngspice on Linux</a></li>
+<li><a class="reference internal" href="#how-to-use-ngspice">8.2. How to use Ngspice</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="ElectronicDesign.html" title="previous chapter">7. Electronic Circuit Design Of BPM</a></li>
+      <li>Next: <a href="topos.html" title="next chapter">9. Tune, Orbit and POSition measurement system (TOPOS)</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/Install_ngspice.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Rahul Singh.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/Install_ngspice.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

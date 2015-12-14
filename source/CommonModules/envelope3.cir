@@ -1,0 +1,110 @@
+* PEAK DETECTOR SUBCIRCUIT
+.include lt1192.cir
+
+AVSRC1 %V([1]) filesrc
+.model filesrc filesource (file="dataa/y1_profilecoast_volt2.txt" )
+
+C1 1 2 50PF
+R1 2 0 1k
+
+XOP11	2 1011 1111 1211 1311	LT1192
+RO311	1011	0	100
+RO411	1011	1311	1000
+C0311	1311	1411 	150pf
+*ri2	9	0	10k
+*CO4	10	0	10pf
+R311	1411	0	100
+*rl2	131	0	75
+VCC211	1111 0 DC 15v
+VEE211	1211 0 DC -15v
+
+D1 1411 8 new
+C3 8 0 10pF 
+R2 8 0 100k
+*r3 9 0 1k
+C4 8 9 1pf
+*
+
+XOP2	9 10 11 12 13	LT1192
+RO3	10	0	100
+RO4	10	13	1000
+C03	13 	14 	15nf
+*ri2	9	0	10k
+*CO4	10	0	10pf
+R3	14	0	10k
+*rl2	13	0	75
+VCC2	11 0 DC 15v
+VEE2	12 0 DC -15v
+
+*rf1	14	15	1.5k 
+*rf2	15	16	1.5k
+*cf1	15 	0	50pf
+*cf2	16 	0	50pf 
+
+*2nd bbq
+
+C19 19 29 50PF
+R19 29 0 1k
+
+XOP22	29 102 112 122 132	LT1192
+RO32	102	0	100
+RO42	102	132	1000
+C032	132 	142 	1500pf
+*ri2	9	0	10k
+*CO4	10	0	10pf
+R32	142	0	100
+*rl2	13	0	75
+VCC22	112 0 DC 15v
+VEE22	122 0 DC -15v
+
+D19 142 89 new
+C39 89 0 10pF 
+R29 89 0 100k
+C49 89 99 1pf
+*R490 99 0 1k
+
+XOP29	99 109 119 129 139	LT1192
+RO39	109	0	100
+RO49	109	139	1000
+C039	139 	149 	15nf
+*ri2	9	0	10k
+*CO4	10	0	10pf
+R39	149 	0	10k
+*rl2	13	0	75
+VCC29	119 0 DC 15v
+VEE29	129 0 DC -15v
+
+
+
+XOPdiff	14 149 777 888  999 LT1192
+VCCd	777 0 DC 15v
+VEEd	888 0 DC -15v
+
+r177	149	444	100
+r277	14	555	100
+r377	14	999	100
+r477	149	0	100
+
+
+*filter
+
+rf19	999 	1000	1.5k 
+rf29	1000	1001	1.5k
+cf19	1000	0	50pf
+cf29	1001 	0	50pf 
+
+AVSRC2 %V([19]) filesrc2
+.model filesrc2 filesource (file="dataa/y2_profilecoast_volt2.txt" )
+
+.CONTROL
+*AC 	DEC 	 1k 500MEG
+*PLOT mag(V(2,7)) xlog
+TRAN 1NS 20us
+plot (v(149)-v(14)) 
+plot v(999) v(1001) 
+*plot v(19) v(142)
+*.include plotng.txt
+*wrdata pickin v(1) 
+*wrdata plot3 v(16)
+*wrdata pickinb v(19) 
+*wrdata plot3b v(169)

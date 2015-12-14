@@ -1,11 +1,15 @@
-Machine
-********
 
-.. automodule:: machine
-   :members:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
+
+.. _machine_label:
+
+Machine
+=========
+
+.. automodule:: beam
+   :members:
 
 Indices and tables
 ==================
@@ -17,4 +21,3 @@ Indices and tables
 * :ref:`Table of contents<index_label>`
 * :ref:`Table of page<beam_label>`
 
-Use the tutorial here to learn about Sphinx: [SPHINXDOC]_.

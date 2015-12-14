@@ -1,0 +1,7 @@
+atten -20db
+
+.SUBCKT att20 1 2
+r1 1 2 90000
+r2 2 0 10000
+.ENDS
+

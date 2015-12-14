@@ -1,0 +1,136 @@
+* Version 2.0 Copyright © Linear Technology Corp. 10/19/04. All rights reserved.
+*
+* -------------------------------------------------------------------
+* $Name: LT1722
+* $Type: operational amplifier
+* $Level: Level 2 (Detailed Model)
+* $Simulator: PSpice 8 (MicroSim Corp.)
+* $Info: low-noise, 200 MHz, input clamp
+* $Vendor: Linear Technology, 2002
+* $Date: 04 Aug 2002
+*
+* ----------------------------
+* terminal definitions
+* ----------------------------
+*& INP 3
+*& INN 2
+*& VDD 7
+*& VSS 4
+*& OUTP 6
+*& GND 0
+*& CKT LT1722
+* ----------------------------
+*
+.SUBCKT LT1722 3 2 7 4 6
+XOP1 3 2 7 4 6 LT1722MD
+.ENDS LT1722
+*
+*
+.SUBCKT LT1722MD 1 2 3 4 5
+*
+* input protection
+DIP1 1 2 DX
+DIP2 2 1 DX
+*
+* ESD clamp
+DESD1 1 3 DX
+DESD2 4 1 DX
+DESD3 2 3 DX
+DESD4 4 2 DX
+*
+* input stage
+CIN 1 2 1.9953e-13
+CIC1 1 99 1.7958e-12
+CIC2 2 99 1.7958e-12
+GRIN 1 2 1 2 1.9481e-5
+Q1 11 2 13 Q1
+Q2 12 111 14 Q2
+RC1 3 11 884.45
+RC2 3 12 884.45
+RE1 10 13 7.7211
+RE2 10 14 7.7211
+C1 11 12 5.9983e-13
+IEE 10 4 DC 0.0022614
+GSR 10 4 11 12 2.84e-5
+D1 4 10 DX
+GA 60 99 11 12 0.0011306
+*
+* noise sources
+FRI1 99 1 VRI1 1
+VRI1 101 0 DC 0
+RRI1 101 0 11590
+FRI2 99 2 VRI2 1
+VRI2 201 0 DC 0
+RRI2 201 0 11590
+GR 99 60 605 606 5.9477
+IR1 0 605 DC 1
+IR2 0 606 DC 1
+DR1 605 0 DR
+DR2 606 0 DR
+*
+* common mode rejection
+GCM1 99 20 POLY(2) 1 99 2 99 0 0.0005 0.0005
+RCM1 21 99 1000
+RCM2 20 99 1000000
+LCM 20 21 0.0022736
+ECM 111 1 20 99 5.6234e-6
+*
+* frequency shaper
+RP1 601 99 1764.7
+CP1 60 601 2.2547e-12
+RP11 60 99 10000
+GP1 99 61 60 99 0.0001
+RP2 611 99 13636
+LP2 61 611 5.4257e-5
+RP22 61 99 37500
+GP2 99 6 61 99 0.0001
+*
+* output stage
+R2 6 99 1000
+C2 6 7 2.4803e-11
+GB 7 99 6 99 41.337
+R01 7 99 13.2
+R02 7 50 0.1
+R03 50 5 13.3
+R04 5 99 5937900000
+VC 53 50 DC 1.3049
+VE 54 50 DC -1.292
+DC1 53 55 DVC
+DC2 55 56 DVC
+DE1 57 54 DVC
+DE2 58 57 DVC
+GVC1 3 56 3 56 1.0E-4
+GVE1 4 58 4 58 1.0E-4
+GVC2 3 55 3 55 1.0E-5
+GVE2 4 57 4 57 1.0E-5
+GVLP 99 6 56 3 1
+GVLN 99 6 58 4 1
+ECLP 91 0 7 50 104.17
+ECLN 92 0 7 50 119.05
+DCLP 91 90 DX
+DCLN 90 92 DX
+VLIM 90 0 DC 0
+FB 7 99 VLIM 1.7896
+*
+* supply characteristic
+EGND 99 0 POLY(2) 3 0 4 0 0 0.5 0.5
+DSUB 4 3 DX
+IP 3 4 DC 0.0014386
+*
+GPC 31 0 7 50 10
+DPC1 3 31 DVC
+DPC2 32 4 DVC
+RPC1 31 32 1.0E6
+RPC2 31 33 9.7531
+EPC 33 32 3 4 1.0
+*
+.MODEL DX D(IS=8.2592e-16 RS=0 XTI=1 CJO=0 IBV=1e-10 TT=0)
+.MODEL DVC D(IS=8.2592e-16 RS=0 XTI=-2.1 N=0.1 EG=0.1 CJO=0 IBV=1e-10 TT=0)
+.MODEL Q1 NPN(IS=9.9982e-16 BF=30150.5 XTB=0.65704
++ XTI=3.01768 KF=1.6457e-15)
+.MODEL Q2 NPN(IS=1.0002e-15 BF=34789.0 XTB=0.76702
++ XTI=2.98232 KF=1.6457e-15)
+.MODEL DR D(IS=8.2592e-16 KF=1.6326e-16 RS=0 XTI=1 CJO=0 IBV=1e-10 TT=0)
+.ENDS LT1722MD
+*
+

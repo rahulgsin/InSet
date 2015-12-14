@@ -1,0 +1,716 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9. Tune, Orbit and POSition measurement system (TOPOS) &mdash; InSet 1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="InSet 1 documentation" href="index.html" />
+    <link rel="prev" title="8. Ngspice user guide" href="Install_ngspice.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="tune-orbit-and-position-measurement-system-topos">
+<h1>9. Tune, Orbit and POSition measurement system (TOPOS)<a class="headerlink" href="#tune-orbit-and-position-measurement-system-topos" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="components-of-topos">
+<h2>9.1. Components of TOPOS<a class="headerlink" href="#components-of-topos" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="topos-signal-chain-from-bpm-plates-to-adc">
+<h3>9.1.1. TOPOS SIGNAL CHAIN from BPM plates to ADC<a class="headerlink" href="#topos-signal-chain-from-bpm-plates-to-adc" title="Permalink to this headline">¶</a></h3>
+<p>The TOPOS signal chain from BPM plates to the ADCs. It is divided into three distinct stages. Each stage consists of switchable attenuators and amplifiers.</p>
+<img alt="_images/topos1.jpeg" src="_images/topos1.jpeg" />
+<p>And here is the result after simulation of the above circuit:</p>
+<img alt="_images/topos2.png" src="_images/topos2.png" />
+<p><em>Code for the above circuit in Ngspice looks like this:</em></p>
+<p>.include att10.cir</p>
+<p>.include att20.cir</p>
+<p>.include att30.cir</p>
+<p>.include amp10.cir</p>
+<p>.include amp20.cir</p>
+<p>.model switch1 sw</p>
+<p>Vin 1 0 ac sin(0 100m 10meg)</p>
+<p>// Vsw1=5 and vsaw1=-5 for Off 1</p>
+<p>Vsw1 sn1 0 DC 5</p>
+<p>swa1 1 2 sn1 0 switch1 OFF</p>
+<p>Vswa1 sna1 0 DC -5</p>
+<p>Xatt35 img1 2 att30</p>
+<p>swaimg2 1 img1 sna1 0 switch1 OFF</p>
+<p>// switchable attenuator of -30db</p>
+<p>Vsw2 sn2 0 DC -5</p>
+<p>swa2 2 3 sn2 0 switch1 OFF</p>
+<p>Vswa2 sna2 0 DC 5</p>
+<p>Xatt31 img2 3 att30</p>
+<p>swaimg3 2 img2 sna2 0 switch1 OFF</p>
+<p>// head ampliflier of 20db</p>
+<p>rser1   3 0 1meg</p>
+<p>Xamp20 3 4 amp20</p>
+<p>// switchable attenuator of -20db</p>
+<p>Vsw4 sn4 0 DC -5</p>
+<p>swa4 4 5 sn4 0 switch1 OFF</p>
+<p>Vswa4 sna4 0 DC 5</p>
+<p>Xatt20 img4 5 att20</p>
+<p>swaimg5 4 img4 sna4 0 switch1 OFF</p>
+<p>// switchable attenuator of -10db</p>
+<p>Vsw3 sn3 0 DC 5</p>
+<p>swa3  5 6 sn3 0 switch1 OFF</p>
+<p>Vswa3 sna3 0 DC -5</p>
+<p>Xatt10 img3 6 att10</p>
+<p>swaimg6 5 img3 sna3 0 switch1 OFF</p>
+<p>// drive amplifier of 20db</p>
+<p>Xamp21 6 7 amp20</p>
+<p>rser2   6 0 75</p>
+<p>// post amplifier</p>
+<p>Xamp10 7 8 amp10</p>
+<p>rser3   7 0 75</p>
+<p>.CONTROL</p>
+<p>AC      DEC     5 100k 1000MEG</p>
+<p>tran 1ns 1us</p>
+<p>plot V(1) v(2) v(3) v(4) v(5) v(6) v(7) v(8)</p>
+<p>.include plotng.txt</p>
+<blockquote>
+<div>The exctra files which are include in above code can found here:</div></blockquote>
+</div>
+<div class="section" id="baseband-tune-q-measurement-system-bbq">
+<h3>9.1.2. BaseBand tune(Q) measurement system (BBQ)<a class="headerlink" href="#baseband-tune-q-measurement-system-bbq" title="Permalink to this headline">¶</a></h3>
+<p>Simple Schemaic of BBQ system configuration at SIS-18 for low energy signal is shown in below circuit:</p>
+<img alt="_images/bbql.jpeg" src="_images/bbql.jpeg" />
+<p>Simple Schemaic of BBQ system configuration at SIS-18 for high energy signal is shown in below circuit:</p>
+<img alt="_images/bbqh.jpeg" src="_images/bbqh.jpeg" />
+<p>And here is the result after simulation of the above circuit:</p>
+<img alt="_images/bbq1.png" src="_images/bbq1.png" />
+<p><em>Ngspice code for one BPM plate is given here:</em></p>
+<div class="line-block">
+<div class="line">// THS3001 SUBCIRCUIT</div>
+<div class="line">// HIGH SPEED, CURRENT FEEDBACK, OPERATIONAL AMPLIFIER</div>
+<div class="line">// <a class="reference external" href="mailto:TEMPLATE=X^&#37;&#52;&#48;REFDES">TEMPLATE=X^<span>&#64;</span>REFDES</a> %IN+ %IN- %Vcc+ %Vcc- %OUT &#64;MODEL</div>
+<div class="line">// CONNECTIONS:      NON-INVERTING INPUT</div>
+<div class="line">//                  | INVERTING INPUT</div>
+<div class="line">//                  | | POSITIVE POWER SUPPLY</div>
+<div class="line">//                  | | | NEGATIVE POWER SUPPLY</div>
+<div class="line">//                  | | | | OUTPUT</div>
+<div class="line">//                  | | | | |</div>
+<div class="line">//                  | | | | |</div>
+<div class="line">//                  | | | | |</div>
+</div>
+<p>.SUBCKT THS3001     1 nois 3 4 5</p>
+<div class="line-block">
+<div class="line">// INPUT</div>
+<div class="line">Q1    31 32 2 NPN_IN 4</div>
+<div class="line">QD1   32 32 1 NPN 4</div>
+<div class="line">Q2    7 15 2 PNP_IN 4</div>
+<div class="line">QD2   15 15 1 PNP 4</div>
+</div>
+<div class="line-block">
+<div class="line">// PROTECTION DIODES</div>
+<div class="line">D1    1 3 Din_N</div>
+<div class="line">D2    4 1 Din_P</div>
+<div class="line">D3    5 3 Dout_N</div>
+<div class="line">D4    4 5 Dout_P</div>
+</div>
+<p>VNoiw nois 2 dc 0 TRNOISE (1m 1n 0 0 )</p>
+<div class="line-block">
+<div class="line">// SECOND STAGE</div>
+<div class="line">Q3    17 31 11 PNP 2</div>
+<div class="line">Q4    16 7 13 NPN 2</div>
+<div class="line">QD3   30 30 17 PNP 3</div>
+<div class="line">QD4   30 30 16 NPN 3</div>
+<div class="line">C1    30 3  0.4p</div>
+<div class="line">C2    4 30  0.4p</div>
+<div class="line">F1    3 31 VF1 1</div>
+<div class="line">VF1   33 34 0V</div>
+<div class="line">F2    7 4 VF2 1</div>
+<div class="line">VF2   35 6 0V</div>
+<div class="line">F3    3 12 VF3 1</div>
+<div class="line">VF3   34 11 0V</div>
+<div class="line">F4    14 4 VF4 1</div>
+<div class="line">VF4   13 35 0V</div>
+</div>
+<div class="line-block">
+<div class="line">// FREQUENCY SHAPING</div>
+<div class="line">E1    18 0 17 0 1</div>
+<div class="line">E2    19 0 16 0 1</div>
+<div class="line">R1    44 18 25</div>
+<div class="line">R2    19 42 25</div>
+<div class="line">C3    0 14  9p</div>
+<div class="line">C4    0 12  9p</div>
+<div class="line">L1    44 14 2.8n</div>
+<div class="line">L2    42 12 2.8n</div>
+</div>
+<div class="line-block">
+<div class="line">// OUTPUT</div>
+<div class="line">Q5    3 14 28 NPN 128</div>
+<div class="line">Q6    4 12 29 PNP 128</div>
+<div class="line">C5    28 9  7p</div>
+<div class="line">R5    9 5  100</div>
+<div class="line">L3    28 10  30n</div>
+<div class="line">R7    10 5  8</div>
+<div class="line">Re    28 29 Rt 50</div>
+<div class="line">C6    29 21  7p</div>
+<div class="line">R4    21 5  100</div>
+<div class="line">L4    29 22  30n</div>
+<div class="line">R6    22 5  8</div>
+</div>
+<div class="line-block">
+<div class="line">// BIAS SOURCES</div>
+<div class="line">G1    3 32 3 4 1.656e-6</div>
+<div class="line">G2    15 4 3 4 1.656e-6</div>
+<div class="line">I1     3 32  DC 308e-6</div>
+<div class="line">I2    15 4  DC 307e-6</div>
+<div class="line">V1    3 33 0.83</div>
+<div class="line">V2    6 4 0.83</div>
+</div>
+<p>.MODEL Rt RES TC1=-0.006</p>
+<div class="line-block">
+<div class="line">// DIODE MODELS</div>
+<div class="line">.MODEL Din_N D  IS=10E-21 N=1.836 ISR=1.565e-9 IKF=1e-4 BV=30 IBV=100E-6 RS=105 TT=11.54E-9 CJO=2E-12 VJ=.5 M=.3333</div>
+<div class="line">.MODEL Din_P D  IS=10E-21 N=1.836 ISR=1.565e-9 IKF=1e-4 BV=30 IBV=100E-6 RS=160 TT=11.54E-9 CJO=2E-12 VJ=.5 M=.3333</div>
+<div class="line">.MODEL Dout_N D IS=10E-21 N=1.836 ISR=1.565e-9 IKF=1e-4 BV=30 IBV=100E-6 RS=60  TT=11.54E-9 CJO=2E-12 VJ=.5 M=.3333</div>
+<div class="line">.MODEL Dout_P D IS=10E-21 N=1.836 ISR=1.565e-9 IKF=1e-4 BV=30 IBV=100E-6 RS=105 TT=11.54E-9 CJO=2E-12 VJ=.5 M=.3333</div>
+</div>
+<div class="line-block">
+<div class="line">// TRANSISTOR MODELS</div>
+<div class="line">.MODEL NPN_IN NPN</div>
+<div class="line">+ IS=170E-18 BF=100 NF=1 VAF=100 IKF=0.0389 ISE=7.6E-18</div>
+<div class="line">+ NE=1.13489 BR=1.11868 NR=1 VAR=4.46837 IKR=8 ISC=8E-15</div>
+<div class="line">+ NC=1.8 RB=251.6 RE=0.1220 RC=197 CJE=120.2E-15 VJE=1.0888 MJE=0.381406</div>
+<div class="line">+ VJC=0.589703 MJC=0.265838 FC=0.1 CJC=133.8E-15 XTF=272.204 TF=12.13E-12</div>
+<div class="line">+ VTF=10 ITF=0.294 TR=3E-09 XTB=1 XTI=5 KF=25E-15</div>
+</div>
+<div class="line-block">
+<div class="line">.MODEL NPN NPN</div>
+<div class="line">+ IS=170E-18 BF=100 NF=1 VAF=100 IKF=0.0389 ISE=7.6E-18</div>
+<div class="line">+ NE=1.13489 BR=1.11868 NR=1 VAR=4.46837 IKR=8 ISC=8E-15</div>
+<div class="line">+ NC=1.8 RB=251.6 RE=0.1220 RC=197 CJE=120.2E-15 VJE=1.0888 MJE=0.381406</div>
+<div class="line">+ VJC=0.589703 MJC=0.265838 FC=0.1 CJC=133.8E-15 XTF=272.204 TF=12.13E-12</div>
+<div class="line">+ VTF=10 ITF=0.147 TR=3E-09 XTB=1 XTI=5</div>
+</div>
+<div class="line-block">
+<div class="line">.MODEL PNP_IN PNP</div>
+<div class="line">+ IS=296E-18 BF=100 NF=1 VAF=100 IKF=0.021 ISE=494E-18</div>
+<div class="line">+ NE=1.49168 BR=0.491925 NR=1 VAR=2.35634 IKR=8 ISC=8E-15</div>
+<div class="line">+ NC=1.8 RB=251.6 RE=0.1220 RC=197 CJE=120.2E-15 VJE=0.940007 MJE=0.55</div>
+<div class="line">+  VJC=0.588526 MJC=0.55 FC=0.1 CJC=133.8E-15 XTF=141.135 TF=12.13E-12</div>
+<div class="line">+ VTF=6.82756 ITF=0.267 TR=3E-09 XTB=1 XTI=5 KF=25E-15</div>
+</div>
+<div class="line-block">
+<div class="line">.MODEL PNP PNP</div>
+<div class="line">+ IS=296E-18 BF=100 NF=1 VAF=100 IKF=0.021 ISE=494E-18</div>
+<div class="line">+ NE=1.49168 BR=0.491925 NR=1 VAR=2.35634 IKR=8 ISC=8E-15</div>
+<div class="line">+ NC=1.8 RB=251.6 RE=0.1220 RC=197 CJE=120.2E-15 VJE=0.940007 MJE=0.55</div>
+<div class="line">+  VJC=0.588526 MJC=0.55 FC=0.1 CJC=133.8E-15 XTF=141.135 TF=12.13E-12</div>
+<div class="line">+ VTF=6.82756 ITF=0.267 TR=3E-09 XTB=1 XTI=5</div>
+</div>
+<div class="line-block">
+<div class="line">.ENDS</div>
+</div>
+<p>.include lt1192.cir</p>
+<div class="line-block">
+<div class="line">.MODEL germ d</div>
+<div class="line">+IS=1.88569e-06 RS=0.160685 N=1.03056 EG=0.634401</div>
+<div class="line">+XTI=0.5 BV=20 IBV=1.5e-05 CJO=1.20949e-10</div>
+<div class="line">+VJ=0.4 M=0.520353 FC=0.5 TT=0</div>
+<div class="line">+KF=0 AF=1</div>
+</div>
+<p>//BPM simulation program for NGspice</p>
+<p>C1 1 2 50PF</p>
+<p>C2 2 0 50PF</p>
+<p>XOP1    2 3 4 5 6       LT1192</p>
+<p>RO1     3       0       100</p>
+<p>RO2     3       6       100</p>
+<p>CO1     6       7       15nF</p>
+<p>ri1     2       0       1meg</p>
+<p>rl      7       0       1meg</p>
+<p>VCC1    4 0 DC 15V</p>
+<p>VEE1    5 0 DC -15V</p>
+<p>D1 7 8 germ</p>
+<p>C3 8 0 1nF</p>
+<p>R2 8 0 1k</p>
+<p>C4 8 9 1pf</p>
+<p>XOP2    9 10 11 12 13   THS3001</p>
+<p>RO3     10      0       10</p>
+<p>RO4     10      13      100</p>
+<p>C03     13      14      1pf</p>
+<p>ri2     9       0       1meg</p>
+<p>R3      14      0       10k</p>
+<p>VCC2    11 0 DC 15v</p>
+<p>VEE2    12 0 DC -15v</p>
+<p>rfilt   14      15      160</p>
+<p>cfilt   15      0       1pf</p>
+<p>AVSRC %V([1]) filesrc</p>
+<p>.model filesrc filesource (file=&#8221;current_profile2.txt&#8221; )</p>
+<p>.CONTROL</p>
+<p>//AC    DEC      1k 500MEG
+//PLOT mag(V(2,7)) xlog</p>
+<p>TRAN 1NS 5uS</p>
+<p>plot  v(1) V(7) v(8) v(15)</p>
+<p>plot v(7) v(8)</p>
+<p>.include plotng.txt</p>
+</div>
+<div class="section" id="simple-opamp-schematic">
+<h3>9.1.3. Simple OPAMP schematic<a class="headerlink" href="#simple-opamp-schematic" title="Permalink to this headline">¶</a></h3>
+<p><em>Here is the simple schematic of OPAMP:</em></p>
+<img alt="_images/opamp.jpeg" src="_images/opamp.jpeg" />
+<p><em>And here is the code for simulation of above circuit using LT1192:</em></p>
+<p>Amplifier of 20db</p>
+<div class="line-block">
+<div class="line">.SUBCKT amp20 1 6</div>
+<div class="line">.include lt1192.cir</div>
+<div class="line">XOP   1 2 3 4 5       LT1192</div>
+<div class="line">R1    2       0       100</div>
+<div class="line">R2    2       5       1000</div>
+<div class="line">cL    5       6       15nf</div>
+<div class="line">rl    6       0       1k</div>
+<div class="line">VCC   3 0 DC 15V</div>
+<div class="line">VEE   4 0 DC -15V</div>
+<div class="line">.ENDS</div>
+</div>
+<div class="line-block">
+<div class="line">Xamp 1 2 amp20</div>
+<div class="line">vin 1 0 ac sin(0 1m 10meg)</div>
+<div class="line">.control</div>
+<div class="line">AC DEC 100 1k 100MEG</div>
+<div class="line">.include plotng.txt</div>
+</div>
+<p>Here you can the results after simulation:</p>
+<p>Magnitude response at the oputput</p>
+<img alt="_images/omag.png" src="_images/omag.png" />
+<p>Phase response at the oputput</p>
+<img alt="_images/ophase.png" src="_images/ophase.png" />
+</div>
+</div>
+<div class="section" id="using-topos-for-four-plates">
+<h2>9.2. Using TOPOS for four plates<a class="headerlink" href="#using-topos-for-four-plates" title="Permalink to this headline">¶</a></h2>
+<p>Following Ngspice code can calculate the output of Topos chain for 20db(fixed) gain</p>
+<p>TOPOS SIGNAL CHAIN &#8211;&gt; Simulation for 4 plates</p>
+<div class="line-block">
+<div class="line">.include amp20.cir</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id1"><span class="problematic" id="id2">**</span></a><a href="#id3"><span class="problematic" id="id4">*</span></a>First topos chain</div>
+<div class="line">Rb 22 0 100k</div>
+<div class="line">Cb1 1 22 50pF</div>
+<div class="line">Cb2 22 0 50pF</div>
+<div class="line"><a href="#id5"><span class="problematic" id="id6">*</span></a>Vin 1 0 ac sin(0 1m 10meg)</div>
+<div class="line">AVSRC %V([1]) filesrc</div>
+<div class="line"><a href="#id7"><span class="problematic" id="id8">*</span></a>.include Input_signal.txt</div>
+<div class="line">.model filesrc filesource (file=&#8221;daata/x1_coast_v.txt&#8221; )</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id9"><span class="problematic" id="id10">*</span></a>head ampliflier of 20db</div>
+<div class="line"><a href="#id11"><span class="problematic" id="id12">*</span></a>rser1        3 0 10meg</div>
+<div class="line">Xamp20 22 4 amp20</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id13"><span class="problematic" id="id14">**</span></a><a href="#id15"><span class="problematic" id="id16">*</span></a>second topos chain</div>
+</div>
+<div class="line-block">
+<div class="line">Rb1 221 0 100k</div>
+<div class="line">Cb11 11 221 50pF</div>
+<div class="line">Cb21 221 0 50pF</div>
+<div class="line"><a href="#id17"><span class="problematic" id="id18">*</span></a>Vin1 11 0 ac sin(0 1m 10meg)</div>
+<div class="line">AVSRC1 %V([11]) filesrc1</div>
+<div class="line"><a href="#id19"><span class="problematic" id="id20">*</span></a>.include Input_signal.txt</div>
+<div class="line">.model filesrc1 filesource (file=&#8221;daata/x2_coast_v.txt&#8221; )</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id21"><span class="problematic" id="id22">*</span></a>head ampliflier of 20db</div>
+<div class="line"><a href="#id23"><span class="problematic" id="id24">*</span></a>rser1        3 0 10meg</div>
+<div class="line">Xamp201 221 41 amp20</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id25"><span class="problematic" id="id26">**</span></a><a href="#id27"><span class="problematic" id="id28">*</span></a>Third topos chain</div>
+</div>
+<div class="line-block">
+<div class="line">Rb11 2211 0 100k</div>
+<div class="line">Cb111 111 2211 50pF</div>
+<div class="line">Cb211 2211 0 50pF</div>
+<div class="line"><a href="#id29"><span class="problematic" id="id30">*</span></a>Vin1 111 0 ac sin(0 1m 10meg)</div>
+<div class="line">AVSRC11 %V([111]) filesrc11</div>
+<div class="line">.model filesrc11 filesource (file=&#8221;daata/y1_coast_v.txt&#8221; )</div>
+</div>
+<div class="line-block">
+<div class="line">Xamp2011 2211 411 amp20</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id31"><span class="problematic" id="id32">**</span></a><a href="#id33"><span class="problematic" id="id34">*</span></a>Fourth topos chain</div>
+</div>
+<div class="line-block">
+<div class="line">Rb111 22111 0 100k</div>
+<div class="line">Cb1111 1111 22111 50pF</div>
+<div class="line">Cb2111 22111 0 50pF</div>
+<div class="line"><a href="#id35"><span class="problematic" id="id36">*</span></a>Vin1 1111 0 ac sin(0 1m 10meg)</div>
+<div class="line">AVSRC111 %V([1111]) filesrc111</div>
+<div class="line">.model filesrc111 filesource (file=&#8221;daata/y2_coast_v.txt&#8221; )</div>
+</div>
+<div class="line-block">
+<div class="line">Xamp20111 22111 4111 amp20</div>
+</div>
+<div class="line-block">
+<div class="line">.CONTROL</div>
+<div class="line"><a href="#id37"><span class="problematic" id="id38">*</span></a>ac   DEC 1000 1k 1000MEG</div>
+<div class="line"><a href="#id39"><span class="problematic" id="id40">*</span></a>plot db(v(4)/v(1)) xlog</div>
+<div class="line"><a href="#id41"><span class="problematic" id="id42">*</span></a>plot 180/pi*phase(V(4)/v(1))</div>
+<div class="line">tran 1ns 50us</div>
+<div class="line"><a href="#id43"><span class="problematic" id="id44">*</span></a>plot v(1) v(11)</div>
+<div class="line"><a href="#id45"><span class="problematic" id="id46">*</span></a>plot v(111) v(1111)</div>
+<div class="line"><a href="#id47"><span class="problematic" id="id48">*</span></a>plot v(4) v(41)</div>
+<div class="line"><a href="#id49"><span class="problematic" id="id50">*</span></a>plot v(411) v(4111)</div>
+<div class="line"><a href="#id51"><span class="problematic" id="id52">*</span></a>plot v(1) v(22) v(33) v(3)</div>
+<div class="line"><a href="#id53"><span class="problematic" id="id54">*</span></a>plot v(4)</div>
+<div class="line"><a href="#id55"><span class="problematic" id="id56">*</span></a>plot v(5)</div>
+<div class="line"><a href="#id57"><span class="problematic" id="id58">*</span></a>plot v(6)</div>
+<div class="line"><a href="#id59"><span class="problematic" id="id60">*</span></a>plot v(111) v(9)</div>
+<div class="line"><a href="#id61"><span class="problematic" id="id62">*</span></a>plot v(7) v(8) v(9)</div>
+<div class="line"><a href="#id63"><span class="problematic" id="id64">*</span></a>.include plotng.txt</div>
+<div class="line"><a href="#id65"><span class="problematic" id="id66">*</span></a>setplot tran1</div>
+<div class="line"><a href="#id67"><span class="problematic" id="id68">*</span></a>linearize</div>
+<div class="line">wrdata ip v(1)</div>
+<div class="line">wrdata op v(4)</div>
+<div class="line"><a href="#id69"><span class="problematic" id="id70">*</span></a>wrdata x2_coast_1 v(41)</div>
+<div class="line"><a href="#id71"><span class="problematic" id="id72">*</span></a>wrdata y1_coast_1 v(411)</div>
+<div class="line"><a href="#id73"><span class="problematic" id="id74">*</span></a>wrdata y2_coast_1 v(4111)</div>
+</div>
+</div>
+<div class="section" id="using-bbq-without-preamplifier-for-two-plates">
+<h2>9.3. Using BBQ without preamplifier for two plates<a class="headerlink" href="#using-bbq-without-preamplifier-for-two-plates" title="Permalink to this headline">¶</a></h2>
+<p>Following Ngspice code can simualate the output for 2 plates for BBQ system without preampliflier</p>
+<ul class="simple">
+<li>BBQ Circuit</li>
+</ul>
+<p>.include lt1192.cir</p>
+<p><a href="#id75"><span class="problematic" id="id76">**</span></a><a href="#id77"><span class="problematic" id="id78">*</span></a>First BBQ Plate</p>
+<div class="line-block">
+<div class="line"><a href="#id79"><span class="problematic" id="id80">*</span></a>Input1</div>
+<div class="line">AVSRC1 %V([1]) filesrc</div>
+<div class="line">.model filesrc filesource (file=&#8221;daata/y1_profilenat_volt2.txt&#8221; )</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id81"><span class="problematic" id="id82">*</span></a>BPM1</div>
+<div class="line">C1 1 2 50PF</div>
+<div class="line">R1 2 0 1k</div>
+</div>
+<p><a href="#id83"><span class="problematic" id="id84">*</span></a>peak detector&#8211;&gt;select Tau changing R2 and C3</p>
+<div class="line-block">
+<div class="line">D1 2 8 new</div>
+<div class="line">C3 8 0 10pF</div>
+<div class="line">R2 8 0 200k</div>
+<div class="line"><a href="#id85"><span class="problematic" id="id86">*</span></a>r3 9 0 1k</div>
+<div class="line">C4 8 9 1pf</div>
+</div>
+<ul class="simple">
+<li></li>
+</ul>
+<p><a href="#id87"><span class="problematic" id="id88">*</span></a>Amplifier&#8211;&gt; change gain by changing RO3 and RO4</p>
+<div class="line-block">
+<div class="line">XOP2  16 10 11 12 13  LT1192</div>
+<div class="line">RO3   10      0       100</div>
+<div class="line">RO4   10      13      100</div>
+<div class="line">C03   13      14      15nf</div>
+<div class="line"><a href="#id89"><span class="problematic" id="id90">*</span></a>ri2  9       0       10k</div>
+<div class="line"><a href="#id91"><span class="problematic" id="id92">*</span></a>CO4  10      0       10pf</div>
+<div class="line">R3    14      0       10k</div>
+<div class="line"><a href="#id93"><span class="problematic" id="id94">*</span></a>rl2  13      0       75</div>
+<div class="line">VCC2  11 0 DC 15v</div>
+<div class="line">VEE2  12 0 DC -15v</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id95"><span class="problematic" id="id96">*</span></a>FIlter 2nd order</div>
+<div class="line">rf1   9       15      1.5k</div>
+<div class="line">rf2   15      16      1.5k</div>
+<div class="line">cf1   15      0       50pf</div>
+<div class="line">cf2   16      0       50pf</div>
+</div>
+<p><a href="#id97"><span class="problematic" id="id98">*</span></a>2nd bbq plate</p>
+<div class="line-block">
+<div class="line"><a href="#id99"><span class="problematic" id="id100">*</span></a>Input2</div>
+<div class="line">AVSRC2 %V([19]) filesrc2</div>
+<div class="line">.model filesrc2 filesource (file=&#8221;daata/y2_profilenat_volt2.txt&#8221; )</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id101"><span class="problematic" id="id102">*</span></a>BPM2</div>
+<div class="line">C19 19 29 50PF</div>
+<div class="line">R19 29 0 1k</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id103"><span class="problematic" id="id104">*</span></a>Peak detector</div>
+<div class="line">D19 29 89 new</div>
+<div class="line">C39 89 0 10pF</div>
+<div class="line">R29 89 0 200k</div>
+<div class="line">C49 89 99 1pf</div>
+<div class="line"><a href="#id105"><span class="problematic" id="id106">*</span></a>R490 99 0 1k</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id107"><span class="problematic" id="id108">*</span></a>Amplifier</div>
+<div class="line">XOP29 169 109 119 129 139     LT1192</div>
+<div class="line">RO39  109     0       100</div>
+<div class="line">RO49  109     139     100</div>
+<div class="line">C039  139     149     15nf</div>
+<div class="line"><a href="#id109"><span class="problematic" id="id110">*</span></a>ri2  9       0       10k</div>
+<div class="line"><a href="#id111"><span class="problematic" id="id112">*</span></a>CO4  10      0       10pf</div>
+<div class="line">R39   149     0       10k</div>
+<div class="line"><a href="#id113"><span class="problematic" id="id114">*</span></a>rl2  13      0       75</div>
+<div class="line">VCC29 119 0 DC 15v</div>
+<div class="line">VEE29 129 0 DC -15v</div>
+</div>
+<p><a href="#id115"><span class="problematic" id="id116">*</span></a>filter 2nd order</p>
+<div class="line-block">
+<div class="line">rf19  99      159     1.5k</div>
+<div class="line">rf29  159     169     1.5k</div>
+<div class="line">cf19  159     0       50pf</div>
+<div class="line">cf29  169     0       50pf</div>
+</div>
+<div class="line-block">
+<div class="line">.CONTROL</div>
+<div class="line"><a href="#id117"><span class="problematic" id="id118">*</span></a>AC   DEC      1k 500MEG</div>
+<div class="line"><a href="#id119"><span class="problematic" id="id120">*</span></a>PLOT mag(V(2,7)) xlog</div>
+<div class="line">TRAN 1NS 400us</div>
+<div class="line"><a href="#id121"><span class="problematic" id="id122">*</span></a>setplot tran1</div>
+<div class="line"><a href="#id123"><span class="problematic" id="id124">*</span></a>linearize</div>
+<div class="line"><a href="#id125"><span class="problematic" id="id126">*</span></a>fft (V(14)-v(149))</div>
+<div class="line"><a href="#id127"><span class="problematic" id="id128">*</span></a>plot mag (V(14)-v(149))</div>
+<div class="line"><a href="#id129"><span class="problematic" id="id130">*</span></a>plot  (v(14)-v(149))</div>
+<div class="line"><a href="#id131"><span class="problematic" id="id132">*</span></a>plot v(14) v(149)</div>
+<div class="line"><a href="#id133"><span class="problematic" id="id134">*</span></a>plot v(1411) v(142)</div>
+<div class="line"><a href="#id135"><span class="problematic" id="id136">*</span></a>.include plotng.txt</div>
+<div class="line"><a href="#id137"><span class="problematic" id="id138">*</span></a>wrdata x1_bbq_ext v(14)</div>
+<div class="line"><a href="#id139"><span class="problematic" id="id140">*</span></a>wrdata x2_bbq_ext v(149)</div>
+<div class="line"><a href="#id141"><span class="problematic" id="id142">*</span></a>wrdata x_bbq_extdiff (v(14)-v(149))</div>
+<div class="line"><a href="#id143"><span class="problematic" id="id144">*</span></a>wrdata plot3 v(16)</div>
+<div class="line"><a href="#id145"><span class="problematic" id="id146">*</span></a>wrdata pickinb v(19)</div>
+<div class="line"><a href="#id147"><span class="problematic" id="id148">*</span></a>wrdata plot3b v(169)</div>
+</div>
+</div>
+<div class="section" id="using-bbq-with-preamplifier-for-two-plates">
+<h2>9.4. Using BBQ with preamplifier for two plates<a class="headerlink" href="#using-bbq-with-preamplifier-for-two-plates" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>BBQ Circuit</li>
+</ul>
+<p>.include lt1192.cir</p>
+<p><a href="#id149"><span class="problematic" id="id150">**</span></a><a href="#id151"><span class="problematic" id="id152">*</span></a>First BBQ Plate</p>
+<div class="line-block">
+<div class="line"><a href="#id153"><span class="problematic" id="id154">*</span></a>Input1</div>
+<div class="line">AVSRC1 %V([1]) filesrc</div>
+<div class="line">.model filesrc filesource (file=&#8221;daata/y1_profilenat_volt2.txt&#8221; )</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id155"><span class="problematic" id="id156">*</span></a>BPM1</div>
+<div class="line">C1 1 2 50PF</div>
+<div class="line">R1 2 0 1k</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id157"><span class="problematic" id="id158">*</span></a>preamplifier&#8211;&gt;</div>
+</div>
+<div class="line-block">
+<div class="line">XOP11 2 1011 1111 1211 1311   LT1192</div>
+<div class="line">RO311 1011    0       100</div>
+<div class="line">RO411 1011    1311    500</div>
+<div class="line">C0311 1311    1411    1500pf</div>
+<div class="line"><a href="#id159"><span class="problematic" id="id160">*</span></a>ri2  9       0       10k</div>
+<div class="line"><a href="#id161"><span class="problematic" id="id162">*</span></a>CO4  10      0       10pf</div>
+<div class="line">R311  1411    0       100</div>
+<div class="line"><a href="#id163"><span class="problematic" id="id164">*</span></a>rl2  131     0       75</div>
+<div class="line">VCC211        1111 0 DC 15v</div>
+<div class="line">VEE211        1211 0 DC -15v</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id165"><span class="problematic" id="id166">*</span></a>peak detector&#8211;&gt;select t_discharging changing R2 and C3</div>
+</div>
+<div class="line-block">
+<div class="line">D1 1411 8 new</div>
+<div class="line">C3 8 0 10pF</div>
+<div class="line">R2 8 0 200k</div>
+<div class="line"><a href="#id167"><span class="problematic" id="id168">*</span></a>r3 9 0 1k</div>
+<div class="line">C4 8 9 1pf</div>
+</div>
+<p><a href="#id169"><span class="problematic" id="id170">*</span></a>Amplifier&#8211;&gt; change gain by changing RO3 and RO4</p>
+<div class="line-block">
+<div class="line">XOP2  16 10 11 12 13  LT1192</div>
+<div class="line">RO3   10      0       100</div>
+<div class="line">RO4   10      13      100</div>
+<div class="line">C03   13      14      15nf</div>
+<div class="line"><a href="#id171"><span class="problematic" id="id172">*</span></a>ri2  9       0       10k</div>
+<div class="line"><a href="#id173"><span class="problematic" id="id174">*</span></a>CO4  10      0       10pf</div>
+<div class="line">R3    14      0       10k</div>
+<div class="line"><a href="#id175"><span class="problematic" id="id176">*</span></a>rl2  13      0       75</div>
+<div class="line">VCC2  11 0 DC 15v</div>
+<div class="line">VEE2  12 0 DC -15v</div>
+</div>
+<p><a href="#id177"><span class="problematic" id="id178">*</span></a>Filter 2nd order&#8211;&gt;</p>
+<div class="line-block">
+<div class="line">rf1   9       15      1.5k</div>
+<div class="line">rf2   15      16      1.5k</div>
+<div class="line">cf1   15      0       50pf</div>
+<div class="line">cf2   16      0       50pf</div>
+</div>
+<p><a href="#id179"><span class="problematic" id="id180">*</span></a>2nd Bbq Plate</p>
+<div class="line-block">
+<div class="line"><a href="#id181"><span class="problematic" id="id182">*</span></a>Input2</div>
+<div class="line">AVSRC2 %V([19]) filesrc2</div>
+<div class="line">.model filesrc2 filesource (file=&#8221;daata/y2_profilenat_volt2.txt&#8221; )</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id183"><span class="problematic" id="id184">*</span></a>BPM2</div>
+<div class="line">C19 19 29 50PF</div>
+<div class="line">R19 29 0 1k</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id185"><span class="problematic" id="id186">*</span></a>Preamplifier</div>
+<div class="line">XOP22 29 102 112 122 132      LT1192</div>
+<div class="line">RO32  102     0       100</div>
+<div class="line">RO42  102     132     500</div>
+<div class="line">C032  132     142     1500pf</div>
+<div class="line"><a href="#id187"><span class="problematic" id="id188">*</span></a>ri2  9       0       10k</div>
+<div class="line"><a href="#id189"><span class="problematic" id="id190">*</span></a>CO4  10      0       10pf</div>
+<div class="line">R32   142     0       100</div>
+<div class="line"><a href="#id191"><span class="problematic" id="id192">*</span></a>rl2  13      0       75</div>
+<div class="line">VCC22 112 0 DC 15v</div>
+<div class="line">VEE22 122 0 DC -15v</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id193"><span class="problematic" id="id194">*</span></a>Peak detector</div>
+<div class="line">D19 142 89 new</div>
+<div class="line">C39 89 0 10pF</div>
+<div class="line">R29 89 0 200k</div>
+<div class="line">C49 89 99 1pf</div>
+<div class="line"><a href="#id195"><span class="problematic" id="id196">*</span></a>R490 99 0 1k</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id197"><span class="problematic" id="id198">*</span></a>Head Amplifier</div>
+<div class="line">XOP29 169 109 119 129 139     LT1192</div>
+<div class="line">RO39  109     0       100</div>
+<div class="line">RO49  109     139     100</div>
+<div class="line">C039  139     149     15nf</div>
+<div class="line"><a href="#id199"><span class="problematic" id="id200">*</span></a>ri2  9       0       10k</div>
+<div class="line"><a href="#id201"><span class="problematic" id="id202">*</span></a>CO4  10      0       10pf</div>
+<div class="line">R39   149     0       10k</div>
+<div class="line"><a href="#id203"><span class="problematic" id="id204">*</span></a>rl2  13      0       75</div>
+<div class="line">VCC29 119 0 DC 15v</div>
+<div class="line">VEE29 129 0 DC -15v</div>
+</div>
+<p><a href="#id205"><span class="problematic" id="id206">*</span></a>filter 2nd order</p>
+<div class="line-block">
+<div class="line">rf19  99      159     1.5k</div>
+<div class="line">rf29  159     169     1.5k</div>
+<div class="line">cf19  159     0       50pf</div>
+<div class="line">cf29  169     0       50pf</div>
+</div>
+<div class="line-block">
+<div class="line">.CONTROL</div>
+<div class="line"><a href="#id207"><span class="problematic" id="id208">*</span></a>AC   DEC      1k 500MEG</div>
+<div class="line"><a href="#id209"><span class="problematic" id="id210">*</span></a>PLOT mag(V(2,7)) xlog</div>
+<div class="line">TRAN 1NS 400us</div>
+<div class="line"><a href="#id211"><span class="problematic" id="id212">*</span></a>setplot tran1</div>
+<div class="line"><a href="#id213"><span class="problematic" id="id214">*</span></a>linearize</div>
+<div class="line"><a href="#id215"><span class="problematic" id="id216">*</span></a>fft (V(14)-v(149))</div>
+<div class="line"><a href="#id217"><span class="problematic" id="id218">*</span></a>plot mag (V(14)-v(149))</div>
+<div class="line"><a href="#id219"><span class="problematic" id="id220">*</span></a>plot  (v(14)-v(149))</div>
+<div class="line"><a href="#id221"><span class="problematic" id="id222">*</span></a>plot v(14) v(149)</div>
+<div class="line"><a href="#id223"><span class="problematic" id="id224">*</span></a>plot v(1411) v(142)</div>
+<div class="line"><a href="#id225"><span class="problematic" id="id226">*</span></a>.include plotng.txt</div>
+<div class="line"><a href="#id227"><span class="problematic" id="id228">*</span></a>wrdata x1_bbq_ext v(14)</div>
+<div class="line"><a href="#id229"><span class="problematic" id="id230">*</span></a>wrdata x2_bbq_ext v(149)</div>
+<div class="line"><a href="#id231"><span class="problematic" id="id232">*</span></a>wrdata x_bbq_extdiff (v(14)-v(149))</div>
+<div class="line"><a href="#id233"><span class="problematic" id="id234">*</span></a>wrdata plot3 v(16)</div>
+<div class="line"><a href="#id235"><span class="problematic" id="id236">*</span></a>wrdata pickinb v(19)</div>
+<div class="line"><a href="#id237"><span class="problematic" id="id238">*</span></a>wrdata plot3b v(169)</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">9. Tune, Orbit and POSition measurement system (TOPOS)</a><ul>
+<li><a class="reference internal" href="#components-of-topos">9.1. Components of TOPOS</a><ul>
+<li><a class="reference internal" href="#topos-signal-chain-from-bpm-plates-to-adc">9.1.1. TOPOS SIGNAL CHAIN from BPM plates to ADC</a></li>
+<li><a class="reference internal" href="#baseband-tune-q-measurement-system-bbq">9.1.2. BaseBand tune(Q) measurement system (BBQ)</a></li>
+<li><a class="reference internal" href="#simple-opamp-schematic">9.1.3. Simple OPAMP schematic</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-topos-for-four-plates">9.2. Using TOPOS for four plates</a></li>
+<li><a class="reference internal" href="#using-bbq-without-preamplifier-for-two-plates">9.3. Using BBQ without preamplifier for two plates</a></li>
+<li><a class="reference internal" href="#using-bbq-with-preamplifier-for-two-plates">9.4. Using BBQ with preamplifier for two plates</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Install_ngspice.html" title="previous chapter">8. Ngspice user guide</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/topos.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Rahul Singh.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/topos.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>7. Electronic Circuit Design Of BPM &mdash; InSet 1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="InSet 1 documentation" href="index.html" />
+    <link rel="next" title="8. Ngspice user guide" href="Install_ngspice.html" />
+    <link rel="prev" title="6. Common Modules" href="common_modules.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="electronic-circuit-design-of-bpm">
+<h1>7. Electronic Circuit Design Of BPM<a class="headerlink" href="#electronic-circuit-design-of-bpm" title="Permalink to this headline">¶</a></h1>
+<p>Here the electronic devices that are used for designing the simulation of BPM are described. Various ngspice models of OPAMPs, Diodes are used for the simulation. Specifications of the above are discussed here.</p>
+<div class="section" id="ngspice-opamp-models">
+<h2>7.1. Ngspice OPAMP models<a class="headerlink" href="#ngspice-opamp-models" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="lt1192">
+<h3>7.1.1. LT1192<a class="headerlink" href="#lt1192" title="Permalink to this headline">¶</a></h3>
+<p>You can find the datasheet of LT1192 here: <a class="reference external" href="http://cds.linear.com/docs/en/datasheet/1192fa.pdf">http://cds.linear.com/docs/en/datasheet/1192fa.pdf</a></p>
+<p>Here is Gain(2) vs frequency characteristics:</p>
+<img alt="_images/lt1192.jpg" src="_images/lt1192.jpg" />
+<div class="line-block">
+<div class="line">1)Gain Bandwidth product, Av = 5:350 Mhz</div>
+<div class="line">2)Slew rate = 450 V/us</div>
+<div class="line">3)Input noise voltage = 9nV/sqHz</div>
+</div>
+</div>
+<div class="section" id="lt1363">
+<h3>7.1.2. LT1363<a class="headerlink" href="#lt1363" title="Permalink to this headline">¶</a></h3>
+<p>You can find the datasheet of LT1363 here: <a class="reference external" href="http://cds.linear.com/docs/en/datasheet/1363fa.pdf">http://cds.linear.com/docs/en/datasheet/1363fa.pdf</a></p>
+<p>Here is Gain(2) vs frequency characteristics:</p>
+<img alt="_images/lt1363.jpg" src="_images/lt1363.jpg" />
+<div class="line-block">
+<div class="line">1)Gain Bandwidth product = 70 Mhz</div>
+<div class="line">2)Slew rate = 1000 V/us</div>
+<div class="line">3)Input noise voltage = 9 nV/sqHz</div>
+</div>
+</div>
+<div class="section" id="lt1722">
+<h3>7.1.3. LT1722<a class="headerlink" href="#lt1722" title="Permalink to this headline">¶</a></h3>
+<p>You can find the datasheet of LT1722 here: <a class="reference external" href="http://cds.linear.com/docs/en/datasheet/172234fb.pdf">http://cds.linear.com/docs/en/datasheet/172234fb.pdf</a></p>
+<p>Here is Gain(2) vs frequency characteristics:</p>
+<img alt="_images/lt1722.jpg" src="_images/lt1722.jpg" />
+<div class="line-block">
+<div class="line">1)Gain Bandwidth product = 200 Mhz</div>
+<div class="line">2)Slew rate = 70 V/us</div>
+<div class="line">3)Input noise voltage = 3.8 nV/sqHz</div>
+</div>
+</div>
+<div class="section" id="max477">
+<h3>7.1.4. MAX477<a class="headerlink" href="#max477" title="Permalink to this headline">¶</a></h3>
+<p>You can find the datasheet of MAX477 here: <a class="reference external" href="http://datasheets.maximintegrated.com/en/ds/MAX477.pdf">http://datasheets.maximintegrated.com/en/ds/MAX477.pdf</a></p>
+<p>Here is Gain(2) vs frequency characteristics:</p>
+<img alt="_images/max477.jpg" src="_images/max477.jpg" />
+<div class="line-block">
+<div class="line">1)Gain Bandwidth product = 300Mhz -3dB Bandwidth (Av=+1)</div>
+<div class="line">2)200 Mhz Full-power Bandwidth(Av=+1)</div>
+<div class="line">3)Slew rate = 1100 V/us</div>
+<div class="line">4)Input noise voltage = 5 nV/sqHz</div>
+</div>
+</div>
+<div class="section" id="ths3001">
+<h3>7.1.5. THS3001<a class="headerlink" href="#ths3001" title="Permalink to this headline">¶</a></h3>
+<p>You can find the datasheet of THS3001 here: <a class="reference external" href="http://www.ti.com.cn/cn/lit/ds/slos217h/slos217h.pdf">http://www.ti.com.cn/cn/lit/ds/slos217h/slos217h.pdf</a></p>
+<p>Here is Gain(2) vs frequency characteristics:</p>
+<img alt="_images/ths3001.jpg" src="_images/ths3001.jpg" />
+<div class="line-block">
+<div class="line">1)Gain Bandwidth product = 420Mhz</div>
+<div class="line">2)Slew rate = 6500 V/us</div>
+<div class="line">3)Input noise voltage = 1.6 nV/sqHz</div>
+</div>
+</div>
+</div>
+<div class="section" id="ngspice-diode-model">
+<h2>7.2. Ngspice diode model<a class="headerlink" href="#ngspice-diode-model" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="schottky-barrier-diodes-nsr0320mw2t1g">
+<h3>7.2.1. Schottky Barrier Diodes: NSR0320MW2T1G<a class="headerlink" href="#schottky-barrier-diodes-nsr0320mw2t1g" title="Permalink to this headline">¶</a></h3>
+<p>You can find the datasheet of NSR0320MW2T1G here: <a class="reference external" href="http://www.farnell.com/datasheets/1708337.pdf">http://www.farnell.com/datasheets/1708337.pdf</a></p>
+<div class="line-block">
+<div class="line">1)Low Forward voltage = 0.24V (IF = 10mA)</div>
+<div class="line">2)Total capacitance = 29pF</div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">7. Electronic Circuit Design Of BPM</a><ul>
+<li><a class="reference internal" href="#ngspice-opamp-models">7.1. Ngspice OPAMP models</a><ul>
+<li><a class="reference internal" href="#lt1192">7.1.1. LT1192</a></li>
+<li><a class="reference internal" href="#lt1363">7.1.2. LT1363</a></li>
+<li><a class="reference internal" href="#lt1722">7.1.3. LT1722</a></li>
+<li><a class="reference internal" href="#max477">7.1.4. MAX477</a></li>
+<li><a class="reference internal" href="#ths3001">7.1.5. THS3001</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ngspice-diode-model">7.2. Ngspice diode model</a><ul>
+<li><a class="reference internal" href="#schottky-barrier-diodes-nsr0320mw2t1g">7.2.1. Schottky Barrier Diodes: NSR0320MW2T1G</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="common_modules.html" title="previous chapter">6. Common Modules</a></li>
+      <li>Next: <a href="Install_ngspice.html" title="next chapter">8. Ngspice user guide</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/ElectronicDesign.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Rahul Singh.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/ElectronicDesign.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

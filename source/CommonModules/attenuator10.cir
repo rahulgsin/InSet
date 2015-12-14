@@ -1,0 +1,21 @@
+Attenuator of -10db
+
+.SUBCKT att10 41 11
+.include max477.cir
+XOP	0 2 3 4 5	MAX477
+R1	41	2	314
+R2	2	5	100
+cL	5	6	15nf
+rl	6	0	10k
+VCC 	3 0 DC 15V
+VEE	4 0 DC -15V
+
+XOPB	0 7 8 9 10	MAX477
+RB1	6	7	10
+RB2	7	10	10
+cLB	10	11	15nf
+rlB	11	0	10k
+VCCB 	8 0 DC 15V
+VEEB	9 0 DC -15V
+.ENDS
+

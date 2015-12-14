@@ -23,7 +23,7 @@ Y Distribution ---- y_dist --- Same as X Dist. --- Phase space distribution in y
 
 Z Distribution ---- z_dist --- Same as X Dist. --- Phase space distribution in z/s plane
 
- par_type=None, charge_state= None, atomic_mass = None, par_num= None, d_type = 'ggg', x_dist = [0,5], y_dist =[0,5], z_dist =[0,100]
+par_type=None, charge_state= None, atomic_mass = None, par_num= None, d_type = 'ggg', x_dist = [0,5], y_dist =[0,5], z_dist =[0,100]
 
 The arguments can be passed in this order or by defining a dictionary or by calling a file where the parameters exist """
 
@@ -457,7 +457,7 @@ class dynamicbeam():
         
     def beam_data(self,number_of_turns):
         """ This function will take the snapshots of phase space after several turns"""
-        beam_matrix = 
+        beam_matrix = []
     
     def plot(self):
         """ This function will plot the profile of the beam in the mentioned axis"""

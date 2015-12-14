@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>4. Device Modules &mdash; InSet 1 documentation</title>
+    <title>5. Device Modules &mdash; InSet 1 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="InSet 1 documentation" href="index.html" />
-    <link rel="next" title="5. Common Modules" href="common_modules.html" />
+    <link rel="next" title="6. Common Modules" href="common_modules.html" />
     <link rel="prev" title="3. Machine" href="machine.html" />
    
   
@@ -40,59 +40,21 @@
           <div class="body" role="main">
             
   <div class="section" id="device-modules">
-<h1>4. Device Modules<a class="headerlink" href="#device-modules" title="Permalink to this headline">¶</a></h1>
+<h1>5. Device Modules<a class="headerlink" href="#device-modules" title="Permalink to this headline">¶</a></h1>
 <p>Each Diagnostic sensor description and settings are documented here.</p>
 <div class="section" id="current-transformers">
-<h2>4.1. Current Transformers<a class="headerlink" href="#current-transformers" title="Permalink to this headline">¶</a></h2>
+<h2>5.1. Current Transformers<a class="headerlink" href="#current-transformers" title="Permalink to this headline">¶</a></h2>
 <p>Generic Transformer object</p>
-<span class="target" id="module-TrafoModule"></span><p>Generic Trafo module takes beam and machine object and returns the TrafoOut</p>
-<p>The module takes the following arguments</p>
-<p>Beam &#8212; Beam object fully specifying the beam</p>
-<p>Machine &#8212; Accelerator setting object</p>
-<p>TrafoType (Optional) &#8212; Specific transformer types to define exact Trafo behaviour</p>
-<dl class="class">
-<dt id="TrafoModule.generictrafo">
-<em class="property">class </em><code class="descclassname">TrafoModule.</code><code class="descname">generictrafo</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/TrafoModule.html#generictrafo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TrafoModule.generictrafo" title="Permalink to this definition">¶</a></dt>
-<dd><p>The Generic trafo class defines all the generic trafo parameters</p>
-<dl class="method">
-<dt id="TrafoModule.generictrafo.combine_systems">
-<code class="descname">combine_systems</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/TrafoModule.html#generictrafo.combine_systems"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TrafoModule.generictrafo.combine_systems" title="Permalink to this definition">¶</a></dt>
-<dd><p>Combines all the subsystems to the sensor</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="TrafoModule.generictrafo.load">
-<code class="descname">load</code><span class="sig-paren">(</span><em>name_of_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/TrafoModule.html#generictrafo.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TrafoModule.generictrafo.load" title="Permalink to this definition">¶</a></dt>
-<dd><p>Loads the specific trafo settings</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="TrafoModule.generictrafo.optimize">
-<code class="descname">optimize</code><span class="sig-paren">(</span><em>observable_in</em>, <em>constraints</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/TrafoModule.html#generictrafo.optimize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TrafoModule.generictrafo.optimize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Predicts optimal settings for all the variable parameters in the device module, common module or any combination</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="TrafoModule.generictrafo.output">
-<code class="descname">output</code><span class="sig-paren">(</span><em>observable_in</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/TrafoModule.html#generictrafo.output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TrafoModule.generictrafo.output" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the output of the device module or the system</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="TrafoModule.generictrafo.save">
-<code class="descname">save</code><span class="sig-paren">(</span><em>name_of_file</em>, <em>description</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/TrafoModule.html#generictrafo.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TrafoModule.generictrafo.save" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function will save the beam object to an external file in the directory called &#8220;defined_beams&#8221; in the source directory</p>
-</dd></dl>
-
-</dd></dl>
-
+</div>
+<div class="section" id="beam-position-monitor">
+<h2>5.2. Beam Position Monitor<a class="headerlink" href="#beam-position-monitor" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="add-functions-from-python-library">
-<h2>4.2. Add functions from Python library<a class="headerlink" href="#add-functions-from-python-library" title="Permalink to this headline">¶</a></h2>
+<h2>5.3. Add functions from Python library<a class="headerlink" href="#add-functions-from-python-library" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://docs.python.org/library/io.html#io.open" title="(in Python v2.7)"><code class="xref py py-func docutils literal"><span class="pre">io.open()</span></code></a></p>
 </div>
 <div class="section" id="indices-and-tables">
-<h2>4.3. Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<h2>5.4. Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
 <li><a class="reference internal" href="py-modindex.html"><span>Module Index</span></a></li>
@@ -112,10 +74,11 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">4. Device Modules</a><ul>
-<li><a class="reference internal" href="#current-transformers">4.1. Current Transformers</a></li>
-<li><a class="reference internal" href="#add-functions-from-python-library">4.2. Add functions from Python library</a></li>
-<li><a class="reference internal" href="#indices-and-tables">4.3. Indices and tables</a></li>
+<li><a class="reference internal" href="#">5. Device Modules</a><ul>
+<li><a class="reference internal" href="#current-transformers">5.1. Current Transformers</a></li>
+<li><a class="reference internal" href="#beam-position-monitor">5.2. Beam Position Monitor</a></li>
+<li><a class="reference internal" href="#add-functions-from-python-library">5.3. Add functions from Python library</a></li>
+<li><a class="reference internal" href="#indices-and-tables">5.4. Indices and tables</a></li>
 </ul>
 </li>
 </ul>
@@ -124,7 +87,7 @@
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="machine.html" title="previous chapter">3. Machine</a></li>
-      <li>Next: <a href="common_modules.html" title="next chapter">5. Common Modules</a></li>
+      <li>Next: <a href="common_modules.html" title="next chapter">6. Common Modules</a></li>
   </ul></li>
 </ul>
 </div>

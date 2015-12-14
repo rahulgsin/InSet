@@ -1,0 +1,83 @@
+TOPOS SIGNAL CHAIN from BPM plates to ADC
+
+.include att10.cir
+.include att20.cir
+.include att30.cir
+.include amp10.cir
+.include amp20.cir
+
+.MODEL switch1 SW (RON=0.1 ROFF=1e12)
+
+Rb 22 0 1k
+Cb1 1 22 50pF
+Cb2 22 0 50pF
+Vin 1 0 ac sin(0 1m 10meg)
+*AVSRC %V([1]) filesrc
+*.include Input_signal.txt
+*.model filesrc filesource (file="x1_profile1.txt" )
+
+*switchable attenuator of -30db
+*Vsw1=-1 and vsaw1=1 for On  
+Vsw1 sn1 0 DC -1	
+swa1 22 2 sn1 0 switch1
+Vswa1 sna1 0 DC 1		
+Xatt35 img1 2 att30
+swaimg2 22 img1 sna1 0 switch1
+*
+*switchable attenuator of -30db
+Vsw2 sn2 0 DC 1
+swa2 2 3 sn2 0 switch1
+Vswa2 sna2 0 DC -1		
+Xatt36 img2 3 att30
+swaimg3 2 img2 sna2 0 switch1
+*
+*head ampliflier of 20db
+*rser1	3 0 10meg
+Xamp20 3 4 amp20
+*
+*
+*switchable attenuator of -20db
+Vsw4 sn4 0 DC 1
+swa4 4 5 sn4 0 switch1
+Vswa4 sna4 0 DC -1		
+Xatt20 img4 5 att20
+swaimg5 4 img4 sna4 0 switch1
+*
+*switchable attenuator of -10db
+Vsw5 sn5 0 DC 1		
+swa5  5 6 sn5 0 switch1
+Vswa3 sna5 0 DC -1
+Xatt10 img5 6 att10		
+swaimg6 5 img5 sna5 0 switch1 
+
+*drive amplifier of 20db
+Xamp21 6 7 amp20
+*rser2	6 0 75
+*
+*Transmission line 200m
+
+OLOSSY 7 0 8 0 rg58
+.model rg58 LTRA(LEN=200 R=0.048 L=0.253u G=0 C=0.101n)
+
+*post amplifier
+Xamp10 8 9 amp10
+*rser3	8 0 50
+*
+
+.CONTROL
+*ac 	DEC 1000 1k 1000MEG
+*plot db(v(9))-db(v(1)) xlog
+*plot 180/pi*phase(V(4)/v(1)) 
+tran 100ns 5us 
+plot v(1) v(9) 
+*plot v(1)
+*plot v(22)
+*plot v(2)
+*plot v(3)
+*plot v(4)
+*plot v(5) 
+*plot v(6)
+*plot v(7)
+*plot  v(8)
+*plot v(9) 
+.include plotng.txt

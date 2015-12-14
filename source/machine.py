@@ -80,7 +80,7 @@ class staticmachine():
         
     def save(self,name_of_file,description):
         
-        """ This function will save the beam object to an external file in the directory called "defined_beams" in the source directory"""
+        """ This function will save the beam object to an external file in the directory called "defined_beams" in the source directory """
         
         dir = os.path.dirname(__file__)
         current_module = __name__
