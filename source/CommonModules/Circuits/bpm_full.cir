@@ -1,0 +1,41 @@
+Bpm calculation
+
+.include topos1.cir
+.include topos2.cir
+.include topos3.cir
+.include topos4.cir
+
+AVSRC1 %V([1]) filesrc1
+.model filesrc1 filesource (file="x1_profile1.txt" )
+
+AVSRC2 %V([3]) filesrc2
+.model filesrc2 filesource (file="x2_profile1.txt" )
+
+AVSRC3 %V([5]) filesrc3
+.model filesrc3 filesource (file="y1_profile1.txt" )
+
+AVSRC4 %V([7]) filesrc4
+.model filesrc4 filesource (file="y2_profile1.txt" )
+
+Xtop1 1 2 topos1
+Xtop2 3 4 topos2
+
+Xtop3 5 6 topos3
+Xtop4 7 8 topos4
+
+.CONTROL
+tran 10ns 2us
+plot v(1) v(3) v(5) v(7) 
+plot v(2) v(4)
+plot v(6) v(8)
+plot v(2)-v(4)
+plot v(6)-v(8)
+plot v(2)+v(4)
+plot v(6)+v(8)
+
+*.include plotng.txt
+wrdata ninput1 v(1)
+wrdata nplotx1 v(2)
+wrdata nplotx2 v(4)
+wrdata nploty1 v(6)
+wrdata nploty2 v(8)

@@ -1,4 +1,5 @@
 #!/usr/bin/python
+
 """ Generic ngspice Module
 
 The module takes the following arguments
@@ -74,7 +75,7 @@ class spice():
         """ this function will invoke NGspice and shows the output from NGspice"""
         
         call(["gnome-terminal","--command=ngspice"+" "+ self.parameters["Schematic"]])  #Calls Terminal and Runs NGspice program and specified command
-        time.sleep(10)  #give some time to NGspice
+        time.sleep(1)  #give some time to NGspice
         self.mag = [line.rstrip('\n') for line in open('inputdata.data')] #Getting input in appropriate format for plotting 
         self.line1 = [line.split() for line in open('inputdata.data',"r")]
         self.xpt1 = 0*np.ones(len(self.mag))
@@ -143,7 +144,7 @@ class spice():
     def __repr__(self):
         return "%s(%r)" % (self.__class__, self.__dict__)
 
-dict_tf = {'Schematic':'bpm_gauss.cir', 'Input_signal':None}
+dict_tf = {'Schematic':'bpm_gauss.cir', 'Input_signal':'Input_signal.txt'}
 
 tf = spice(**dict_tf)
 tf.NGspice()

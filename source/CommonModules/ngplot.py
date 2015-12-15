@@ -85,7 +85,7 @@ class spice():
         plotng = open("plotng.txt","w")
         time.sleep(2)
         for N in range(0,int(self.parameters["No_of_plots"])):
-            plotng.write("wrdata plot"+str(N)+" "+self.parameters['Voltage_nodes'][N]+'\n')
+            plotng.write("wrdata Circuits/plot"+str(N)+" "+self.parameters['Voltage_nodes'][N]+'\n')
             
         
     def NGspice(self):
@@ -99,14 +99,14 @@ class spice():
         Plot the results from user defined voltage nodes """
         
         call(["gnome-terminal","--command=ngspice"+" "+ self.parameters["Schematic"]])  #Calls Terminal and Runs NGspice program and specified command
-        time.sleep(15)  #give some time to NGspice
+        time.sleep(20)  #give some time to NGspice
         plotHandles = []
         for N in range(0,int(self.parameters["No_of_plots"])):
-            if os.path.isfile('plot'+str(N)+'.data') == False:
+            if os.path.isfile('Circuits/plot'+str(N)+'.data') == False:
                 print('Specified voltage node '+self.parameters['Voltage_nodes'][N]+ ' does not exist, exiting ...')
                 sys.exit()
-            self.mag = [line.rstrip('\n') for line in open('plot'+str(N)+'.data')] #Getting input in appropriate format for plotting
-            self.line1 = [line.split() for line in open('plot'+str(N)+'.data',"r")]
+            self.mag = [line.rstrip('\n') for line in open('Circuits/plot'+str(N)+'.data')] #Getting input in appropriate format for plotting
+            self.line1 = [line.split() for line in open('Circuits/plot'+str(N)+'.data',"r")]
             globals()["xpt"+str(N)]= 0*np.ones(len(self.mag))
             globals()["ypt"+str(N)]= 0*np.ones(len(self.mag))
             
@@ -139,13 +139,14 @@ class spice():
         plt.show()
         os.remove("plotng.txt")
         for N in range(0,int(self.parameters["No_of_plots"])):          #removing files which were created during simulation 
-            os.remove("plot"+str(N)+".data")
+            os.remove("Circuits/plot"+str(N)+".data")
             
        
     def __repr__(self):
         return "%s(%r)" % (self.__class__, self.__dict__)
 
 if __name__ == "__main__":
-    dict_tfx1 = {'Schematic':'envelope2.cir', 'Input_signal':None, 'Voltage_nodes': ['v(1)','v(8)','v(19)','v(89)','v(14)','v(149)','(v(14)-v(149))']}
+    #dict_tfx1 = {'Schematic':'Circuits/bpm_gauss.cir', 'Input_signal':None, 'Voltage_nodes': ['v(1)','v(2)','v(21)']}
+    dict_tfx1 = {'Schematic':'Circuits/envelope2.cir', 'Input_signal':None, 'Voltage_nodes': ['v(1)','v(19)','v(8)','v(89)','v(14)','v(149)','(v(14)-v(149))']}
     tfx = spice(**dict_tfx1)
     tfx.NGspice()

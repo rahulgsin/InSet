@@ -1,12 +1,7 @@
-
-
-.. toctree::
-   :maxdepth: 1
-
 .. _beam_label:
 
 Beam
-=========
+******
 
 .. automodule:: beam
    :members:

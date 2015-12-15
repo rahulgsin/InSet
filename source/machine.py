@@ -1,4 +1,3 @@
-#!/usr/bin/python
 """ This module defines the beam object
 
 The module takes the following arguments

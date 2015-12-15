@@ -1,0 +1,19 @@
+Attenuator of -10db
+
+.SUBCKT att10 41 6
+.include max477.cir
+XOP	0 2 3 4 5	MAX477
+R1	41	2	50
+R2	2	5	100
+cL	5	6	15nf
+rl	6	0	1meg
+cfil	2	0	16nf
+VCC 	3 0 DC 15V
+VEE	4 0 DC -15V
+.ENDS
+
+Xatt10 13 14 att10
+VR1 13 0 ac sin(0 1m 100meg)
+.CONTROL
+AC 	DEC 	5 100 1000MEG
+plot mag(v(14))

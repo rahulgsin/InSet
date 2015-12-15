@@ -1,0 +1,117 @@
+* BBQ Circuit
+
+.include Circuits/lt1192.cir
+
+***First BBQ Plate
+
+AVSRC1 %V([1]) filesrc
+.model filesrc filesource (file="../simdata/y1_profilevolt.txt" )
+***.model filesrc filesource (file="../simdata/y1_profilenat_volt2.txt" )
+
+C1 1 2 50PF
+R1 2 0 1k
+
+*preamplifier is diconnected-->
+
+XOP11	2545555 1011 1111 1211 1311	LT1192
+RO311	1011	0	100
+RO411	1011	1311	500
+C0311	1311	1411 	1500pf
+*ri2	9	0	10k
+*CO4	10	0	10pf
+R311	1411	0	100
+*rl2	131	0	75
+VCC211	1111 0 DC 15v
+VEE211	1211 0 DC -15v
+
+*peak detector-->select t_discharging changing R2 and C3
+
+D1 2 8 new
+C3 8 0 10pF 
+R2 8 0 200k
+*r3 9 0 1k
+C4 8 9 1pf
+*
+
+*Amplifier--> change gain by changing RO3 and RO4 
+																																																																																																																																																													
+XOP2	16 10 11 12 13	LT1192
+RO3	10	0	100
+RO4	10	13	100
+C03	13 	14 	15nf
+*ri2	9	0	10k
+*CO4	10	0	10pf
+R3	14	0	10k
+*rl2	13	0	75
+VCC2	11 0 DC 15v
+VEE2	12 0 DC -15v
+
+
+rf1	9 	15	1.5k 
+rf2	15	16	1.5k
+cf1	15 	0	50pf
+cf2	16 	0	50pf 
+
+*2nd bbq
+
+C19 19 29 50PF
+R19 29 0 1k
+
+XOP22	29545547 102 112 122 132	LT1192
+RO32	102	0	100
+RO42	102	132	500
+C032	132 	142 	1500pf
+*ri2	9	0	10k
+*CO4	10	0	10pf
+R32	142	0	100
+*rl2	13	0	75
+VCC22	112 0 DC 15v
+VEE22	122 0 DC -15v
+
+D19 29 89 new
+C39 89 0 10pF 
+R29 89 0 200k
+C49 89 99 1pf
+*R490 99 0 1k
+
+XOP29	169 109 119 129 139	LT1192
+RO39	109	0	100
+RO49	109	139	100
+C039	139 	149 	15nf
+*ri2	9	0	10k
+*CO4	10	0	10pf
+R39	149	0	10k
+*rl2	13	0	75
+VCC29	119 0 DC 15v
+VEE29	129 0 DC -15v
+
+
+*filter
+
+rf19	99 	159	1.5k 
+rf29	159	169	1.5k
+cf19	159	0	50pf
+cf29	169 	0	50pf 
+
+
+AVSRC2 %V([19]) filesrc2
+.model filesrc2 filesource (file="../simdata/y2_profilevolt.txt" )
+**.model filesrc2 filesource (file="daata/y2_profilenat_volt2.txt" )
+.CONTROL
+*AC 	DEC 	 1k 500MEG
+*PLOT mag(V(2,7)) xlog
+TRAN 1NS 40us
+*setplot tran1
+*linearize 
+*fft (V(14)-v(149))
+*plot mag (V(14)-v(149))
+*plot  (v(14)-v(149))  
+*plot v(14) v(149)
+*plot v(1411) v(142)
+.include plotng.txt
+*wrdata x1_bbq_ext v(14)
+*wrdata x2_bbq_ext v(149)
+*wrdata x_bbq_extdiff (v(14)-v(149)) 
+*wrdata plot3 v(16)
+*wrdata pickinb v(19) 
+*wrdata plot3b v(169)

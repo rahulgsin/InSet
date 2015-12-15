@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>9. Tune, Orbit and POSition measurement system (TOPOS) &mdash; InSet 1 documentation</title>
+    <title>7. Tune, Orbit and POSition measurement system (TOPOS) &mdash; InSet 1 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="InSet 1 documentation" href="index.html" />
-    <link rel="prev" title="8. Ngspice user guide" href="Install_ngspice.html" />
+    <link rel="prev" title="6. Ngspice user guide" href="Install_ngspice.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
@@ -39,11 +39,11 @@
           <div class="body" role="main">
             
   <div class="section" id="tune-orbit-and-position-measurement-system-topos">
-<h1>9. Tune, Orbit and POSition measurement system (TOPOS)<a class="headerlink" href="#tune-orbit-and-position-measurement-system-topos" title="Permalink to this headline">¶</a></h1>
+<h1>7. Tune, Orbit and POSition measurement system (TOPOS)<a class="headerlink" href="#tune-orbit-and-position-measurement-system-topos" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="components-of-topos">
-<h2>9.1. Components of TOPOS<a class="headerlink" href="#components-of-topos" title="Permalink to this headline">¶</a></h2>
+<h2>7.1. Components of TOPOS<a class="headerlink" href="#components-of-topos" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="topos-signal-chain-from-bpm-plates-to-adc">
-<h3>9.1.1. TOPOS SIGNAL CHAIN from BPM plates to ADC<a class="headerlink" href="#topos-signal-chain-from-bpm-plates-to-adc" title="Permalink to this headline">¶</a></h3>
+<h3>7.1.1. TOPOS SIGNAL CHAIN from BPM plates to ADC<a class="headerlink" href="#topos-signal-chain-from-bpm-plates-to-adc" title="Permalink to this headline">¶</a></h3>
 <p>The TOPOS signal chain from BPM plates to the ADCs. It is divided into three distinct stages. Each stage consists of switchable attenuators and amplifiers.</p>
 <img alt="_images/topos1.jpeg" src="_images/topos1.jpeg" />
 <p>And here is the result after simulation of the above circuit:</p>
@@ -98,7 +98,7 @@
 <div>The exctra files which are include in above code can found here:</div></blockquote>
 </div>
 <div class="section" id="baseband-tune-q-measurement-system-bbq">
-<h3>9.1.2. BaseBand tune(Q) measurement system (BBQ)<a class="headerlink" href="#baseband-tune-q-measurement-system-bbq" title="Permalink to this headline">¶</a></h3>
+<h3>7.1.2. BaseBand tune(Q) measurement system (BBQ)<a class="headerlink" href="#baseband-tune-q-measurement-system-bbq" title="Permalink to this headline">¶</a></h3>
 <p>Simple Schemaic of BBQ system configuration at SIS-18 for low energy signal is shown in below circuit:</p>
 <img alt="_images/bbql.jpeg" src="_images/bbql.jpeg" />
 <p>Simple Schemaic of BBQ system configuration at SIS-18 for high energy signal is shown in below circuit:</p>
@@ -274,7 +274,7 @@
 <p>.include plotng.txt</p>
 </div>
 <div class="section" id="simple-opamp-schematic">
-<h3>9.1.3. Simple OPAMP schematic<a class="headerlink" href="#simple-opamp-schematic" title="Permalink to this headline">¶</a></h3>
+<h3>7.1.3. Simple OPAMP schematic<a class="headerlink" href="#simple-opamp-schematic" title="Permalink to this headline">¶</a></h3>
 <p><em>Here is the simple schematic of OPAMP:</em></p>
 <img alt="_images/opamp.jpeg" src="_images/opamp.jpeg" />
 <p><em>And here is the code for simulation of above circuit using LT1192:</em></p>
@@ -306,7 +306,7 @@
 </div>
 </div>
 <div class="section" id="using-topos-for-four-plates">
-<h2>9.2. Using TOPOS for four plates<a class="headerlink" href="#using-topos-for-four-plates" title="Permalink to this headline">¶</a></h2>
+<h2>7.2. Using TOPOS for four plates<a class="headerlink" href="#using-topos-for-four-plates" title="Permalink to this headline">¶</a></h2>
 <p>Following Ngspice code can calculate the output of Topos chain for 20db(fixed) gain</p>
 <p>TOPOS SIGNAL CHAIN &#8211;&gt; Simulation for 4 plates</p>
 <div class="line-block">
@@ -399,7 +399,7 @@
 </div>
 </div>
 <div class="section" id="using-bbq-without-preamplifier-for-two-plates">
-<h2>9.3. Using BBQ without preamplifier for two plates<a class="headerlink" href="#using-bbq-without-preamplifier-for-two-plates" title="Permalink to this headline">¶</a></h2>
+<h2>7.3. Using BBQ without preamplifier for two plates<a class="headerlink" href="#using-bbq-without-preamplifier-for-two-plates" title="Permalink to this headline">¶</a></h2>
 <p>Following Ngspice code can simualate the output for 2 plates for BBQ system without preampliflier</p>
 <ul class="simple">
 <li>BBQ Circuit</li>
@@ -508,7 +508,7 @@
 </div>
 </div>
 <div class="section" id="using-bbq-with-preamplifier-for-two-plates">
-<h2>9.4. Using BBQ with preamplifier for two plates<a class="headerlink" href="#using-bbq-with-preamplifier-for-two-plates" title="Permalink to this headline">¶</a></h2>
+<h2>7.4. Using BBQ with preamplifier for two plates<a class="headerlink" href="#using-bbq-with-preamplifier-for-two-plates" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>BBQ Circuit</li>
 </ul>
@@ -652,16 +652,16 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">9. Tune, Orbit and POSition measurement system (TOPOS)</a><ul>
-<li><a class="reference internal" href="#components-of-topos">9.1. Components of TOPOS</a><ul>
-<li><a class="reference internal" href="#topos-signal-chain-from-bpm-plates-to-adc">9.1.1. TOPOS SIGNAL CHAIN from BPM plates to ADC</a></li>
-<li><a class="reference internal" href="#baseband-tune-q-measurement-system-bbq">9.1.2. BaseBand tune(Q) measurement system (BBQ)</a></li>
-<li><a class="reference internal" href="#simple-opamp-schematic">9.1.3. Simple OPAMP schematic</a></li>
+<li><a class="reference internal" href="#">7. Tune, Orbit and POSition measurement system (TOPOS)</a><ul>
+<li><a class="reference internal" href="#components-of-topos">7.1. Components of TOPOS</a><ul>
+<li><a class="reference internal" href="#topos-signal-chain-from-bpm-plates-to-adc">7.1.1. TOPOS SIGNAL CHAIN from BPM plates to ADC</a></li>
+<li><a class="reference internal" href="#baseband-tune-q-measurement-system-bbq">7.1.2. BaseBand tune(Q) measurement system (BBQ)</a></li>
+<li><a class="reference internal" href="#simple-opamp-schematic">7.1.3. Simple OPAMP schematic</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#using-topos-for-four-plates">9.2. Using TOPOS for four plates</a></li>
-<li><a class="reference internal" href="#using-bbq-without-preamplifier-for-two-plates">9.3. Using BBQ without preamplifier for two plates</a></li>
-<li><a class="reference internal" href="#using-bbq-with-preamplifier-for-two-plates">9.4. Using BBQ with preamplifier for two plates</a></li>
+<li><a class="reference internal" href="#using-topos-for-four-plates">7.2. Using TOPOS for four plates</a></li>
+<li><a class="reference internal" href="#using-bbq-without-preamplifier-for-two-plates">7.3. Using BBQ without preamplifier for two plates</a></li>
+<li><a class="reference internal" href="#using-bbq-with-preamplifier-for-two-plates">7.4. Using BBQ with preamplifier for two plates</a></li>
 </ul>
 </li>
 </ul>
@@ -669,7 +669,7 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="Install_ngspice.html" title="previous chapter">8. Ngspice user guide</a></li>
+      <li>Previous: <a href="Install_ngspice.html" title="previous chapter">6. Ngspice user guide</a></li>
   </ul></li>
 </ul>
 </div>

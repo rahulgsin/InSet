@@ -1,0 +1,294 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>bpm &mdash; InSet 1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="InSet 1 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for bpm</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/python</span>
+<span class="sd">&quot;&quot;&quot; Beam position measurement(BPM) module takes beam and machine object and returns the beam position</span>
+
+<span class="sd">The module takes the following arguments</span>
+
+<span class="sd">Beam --- Beam object fully specifying the beam</span>
+
+<span class="sd">Machine --- Accelerator setting object</span>
+
+<span class="sd">bpm_Type --- button or shoe type &quot;&quot;&quot;</span>
+
+<span class="c"># meta info</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s">&#39;Rajesh Asutkar&#39;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s">&#39;r.asutkar@gsi.de&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s">&#39;-1.0&#39;</span>
+<span class="n">__lastchanged__</span> <span class="o">=</span><span class="s">&#39;23072015&#39;</span>
+
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span> <span class="nn">beam</span>
+<span class="kn">import</span> <span class="nn">machine</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">mpmath</span> <span class="kn">import</span> <span class="n">mpf</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">integrate</span>
+
+<span class="c"># Typical beam parameters</span>
+
+<div class="viewcode-block" id="parainfo"><a class="viewcode-back" href="../device_modules.html#bpm.parainfo">[docs]</a><span class="k">class</span> <span class="nc">parainfo</span><span class="p">():</span>
+    
+    <span class="sd">&quot;&quot;&quot; The parainfo class defines all the pick up related parameters&quot;&quot;&quot;</span>
+    
+    <span class="sd">&quot;&quot;&quot; bpm settings can be stored in an external file and retrieved&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Instantiation behaviour for the beam class, the arguments can be file name with beam parameters, a dictionary object or a list of beam parameters &quot;&quot;&quot;</span>
+        <span class="c"># </span>
+        <span class="c">#print (len(argspec[2])</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">kwargs</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="nb">dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span>
+            <span class="c">#print (dir)</span>
+            <span class="n">rel_dir_name</span> <span class="o">=</span> <span class="s">&#39;defined_&#39;</span><span class="o">+</span><span class="n">__name__</span> <span class="o">+</span><span class="s">&#39;s&#39;</span>
+            <span class="c">#print (rel_dir_name)</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span><span class="n">rel_dir_name</span><span class="p">,</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="c">#print (filename)</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">&#39;Specified file&#39;</span> <span class="o">+</span><span class="n">filename</span><span class="o">+</span> <span class="s">&#39;to read the beam parameters does not exist, exiting ...&#39;</span><span class="p">)</span>
+                <span class="nb">exit</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">)</span>       
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">13</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;Position_sensitivity_x&quot;</span><span class="p">]</span><span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c"># In %/mm</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;Position_sensitivity_y&quot;</span><span class="p">]</span><span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c"># In %/mm</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;half_aperture&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="c"># In m</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;Area_plate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="c"># area of plate</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;Beam_vel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="c"># beam velocity</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;Capacitance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="c"># In farad</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;acc_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="c"># accelarating frq</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;Resistance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="c"># Resistane value</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;beam_pipe_R&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="c">#beam pipe radius</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;displacement&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span> <span class="c"># amount by which beam is located off-center</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;theta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="c">#angle of deflection</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;ang_cov&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="c">#anglular coverage</span>
+           <span class="c"># self.parameters[&quot;phi&quot;] = arg[11] # angle of deflection</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;bpm_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span><span class="p">[</span><span class="mi">12</span><span class="p">]</span> <span class="c">#type of bpm</span>
+            
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&#39;You have the wrong number of arguments, Please use help...&#39;</span><span class="p">)</span>
+        
+        
+        <span class="c"># Check if the some parameters are not defined or assigned to None or have the wrong type</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;Position_sensitivity_x&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">print</span> <span class="p">(</span><span class="s">&quot;Position_sensitivity_x is not defined&quot;</span><span class="p">)</span>
+            <span class="k">print</span> <span class="p">(</span><span class="s">&quot;Throw exception&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;Position_sensitivity_x&quot;</span><span class="p">])</span> <span class="o">!=</span> <span class="s">&#39;float&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;Position_sensitivity_x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;Position_sensitivity_x&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;Position_sensitivity_y&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">print</span> <span class="p">(</span><span class="s">&quot;Position_sensitivity_y is not defined&quot;</span><span class="p">)</span>
+            <span class="k">print</span> <span class="p">(</span><span class="s">&quot;Throw exception&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;Position_sensitivity_y&quot;</span><span class="p">])</span> <span class="o">!=</span> <span class="s">&#39;float&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;Position_sensitivity_y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;Position_sensitivity_y&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;beam_type&quot;</span><span class="p">])</span> <span class="o">!=</span> <span class="s">&#39;str&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;beam_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;beam_type&quot;</span><span class="p">])</span>
+        <span class="c"># Calculate all the internal parameters</span>
+       
+        
+        <span class="c"># Print all the class instance variables</span>
+        
+        <span class="c">#for key in self.parameters:</span>
+        <span class="c">#    print (key, &#39;\t&#39;, self.parameters[key])</span>
+        
+<div class="viewcode-block" id="parainfo.save"><a class="viewcode-back" href="../device_modules.html#bpm.parainfo.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">,</span><span class="n">description</span><span class="p">):</span>
+        
+        <span class="sd">&quot;&quot;&quot; This function will save the beam object to an external file in the directory called &quot;defined_beams&quot; in the source directory&quot;&quot;&quot;</span>
+        
+        <span class="nb">dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span>
+        <span class="n">current_module</span> <span class="o">=</span> <span class="n">__name__</span>
+        <span class="n">path</span><span class="o">=</span> <span class="n">current_module</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)</span>
+        <span class="n">rel_dir_name</span> <span class="o">=</span> <span class="s">&#39;defined_&#39;</span><span class="o">+</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="s">&#39;s&#39;</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span><span class="n">rel_dir_name</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">in_keyboard</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">&quot;Filename specified&quot;</span> <span class="o">+</span> <span class="n">name_of_file</span> <span class="o">+</span> <span class="s">&quot;already exists, do you want to overwrite, yes [y] or no [n]?&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">in_keyboard</span> <span class="o">==</span> <span class="s">&#39;n&#39;</span><span class="p">:</span>
+                <span class="n">name_of_file</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">&#39;Enter new file name&#39;</span><span class="p">)</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span><span class="n">rel_dir_name</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">&#39;Gave the same file name again, overwriting the file!!!!!&#39;</span><span class="p">)</span>
+                <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">))</span>
+                <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="s">&#39;Description&#39;</span><span class="p">,</span><span class="n">description</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">])</span>
+                <span class="k">print</span> <span class="p">(</span><span class="s">&quot; Successfully written at&quot;</span><span class="o">+</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">))</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="s">&#39;Description&#39;</span><span class="p">,</span><span class="n">description</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">])</span>
+            <span class="k">print</span> <span class="p">(</span><span class="s">&quot; Successfully written at&quot;</span><span class="o">+</span> <span class="n">filename</span><span class="p">)</span>
+             </div>
+<div class="viewcode-block" id="parainfo.load"><a class="viewcode-back" href="../device_modules.html#bpm.parainfo.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Loads the specific bpm settings &quot;&quot;&quot;</span>
+        <span class="nb">dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span>
+        <span class="n">current_module</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+        <span class="n">path</span><span class="o">=</span> <span class="n">current_module</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)</span>
+        <span class="n">rel_dir_name</span> <span class="o">=</span> <span class="s">&#39;defined_&#39;</span><span class="o">+</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="s">&#39;s&#39;</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span><span class="n">rel_dir_name</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&#39;Specified file &#39;</span><span class="o">+</span><span class="n">filename</span><span class="o">+</span><span class="s">&#39; to read beam parameter does not exist&#39;</span><span class="p">)</span>
+            <span class="nb">exit</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">))</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">)</span> 
+        <span class="k">return</span> <span class="n">temp</span>
+        </div>
+<div class="viewcode-block" id="parainfo.combine_systems"><a class="viewcode-back" href="../device_modules.html#bpm.parainfo.combine_systems">[docs]</a>    <span class="k">def</span> <span class="nf">combine_systems</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Combines all the subsystems to the sensor &quot;&quot;&quot;</span>
+        <span class="c"># First append the common module parameters to the sensor parameters</span>
+        <span class="n">i</span><span class="o">=</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="s">&#39;DA&#39;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+            
+        <span class="c"># Get a list of optimizable parameters and their range</span>
+        <span class="c"># Confirm the object types to be combined</span>
+</div>
+    <span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">observable_in</span><span class="p">):</span>
+        <span class="c">#calculate the desired output for specific type of BPM method</span>
+        <span class="k">if</span> <span class="n">parainfo</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;bpm_type&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="s">&#39;shoe_pickup&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">parainfo</span><span class="o">.</span><span class="n">parameter</span><span class="p">[</span><span class="s">&#39;half_aperture&#39;</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">button_pickup</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Uright&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">button_pickup</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Uleft&#39;</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">button_pickup</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Uright&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">button_pickup</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Uleft&#39;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">parainfo</span><span class="o">.</span><span class="n">parameter</span><span class="p">[</span><span class="s">&#39;half_aperture&#39;</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">button_pickup</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Uup&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">button_pickup</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Udown&#39;</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">button_pickup</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Uup&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">button_pickup</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Udown&#39;</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">parainfo</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;bpm_type&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="s">&#39;button_pickup&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">shoe_pickup</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">U2</span><span class="p">]</span><span class="o">+</span><span class="n">shoe_pickup</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">U4</span><span class="p">])</span><span class="o">-</span><span class="p">(</span><span class="n">shoe_pickup</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">U1</span><span class="p">]</span><span class="o">+</span><span class="n">shoe_pickup</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">U3</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">shoe_pickup</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">U1</span><span class="p">]</span><span class="o">+</span><span class="n">shoe_pickup</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">U2</span><span class="p">]</span><span class="o">+</span><span class="n">shoe_pickup</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">U3</span><span class="p">]</span><span class="o">+</span><span class="n">shoe_pickup</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">U4</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Y</span> <span class="o">=</span> <span class="p">(</span><span class="n">shoe_pickup</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">U1</span><span class="p">]</span><span class="o">+</span><span class="n">shoe_pickup</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">U2</span><span class="p">])</span><span class="o">-</span><span class="p">(</span><span class="n">shoe_pickup</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">U3</span><span class="p">]</span><span class="o">+</span><span class="n">shoe_pickup</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">U4</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">shoe_pickup</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">U1</span><span class="p">]</span><span class="o">+</span><span class="n">shoe_pickup</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">U2</span><span class="p">]</span><span class="o">+</span><span class="n">shoe_pickup</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">U3</span><span class="p">]</span><span class="o">+</span><span class="n">shoe_pickup</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">U4</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;please type the correct type name: shoe_pickup or button_pickup&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+ 	       <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">(</span><span class="si">%r</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span> 
+
+        <span class="c">#capacitive pickup class</span>
+<span class="c">#p = pickupinfo()</span>
+<span class="c">#b = button_pickup()</span>
+<span class="c">#s = shoe_pickup()</span></div>
+<span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">class capacitive_pickup(p):</span>
+<span class="sd">    def __init__(self,observable_in):</span>
+<span class="sd">        self.parameters[&#39;Uright&#39;] = (p.parameters[&#39;Area_plate&#39;]*p.parameters[&#39;acc_freq&#39;]*p.parameters[&#39;Resistance&#39;]*p.parameters[&#39;Capacitance&#39;]*observable_in.parameters[&#39;current&#39;]*1j)/(p.parameters[&#39;Beam_vel&#39;]*p.parameters[&#39;half_aperture&#39;]*2*np.pi*(1+1j*p.parameters[&#39;acc_freq&#39;]*p.parameters[&#39;Resistance&#39;]*p.parameters[&#39;Capacitance&#39;])*beam.VEL_LIGHT)</span>
+<span class="sd">        self.parameters[&#39;Uleft&#39;]  = (p.parameters[&#39;Area_plate&#39;]*p.parameters[&#39;acc_freq&#39;]*p.parameters[&#39;Resistance&#39;]*p.parameters[&#39;Capacitance&#39;]*observable_in.parameters[&#39;current&#39;]*1j)/(p.parameters[&#39;Beam_vel&#39;]*p.parameters[&#39;half_aperture&#39;]*2*np.pi*(1+1j*p.parameters[&#39;acc_freq&#39;]*p.parameters[&#39;Resistance&#39;]*p.parameters[&#39;Capacitance&#39;])*beam.VEL_LIGHT)</span>
+<span class="sd">        self.parameters[&#39;Uup&#39;]    = (p.parameters[&#39;Area_plate&#39;]*p.parameters[&#39;acc_freq&#39;]*p.parameters[&#39;Resistance&#39;]*p.parameters[&#39;Capacitance&#39;]*observable_in.parameters[&#39;current&#39;]*1j)/(p.parameters[&#39;Beam_vel&#39;]*p.parameters[&#39;half_aperture&#39;]*2*np.pi*(1+1j*p.parameters[&#39;acc_freq&#39;]*p.parameters[&#39;Resistance&#39;]*p.parameters[&#39;Capacitance&#39;])*beam.VEL_LIGHT)</span>
+<span class="sd">        self.parameters[&#39;Udown&#39;]  = (p.parameters[&#39;Area_plate&#39;]*p.parameters[&#39;acc_freq&#39;]*p.parameters[&#39;Resistance&#39;]*p.parameters[&#39;Capacitance&#39;]*observable_in.parameters[&#39;current&#39;]*1j)/(p.parameters[&#39;Beam_vel&#39;]*p.parameters[&#39;half_aperture&#39;]*2*np.pi*(1+1j*p.parameters[&#39;acc_freq&#39;]*p.parameters[&#39;Resistance&#39;]*p.parameters[&#39;Capacitance&#39;])*beam.VEL_LIGHT)</span>
+<span class="sd">        #calculate positions</span>
+<span class="sd">        self.x = (self.parameters[&#39;Uright&#39;]-self.parameters[&#39;Uleft&#39;])/(p.parameters[&#39;Position_sensitivity_x&#39;]*(self.parameters[&#39;Uright&#39;]+self.parameters[&#39;Uleft&#39;]))</span>
+<span class="sd">        self.y = (self.parameters[&#39;Uup&#39;]-self.parameters[&#39;Udown&#39;])/(p.parameters[&#39;Position_sensitivity_y&#39;]*(self.parameters[&#39;Uup&#39;]+self.parameters[&#39;Udown&#39;]))</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="shoe_pickup"><a class="viewcode-back" href="../device_modules.html#bpm.shoe_pickup">[docs]</a><span class="k">class</span> <span class="nc">shoe_pickup</span><span class="p">(</span><span class="n">parainfo</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot; This class calculate voltages for shoe pickup type BPM&#39;S&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">observable_in</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Uright&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Area_plate&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;acc_freq&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Resistance&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Capacitance&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">observable_in</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;current&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">1j</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Beam_vel&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;half_aperture&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">1j</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;acc_freq&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Resistance&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Capacitance&#39;</span><span class="p">])</span><span class="o">*</span><span class="n">beam</span><span class="o">.</span><span class="n">VEL_LIGHT</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Uleft&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Area_plate&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;acc_freq&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Resistance&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Capacitance&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">observable_in</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;current&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">1j</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Beam_vel&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;half_aperture&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">1j</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;acc_freq&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Resistance&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Capacitance&#39;</span><span class="p">])</span><span class="o">*</span><span class="n">beam</span><span class="o">.</span><span class="n">VEL_LIGHT</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Uup&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Area_plate&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;acc_freq&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Resistance&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Capacitance&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">observable_in</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;current&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">1j</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Beam_vel&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;half_aperture&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">1j</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;acc_freq&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Resistance&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Capacitance&#39;</span><span class="p">])</span><span class="o">*</span><span class="n">beam</span><span class="o">.</span><span class="n">VEL_LIGHT</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Udown&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Area_plate&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;acc_freq&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Resistance&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Capacitance&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">observable_in</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;current&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">1j</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Beam_vel&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;half_aperture&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">1j</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;acc_freq&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Resistance&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Capacitance&#39;</span><span class="p">])</span><span class="o">*</span><span class="n">beam</span><span class="o">.</span><span class="n">VEL_LIGHT</span><span class="p">)</span>
+        </div>
+<div class="viewcode-block" id="button_pickup"><a class="viewcode-back" href="../device_modules.html#bpm.button_pickup">[docs]</a><span class="k">class</span> <span class="nc">button_pickup</span><span class="p">(</span><span class="n">parainfo</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot; This class calculate voltages for button pickup type BPM&#39;S&quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">observable_in</span><span class="p">):</span>
+        <span class="c">#calculate image current density </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Jim</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">phi</span><span class="p">:</span> <span class="p">(</span><span class="n">observable_in</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;current&#39;</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;beam_pipe_R&#39;</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;displacement&#39;</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;beam_pipe_R&#39;</span><span class="p">]</span><span class="o">*</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;beam_pipe_R&#39;</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;displacement&#39;</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;beam_pipe_R&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;displacement&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">phi</span><span class="o">-</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;theta&#39;</span><span class="p">]))</span>
+        <span class="c">#calculte image current</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Iim</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;beam_pipe_R&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">integrate</span><span class="o">.</span><span class="n">quad</span><span class="p">(</span><span class="n">Jim</span><span class="p">,</span><span class="o">-</span><span class="n">p</span><span class="o">.</span><span class="n">parameter</span><span class="p">[</span><span class="s">&#39;ang_cov&#39;</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">p</span><span class="o">.</span><span class="n">parameter</span><span class="p">[</span><span class="s">&#39;ang_cov&#39;</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">U1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Iim</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Resistance&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">U2</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Iim</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Resistance&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">U3</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Iim</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Resistance&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">U4</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Iim</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Resistance&#39;</span><span class="p">]</span>
+        </div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Rahul Singh.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

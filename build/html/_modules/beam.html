@@ -39,7 +39,6 @@
           <div class="body" role="main">
             
   <h1>Source code for beam</h1><div class="highlight"><pre>
-<span class="c">#!/usr/bin/python</span>
 <span class="sd">&quot;&quot;&quot; This module defines the beam class </span>
 
 <span class="sd">The module takes the following arguments</span>
@@ -91,7 +90,7 @@
 
 <span class="c"># Typical beam parameters</span>
 
-<div class="viewcode-block" id="staticbeam"><a class="viewcode-back" href="../machine.html#beam.staticbeam">[docs]</a><span class="k">class</span> <span class="nc">staticbeam</span><span class="p">():</span>
+<div class="viewcode-block" id="staticbeam"><a class="viewcode-back" href="../beam.html#beam.staticbeam">[docs]</a><span class="k">class</span> <span class="nc">staticbeam</span><span class="p">():</span>
     
     <span class="sd">&quot;&quot;&quot; Beam class defines the static beam object </span>
 
@@ -172,7 +171,7 @@
         <span class="c">#for key in self.parameters:</span>
          <span class="c">#   print (key, &#39;\t&#39;, self.parameters[key])</span>
         
-<div class="viewcode-block" id="staticbeam.save"><a class="viewcode-back" href="../machine.html#beam.staticbeam.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">,</span><span class="n">description</span><span class="p">):</span>
+<div class="viewcode-block" id="staticbeam.save"><a class="viewcode-back" href="../beam.html#beam.staticbeam.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">,</span><span class="n">description</span><span class="p">):</span>
         
         <span class="sd">&quot;&quot;&quot; This function will save the beam object to an external file in the directory called &quot;defined_beams&quot; in the source directory&quot;&quot;&quot;</span>
         
@@ -205,7 +204,7 @@
                 <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">])</span>
             <span class="k">print</span> <span class="p">(</span><span class="s">&quot; Successfully written at a new file at </span><span class="se">\t</span><span class="s">&quot;</span><span class="o">+</span> <span class="n">filename</span><span class="p">)</span>
              </div>
-<div class="viewcode-block" id="staticbeam.load"><a class="viewcode-back" href="../machine.html#beam.staticbeam.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">):</span>
+<div class="viewcode-block" id="staticbeam.load"><a class="viewcode-back" href="../beam.html#beam.staticbeam.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; This function will load the beam object from the specified file in the directory called &quot;defined_beams&quot; in the source directory&quot;&quot;&quot;</span>
         <span class="nb">dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span>
         <span class="n">current_module</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
@@ -220,7 +219,7 @@
             <span class="n">temp</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">)</span> 
         <span class="k">return</span> <span class="n">temp</span>
         </div>
-<div class="viewcode-block" id="staticbeam.structure"><a class="viewcode-back" href="../machine.html#beam.staticbeam.structure">[docs]</a>    <span class="k">def</span> <span class="nf">structure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="staticbeam.structure"><a class="viewcode-back" href="../beam.html#beam.staticbeam.structure">[docs]</a>    <span class="k">def</span> <span class="nf">structure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; This function defines the structure of the beam based on the beam parameters&quot;&quot;&quot;</span>
     
         <span class="c">#print(&#39;This is the stucture&#39;)</span>
@@ -263,7 +262,7 @@
         <span class="c">#print (beam_Profile_Z.sum())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Z Profile&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">beam_Profile_Z</span>
     </div>
-<div class="viewcode-block" id="staticbeam.plot"><a class="viewcode-back" href="../machine.html#beam.staticbeam.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="staticbeam.plot"><a class="viewcode-back" href="../beam.html#beam.staticbeam.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; This function will plot the profile of the beam in the mentioned axis&quot;&quot;&quot;</span>
     
         <span class="c">#print(&#39;This is the plot&#39;)        </span>
@@ -274,7 +273,7 @@
         <span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
         <span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;z_range&#39;</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Z Profile&#39;</span><span class="p">])</span>
 </div>
-<div class="viewcode-block" id="staticbeam.gaussian"><a class="viewcode-back" href="../machine.html#beam.staticbeam.gaussian">[docs]</a>    <span class="k">def</span> <span class="nf">gaussian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
+<div class="viewcode-block" id="staticbeam.gaussian"><a class="viewcode-back" href="../beam.html#beam.staticbeam.gaussian">[docs]</a>    <span class="k">def</span> <span class="nf">gaussian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Returns the normal distribution with x number of points, and mean mu, and sig &quot;&quot;&quot;</span>
         <span class="n">grid_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">return_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">sig</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">),</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">mu</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span><span class="p">(</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span><span class="o">*</span><span class="n">grid_size</span>
@@ -283,7 +282,7 @@
         <span class="k">return</span> <span class="n">return_array</span>
         
         </div>
-<div class="viewcode-block" id="staticbeam.parabolic"><a class="viewcode-back" href="../machine.html#beam.staticbeam.parabolic">[docs]</a>    <span class="k">def</span> <span class="nf">parabolic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">):</span>
+<div class="viewcode-block" id="staticbeam.parabolic"><a class="viewcode-back" href="../beam.html#beam.staticbeam.parabolic">[docs]</a>    <span class="k">def</span> <span class="nf">parabolic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Returns the normal distribution with x number of points, and mean mu, and sig &quot;&quot;&quot;</span>
         <span class="n">return_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">sig</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">),</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">mu</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span><span class="p">(</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
         <span class="c">#print(&#39;The gaussian is normalized&#39;, (return_array*grid_Size).sum());</span>
@@ -294,7 +293,7 @@
         <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">(</span><span class="si">%r</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span>
         
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="staticbeam.listfiles"><a class="viewcode-back" href="../machine.html#beam.staticbeam.listfiles">[docs]</a>    <span class="k">def</span> <span class="nf">listfiles</span><span class="p">(</span><span class="n">staticbeam</span><span class="p">):</span>
+<div class="viewcode-block" id="staticbeam.listfiles"><a class="viewcode-back" href="../beam.html#beam.staticbeam.listfiles">[docs]</a>    <span class="k">def</span> <span class="nf">listfiles</span><span class="p">(</span><span class="n">staticbeam</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; THis function will list all the static and dynamic beams &quot;&quot;&quot;</span>
         <span class="nb">dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span>
         <span class="n">rel_dir_name</span> <span class="o">=</span> <span class="s">&#39;defined_&#39;</span><span class="o">+</span><span class="n">__name__</span> <span class="o">+</span><span class="s">&#39;s&#39;</span>
@@ -314,7 +313,7 @@
             <span class="n">desc_index</span> <span class="o">=</span> <span class="n">desc_index</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="k">print</span> <span class="p">(</span><span class="s">&#39;----------------------------</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
     </div></div>
-<div class="viewcode-block" id="dynamicbeam"><a class="viewcode-back" href="../machine.html#beam.dynamicbeam">[docs]</a><span class="k">class</span> <span class="nc">dynamicbeam</span><span class="p">():</span>
+<div class="viewcode-block" id="dynamicbeam"><a class="viewcode-back" href="../beam.html#beam.dynamicbeam">[docs]</a><span class="k">class</span> <span class="nc">dynamicbeam</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;This attributes are similar to a static beam, however, the beam energy, number of beam particles and beam structure is updated for several turns (depends on the length of list) and stored</span>
 
 <span class="sd">    It creates a beam object instance the parameters in a special order are specified, or simply by passing a beam dictionary</span>
@@ -394,7 +393,7 @@
         <span class="c">#for key in self.parameters:</span>
          <span class="c">#   print (key, &#39;\t&#39;, self.parameters[key])</span>
         
-<div class="viewcode-block" id="dynamicbeam.save"><a class="viewcode-back" href="../machine.html#beam.dynamicbeam.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">,</span><span class="n">description</span><span class="p">):</span>
+<div class="viewcode-block" id="dynamicbeam.save"><a class="viewcode-back" href="../beam.html#beam.dynamicbeam.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">,</span><span class="n">description</span><span class="p">):</span>
         
         <span class="sd">&quot;&quot;&quot; This function will save the beam object to an external file in the directory called &quot;defined_beams&quot; in the source directory&quot;&quot;&quot;</span>
         
@@ -427,7 +426,7 @@
                 <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">])</span>
             <span class="k">print</span> <span class="p">(</span><span class="s">&quot; Successfully written at a new file at </span><span class="se">\t</span><span class="s">&quot;</span><span class="o">+</span> <span class="n">filename</span><span class="p">)</span>
              </div>
-<div class="viewcode-block" id="dynamicbeam.load"><a class="viewcode-back" href="../machine.html#beam.dynamicbeam.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">):</span>
+<div class="viewcode-block" id="dynamicbeam.load"><a class="viewcode-back" href="../beam.html#beam.dynamicbeam.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name_of_file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; This function will load the beam object from the specified file in the directory called &quot;defined_beams&quot; in the source directory&quot;&quot;&quot;</span>
         <span class="nb">dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span>
         <span class="n">current_module</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
@@ -442,7 +441,7 @@
             <span class="n">temp</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">)</span> 
         <span class="k">return</span> <span class="n">temp</span>
         </div>
-<div class="viewcode-block" id="dynamicbeam.structure"><a class="viewcode-back" href="../machine.html#beam.dynamicbeam.structure">[docs]</a>    <span class="k">def</span> <span class="nf">structure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="dynamicbeam.structure"><a class="viewcode-back" href="../beam.html#beam.dynamicbeam.structure">[docs]</a>    <span class="k">def</span> <span class="nf">structure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; This function defines the structure of the beam based on the beam parameters&quot;&quot;&quot;</span>
     
         <span class="c">#print(&#39;This is the stucture&#39;)</span>
@@ -485,7 +484,7 @@
         <span class="c">#print (beam_Profile_Z.sum())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Z Profile&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">beam_Profile_Z</span>
         </div>
-<div class="viewcode-block" id="dynamicbeam.phase_space_init"><a class="viewcode-back" href="../machine.html#beam.dynamicbeam.phase_space_init">[docs]</a>    <span class="k">def</span> <span class="nf">phase_space_init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="dynamicbeam.phase_space_init"><a class="viewcode-back" href="../beam.html#beam.dynamicbeam.phase_space_init">[docs]</a>    <span class="k">def</span> <span class="nf">phase_space_init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; defines the initial 6D phase space of the beam&quot;&quot;&quot;</span>
         <span class="n">xpos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;x_dist&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;x_dist&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;par_num&quot;</span><span class="p">])</span>
         <span class="n">xder</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;x_dist&#39;</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;x_dist&#39;</span><span class="p">][</span><span class="mi">3</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&quot;par_num&quot;</span><span class="p">])</span>
@@ -496,11 +495,11 @@
         
         <span class="n">count</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">ignored</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">xpos</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
         </div>
-<div class="viewcode-block" id="dynamicbeam.beam_data"><a class="viewcode-back" href="../machine.html#beam.dynamicbeam.beam_data">[docs]</a>    <span class="k">def</span> <span class="nf">beam_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">number_of_turns</span><span class="p">):</span>
+<div class="viewcode-block" id="dynamicbeam.beam_data"><a class="viewcode-back" href="../beam.html#beam.dynamicbeam.beam_data">[docs]</a>    <span class="k">def</span> <span class="nf">beam_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">number_of_turns</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; This function will take the snapshots of phase space after several turns&quot;&quot;&quot;</span>
         <span class="n">beam_matrix</span> <span class="o">=</span> <span class="p">[]</span>
     </div>
-<div class="viewcode-block" id="dynamicbeam.plot"><a class="viewcode-back" href="../machine.html#beam.dynamicbeam.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="dynamicbeam.plot"><a class="viewcode-back" href="../beam.html#beam.dynamicbeam.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; This function will plot the profile of the beam in the mentioned axis&quot;&quot;&quot;</span>
     
         <span class="c">#print(&#39;This is the plot&#39;)        </span>
@@ -511,7 +510,7 @@
         <span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
         <span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;z_range&#39;</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;Z Profile&#39;</span><span class="p">])</span>
 </div>
-<div class="viewcode-block" id="dynamicbeam.gaussian"><a class="viewcode-back" href="../machine.html#beam.dynamicbeam.gaussian">[docs]</a>    <span class="k">def</span> <span class="nf">gaussian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
+<div class="viewcode-block" id="dynamicbeam.gaussian"><a class="viewcode-back" href="../beam.html#beam.dynamicbeam.gaussian">[docs]</a>    <span class="k">def</span> <span class="nf">gaussian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Returns the normal distribution with x number of points, and mean mu, and sig &quot;&quot;&quot;</span>
         <span class="n">grid_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">return_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">sig</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">),</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">mu</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span><span class="p">(</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span><span class="o">*</span><span class="n">grid_size</span>
@@ -520,7 +519,7 @@
         <span class="k">return</span> <span class="n">return_array</span>
         
         </div>
-<div class="viewcode-block" id="dynamicbeam.parabolic"><a class="viewcode-back" href="../machine.html#beam.dynamicbeam.parabolic">[docs]</a>    <span class="k">def</span> <span class="nf">parabolic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">):</span>
+<div class="viewcode-block" id="dynamicbeam.parabolic"><a class="viewcode-back" href="../beam.html#beam.dynamicbeam.parabolic">[docs]</a>    <span class="k">def</span> <span class="nf">parabolic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Returns the normal distribution with x number of points, and mean mu, and sig &quot;&quot;&quot;</span>
         <span class="n">return_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">sig</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">),</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">mu</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span><span class="p">(</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
         <span class="c">#print(&#39;The gaussian is normalized&#39;, (return_array*grid_Size).sum());</span>
@@ -531,7 +530,7 @@
         <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">(</span><span class="si">%r</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span>
         
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="dynamicbeam.listfiles"><a class="viewcode-back" href="../machine.html#beam.dynamicbeam.listfiles">[docs]</a>    <span class="k">def</span> <span class="nf">listfiles</span><span class="p">(</span><span class="n">staticbeam</span><span class="p">):</span>
+<div class="viewcode-block" id="dynamicbeam.listfiles"><a class="viewcode-back" href="../beam.html#beam.dynamicbeam.listfiles">[docs]</a>    <span class="k">def</span> <span class="nf">listfiles</span><span class="p">(</span><span class="n">staticbeam</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; THis function will list all the static and dynamic beams &quot;&quot;&quot;</span>
         <span class="nb">dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span>
         <span class="n">rel_dir_name</span> <span class="o">=</span> <span class="s">&#39;defined_&#39;</span><span class="o">+</span><span class="n">__name__</span> <span class="o">+</span><span class="s">&#39;s&#39;</span>

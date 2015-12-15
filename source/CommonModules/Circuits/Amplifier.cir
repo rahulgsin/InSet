@@ -1,0 +1,57 @@
+BPM simulation program for NGspice
+*
+R1 52 0 10meg
+C1 51 52 50PF
+C2 52 0 50PF
+VNoiw 4 99 DC 0 TRNOISE (10m 0.5n 0 0 )
+
+AVSRC %V([51]) filesrc
+.include Input_signal.txt
+*.model filesrc filesource (file="current_profile.txt" )
+*VIN 1 0 AC SIN(0 0 1)
+*
+* NON-INVERTING AMPLIFIER
+R1	2	0	10K
+R2	2	4	100K
+XOP1	52 2	4	OPAMP1
+*
+* INVERTING AMPLIFIER
+*R_1	52	12	10K
+*R_2	12	14	100K
+*XOP2	0 12	14	OPAMP1	
+*
+*
+* OPAMP MACRO MODEL, SINGLE-POLE 
+* connections:      non-inverting input
+*                   |   inverting input
+*                   |   |   output
+*                   |   |   |
+.SUBCKT OPAMP1      1   2   6
+* INPUT IMPEDANCE
+RIN	1	2	10MEG
+* DCGAIN =200K AND POLE1=1/(2*PI*RP1*CP1)=318HZ
+* GBP = DCGAIN X POLE1 = 10MHZ
+EGAIN	3 0	1 2	200K
+RP1	3	4	500
+CP1	4	0	1UF
+* OUTPUT BUFFER AND RESISTANCE
+EBUFFER	5 0	4 0	1
+ROUT	5	6	10
+.ENDS
+*
+*
+* ANALYSIS
+.CONTROL
+*.include freq_analysis.txt
+AC DEC 100 1 100MEG
+*plot mag(V(4)) xlog
+*plot (180/PI)*phase(v(4)) xlog 
+
+TRAN 	1NS  1US
+* VIEW RESULTS
+plot v(4) V(99) 
+
+wrdata inputdata v(4) 
+wrdata outputdata v(99) 
+
+END

@@ -1,14 +1,13 @@
 
-
 .. toctree::
    :maxdepth: 1
 
 .. _machine_label:
 
 Machine
-=========
+***************
 
-.. automodule:: beam
+.. automodule:: machine
    :members:
 
 Indices and tables

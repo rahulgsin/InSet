@@ -12,7 +12,7 @@ Figure shows the example of amplificaiton of current profile of 10Mhz frequnecy 
 
 Generic amplifier and attenuator definition
 
-.. automodule:: "/CommonModules/AmpAttModule.py"
+.. automodule:: AmpAttModule
     :members:
 
 Transfer Function
@@ -21,7 +21,7 @@ Figure shows the example of Transfer function module
 
 .. image:: /images/tf.png
 
-.. automodule:: "/CommonModules/TransferFunction.py"
+.. automodule:: TransferFunction
     :members:
 
 NGspice and python interfacing for BPM
@@ -31,7 +31,7 @@ Figure shows the output at one of the plate of BPM in Python and Ngspice
 .. image:: /images/ngsp.png
 
 
-.. automodule:: "/CommonModules/ngplot.py"
+.. automodule:: ngplot
     :members:
 
 Lenses

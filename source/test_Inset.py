@@ -71,7 +71,7 @@ special_trafo.combine_systems(trafo_amp1,trafo_adc) #  This function combines se
 #special_trafo.save('FullSystemSIS-18Trafo', ' Saves the full system with the Amp and ADCs')
 
 results1 = special_trafo.output(observable_sis18)
-print ('Output signal and noise voltage for the first Trafo',results1,'\n')
+#print ('Output signal and noise voltage for the first Trafo',results1,'\n')
 #results2 = special_trafo_2nd.output(observable_sis18)
 #print ('Output signal and noise voltage for the second Trafo',results2,'\n')
 
@@ -82,7 +82,7 @@ settings = special_trafo.optimize(observable_sis18, constraints_SIS_18)
 print("Gain =", settings[0], "Bandwidth=", settings[1])
 
 new_output = special_trafo.output(observable_sis18)
-print ('Output voltage and noise voltage for the first Trafo',new_output,'\n')
+#print ('Output voltage and noise voltage for the first Trafo',new_output,'\n')
 #settings = special_trafo_2nd.optimize(observable_sis18, constraints_sis18)
 
 
