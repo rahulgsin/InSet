@@ -1,8 +1,0 @@
-atten -30db
-
-.SUBCKT att30 1 2
-r1 1 2 970000
-r2 2 0 30000
-.ENDS
-
-
