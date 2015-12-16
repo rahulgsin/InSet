@@ -2,15 +2,15 @@
 
 The module takes the following arguments
 
-Property --- Key --- Value Type --- Remarks
+Property --- Key --- Value Type --- Remarks --- Units
 
-Particle type --- par_type --- String --- Ion type (p, U, Ar etc.)
+Particle type --- par_type --- String --- Ion type (p, U, Ar etc.) --- 
 
-Charge state --- charge_state --- Integer --- Charge state
+Charge state --- charge_state --- Integer --- Charge state --- 
 
-Atomic mass --- atomic_mass ---  Integer --- 2 for Hydrogen
+Atomic mass --- atomic_mass ---  Integer --- 2 for Hydrogen ---
 
-Particle energy --- kin_energy --- Float --- Kinetic energy per nucleon
+Particle energy --- kin_energy --- Float --- Kinetic energy per nucleon --- MeV/u
 
 Particle number ---par_num --- Integer --- Total number of particles (ions)
 
