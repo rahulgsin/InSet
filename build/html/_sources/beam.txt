@@ -1,3 +1,15 @@
+
+.. toctree::
+   :maxdepth: 2
+
+.. sidebar:: Navigation Links
+
+   * :doc:`Home<index>`
+   * :ref:`Table of contents<index_label>`
+   * :ref:`genindex`
+   * :ref:`modindex`
+   * :ref:`search`  
+
 .. _beam_label:
 
 Beam
@@ -6,12 +18,4 @@ Beam
 .. automodule:: beam
    :members:
 
-Indices and tables
-==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-* :doc:`Home<index>`
-* :ref:`Table of contents<index_label>`
-* :ref:`Table of page<beam_label>`

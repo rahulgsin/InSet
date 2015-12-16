@@ -1,7 +1,7 @@
-Tune, Orbit and POSition measurement system (TOPOS)
+Full system SPICE models
 ***************************************************
 
-Components of TOPOS
+TOPOS
 =====================
 
 TOPOS SIGNAL CHAIN from BPM plates to ADC
@@ -107,10 +107,137 @@ plot V(1) v(2) v(3) v(4) v(5) v(6) v(7) v(8)
 
 .include plotng.txt
 
-  The exctra files which are include in above code can found here:
+
+Simple OPAMP schematic
+-----------------------
+
+*Here is the simple schematic of OPAMP:*
+
+.. image:: /images/opamp.jpeg
+
+*And here is the code for simulation of above circuit using LT1192:*
+
+Amplifier of 20db
+
+| .SUBCKT amp20 1 6
+| .include lt1192.cir
+| XOP	1 2 3 4 5	LT1192
+| R1	2	0	100
+| R2	2	5	1000
+| cL	5	6	15nf
+| rl	6	0	1k
+| VCC 	3 0 DC 15V
+| VEE	4 0 DC -15V
+| .ENDS
+
+| Xamp 1 2 amp20
+| vin 1 0 ac sin(0 1m 10meg)
+| .control
+| AC DEC 100 1k 100MEG
+| .include plotng.txt
+
+Here you can the results after simulation:
+
+Magnitude response at the oputput
+
+.. image:: /images/omag.png
+
+Phase response at the oputput
+
+.. image:: /images/ophase.png
+
+
+  The extra files which are include in above code can found here:
+
+Using TOPOS for four plates
+-----------------------------
+
+Following Ngspice code can calculate the output of Topos chain for 20db(fixed) gain
+
+TOPOS SIGNAL CHAIN --> Simulation for 4 plates 
+
+| .include amp20.cir
+
+| ***First topos chain
+| Rb 22 0 100k
+| Cb1 1 22 50pF
+| Cb2 22 0 50pF
+| *Vin 1 0 ac sin(0 1m 10meg)
+| AVSRC %V([1]) filesrc
+| *.include Input_signal.txt
+| .model filesrc filesource (file="daata/x1_coast_v.txt" )
+
+| *head ampliflier of 20db
+| *rser1	3 0 10meg
+| Xamp20 22 4 amp20
+
+| ***second topos chain
+
+| Rb1 221 0 100k
+| Cb11 11 221 50pF
+| Cb21 221 0 50pF
+| *Vin1 11 0 ac sin(0 1m 10meg)
+| AVSRC1 %V([11]) filesrc1
+| *.include Input_signal.txt
+| .model filesrc1 filesource (file="daata/x2_coast_v.txt" )
+
+| *head ampliflier of 20db
+| *rser1	3 0 10meg
+| Xamp201 221 41 amp20
+
+| ***Third topos chain
+
+| Rb11 2211 0 100k
+| Cb111 111 2211 50pF
+| Cb211 2211 0 50pF
+| *Vin1 111 0 ac sin(0 1m 10meg)
+| AVSRC11 %V([111]) filesrc11
+| .model filesrc11 filesource (file="daata/y1_coast_v.txt" )
+
+| Xamp2011 2211 411 amp20
+
+
+| ***Fourth topos chain
+
+| Rb111 22111 0 100k
+| Cb1111 1111 22111 50pF
+| Cb2111 22111 0 50pF
+| *Vin1 1111 0 ac sin(0 1m 10meg)
+| AVSRC111 %V([1111]) filesrc111
+| .model filesrc111 filesource (file="daata/y2_coast_v.txt" )
+
+| Xamp20111 22111 4111 amp20
+
+
+| .CONTROL
+| *ac 	DEC 1000 1k 1000MEG
+| *plot db(v(4)/v(1)) xlog
+| *plot 180/pi*phase(V(4)/v(1)) 
+| tran 1ns 50us 
+| *plot v(1) v(11) 
+| *plot v(111) v(1111)
+| *plot v(4) v(41)
+| *plot v(411) v(4111)
+| *plot v(1) v(22) v(33) v(3)
+| *plot v(4)
+| *plot v(5)
+| *plot v(6)
+| *plot v(111) v(9)
+| *plot v(7) v(8) v(9) 
+| *.include plotng.txt
+| *setplot tran1
+| *linearize
+| wrdata ip v(1) 
+| wrdata op v(4)
+| *wrdata x2_coast_1 v(41)
+| *wrdata y1_coast_1 v(411)
+| *wrdata y2_coast_1 v(4111)
+
+
+
   
 BaseBand tune(Q) measurement system (BBQ)
-------------------------------------------
+=============================================
 Simple Schemaic of BBQ system configuration at SIS-18 for low energy signal is shown in below circuit:
 
 .. image:: /images/bbql.jpeg
@@ -314,131 +441,10 @@ plot v(7) v(8)
 
 .include plotng.txt
 
-Simple OPAMP schematic
------------------------
-
-*Here is the simple schematic of OPAMP:*
-
-.. image:: /images/opamp.jpeg
-
-*And here is the code for simulation of above circuit using LT1192:*
-
-Amplifier of 20db
-
-| .SUBCKT amp20 1 6
-| .include lt1192.cir
-| XOP	1 2 3 4 5	LT1192
-| R1	2	0	100
-| R2	2	5	1000
-| cL	5	6	15nf
-| rl	6	0	1k
-| VCC 	3 0 DC 15V
-| VEE	4 0 DC -15V
-| .ENDS
-
-| Xamp 1 2 amp20
-| vin 1 0 ac sin(0 1m 10meg)
-| .control
-| AC DEC 100 1k 100MEG
-| .include plotng.txt
-
-Here you can the results after simulation:
-
-Magnitude response at the oputput
-
-.. image:: /images/omag.png
-
-Phase response at the oputput
-
-.. image:: /images/ophase.png
-
-Using TOPOS for four plates
-============================
-
-Following Ngspice code can calculate the output of Topos chain for 20db(fixed) gain
-
-TOPOS SIGNAL CHAIN --> Simulation for 4 plates 
-
-| .include amp20.cir
-
-| ***First topos chain
-| Rb 22 0 100k
-| Cb1 1 22 50pF
-| Cb2 22 0 50pF
-| *Vin 1 0 ac sin(0 1m 10meg)
-| AVSRC %V([1]) filesrc
-| *.include Input_signal.txt
-| .model filesrc filesource (file="daata/x1_coast_v.txt" )
-
-| *head ampliflier of 20db
-| *rser1	3 0 10meg
-| Xamp20 22 4 amp20
-
-| ***second topos chain
-
-| Rb1 221 0 100k
-| Cb11 11 221 50pF
-| Cb21 221 0 50pF
-| *Vin1 11 0 ac sin(0 1m 10meg)
-| AVSRC1 %V([11]) filesrc1
-| *.include Input_signal.txt
-| .model filesrc1 filesource (file="daata/x2_coast_v.txt" )
-
-| *head ampliflier of 20db
-| *rser1	3 0 10meg
-| Xamp201 221 41 amp20
-
-| ***Third topos chain
-
-| Rb11 2211 0 100k
-| Cb111 111 2211 50pF
-| Cb211 2211 0 50pF
-| *Vin1 111 0 ac sin(0 1m 10meg)
-| AVSRC11 %V([111]) filesrc11
-| .model filesrc11 filesource (file="daata/y1_coast_v.txt" )
-
-| Xamp2011 2211 411 amp20
-
-
-| ***Fourth topos chain
-
-| Rb111 22111 0 100k
-| Cb1111 1111 22111 50pF
-| Cb2111 22111 0 50pF
-| *Vin1 1111 0 ac sin(0 1m 10meg)
-| AVSRC111 %V([1111]) filesrc111
-| .model filesrc111 filesource (file="daata/y2_coast_v.txt" )
-
-| Xamp20111 22111 4111 amp20
-
-
-| .CONTROL
-| *ac 	DEC 1000 1k 1000MEG
-| *plot db(v(4)/v(1)) xlog
-| *plot 180/pi*phase(V(4)/v(1)) 
-| tran 1ns 50us 
-| *plot v(1) v(11) 
-| *plot v(111) v(1111)
-| *plot v(4) v(41)
-| *plot v(411) v(4111)
-| *plot v(1) v(22) v(33) v(3)
-| *plot v(4)
-| *plot v(5)
-| *plot v(6)
-| *plot v(111) v(9)
-| *plot v(7) v(8) v(9) 
-| *.include plotng.txt
-| *setplot tran1
-| *linearize
-| wrdata ip v(1) 
-| wrdata op v(4)
-| *wrdata x2_coast_1 v(41)
-| *wrdata y1_coast_1 v(411)
-| *wrdata y2_coast_1 v(4111)
 
 
 Using BBQ without preamplifier for two plates
-==============================================
+----------------------------------------------
 
 Following Ngspice code can simualate the output for 2 plates for BBQ system without preampliflier
 
@@ -542,7 +548,7 @@ Following Ngspice code can simualate the output for 2 plates for BBQ system with
 | *wrdata plot3b v(169)
 
 Using BBQ with preamplifier for two plates
-==============================================
+-----------------------------------------------
 
 * BBQ Circuit
 

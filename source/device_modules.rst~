@@ -1,3 +1,12 @@
+
+.. sidebar:: Navigation Links
+
+   * :doc:`Home<index>`
+   * :ref:`Table of contents<index_label>`
+   * :ref:`genindex`
+   * :ref:`modindex`
+   * :ref:`search`  
+
 Device Modules
 ***************
 
@@ -13,7 +22,7 @@ Generic Transformer object
 Beam Position Monitor
 ======================
 
-.. automodule:: /source/DeviceModules/bpm.py
+.. automodule:: bpm
    :members:
 
 Add functions from Python library
@@ -21,13 +30,3 @@ Add functions from Python library
 
 :py:func:`io.open`
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-* :doc:`Home<index>`
-* :ref:`Table of contents<index_label>`
-* :ref:`Table of page<beam_label>`

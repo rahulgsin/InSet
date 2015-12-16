@@ -1,3 +1,12 @@
+
+.. sidebar:: Navigation Links
+
+   * :doc:`Home<index>`
+   * :ref:`Table of contents<index_label>`
+   * :ref:`genindex`
+   * :ref:`modindex`
+   * :ref:`search`  
+
 Device Modules
 ***************
 
@@ -16,18 +25,7 @@ Beam Position Monitor
 .. automodule:: bpm
    :members:
 
-Add functions from Python library
-==================================
+.. Add functions from Python library
+.. ================================
+.. :py:func:`io.open`
 
-:py:func:`io.open`
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-* :doc:`Home<index>`
-* :ref:`Table of contents<index_label>`
-* :ref:`Table of page<beam_label>`

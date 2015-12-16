@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>7. Tune, Orbit and POSition measurement system (TOPOS) &mdash; InSet 1 documentation</title>
+    <title>6. Full system SPICE models &mdash; InSet 1 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="InSet 1 documentation" href="index.html" />
-    <link rel="prev" title="6. Ngspice user guide" href="Install_ngspice.html" />
+    <link rel="prev" title="5. Ngspice user guide" href="Install_ngspice.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
@@ -38,12 +38,12 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="tune-orbit-and-position-measurement-system-topos">
-<h1>7. Tune, Orbit and POSition measurement system (TOPOS)<a class="headerlink" href="#tune-orbit-and-position-measurement-system-topos" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="components-of-topos">
-<h2>7.1. Components of TOPOS<a class="headerlink" href="#components-of-topos" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="full-system-spice-models">
+<h1>6. Full system SPICE models<a class="headerlink" href="#full-system-spice-models" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="topos">
+<h2>6.1. TOPOS<a class="headerlink" href="#topos" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="topos-signal-chain-from-bpm-plates-to-adc">
-<h3>7.1.1. TOPOS SIGNAL CHAIN from BPM plates to ADC<a class="headerlink" href="#topos-signal-chain-from-bpm-plates-to-adc" title="Permalink to this headline">¶</a></h3>
+<h3>6.1.1. TOPOS SIGNAL CHAIN from BPM plates to ADC<a class="headerlink" href="#topos-signal-chain-from-bpm-plates-to-adc" title="Permalink to this headline">¶</a></h3>
 <p>The TOPOS signal chain from BPM plates to the ADCs. It is divided into three distinct stages. Each stage consists of switchable attenuators and amplifiers.</p>
 <img alt="_images/topos1.jpeg" src="_images/topos1.jpeg" />
 <p>And here is the result after simulation of the above circuit:</p>
@@ -94,11 +94,134 @@
 <p>tran 1ns 1us</p>
 <p>plot V(1) v(2) v(3) v(4) v(5) v(6) v(7) v(8)</p>
 <p>.include plotng.txt</p>
-<blockquote>
-<div>The exctra files which are include in above code can found here:</div></blockquote>
+</div>
+<div class="section" id="simple-opamp-schematic">
+<h3>6.1.2. Simple OPAMP schematic<a class="headerlink" href="#simple-opamp-schematic" title="Permalink to this headline">¶</a></h3>
+<p><em>Here is the simple schematic of OPAMP:</em></p>
+<img alt="_images/opamp.jpeg" src="_images/opamp.jpeg" />
+<p><em>And here is the code for simulation of above circuit using LT1192:</em></p>
+<p>Amplifier of 20db</p>
+<div class="line-block">
+<div class="line">.SUBCKT amp20 1 6</div>
+<div class="line">.include lt1192.cir</div>
+<div class="line">XOP   1 2 3 4 5       LT1192</div>
+<div class="line">R1    2       0       100</div>
+<div class="line">R2    2       5       1000</div>
+<div class="line">cL    5       6       15nf</div>
+<div class="line">rl    6       0       1k</div>
+<div class="line">VCC   3 0 DC 15V</div>
+<div class="line">VEE   4 0 DC -15V</div>
+<div class="line">.ENDS</div>
+</div>
+<div class="line-block">
+<div class="line">Xamp 1 2 amp20</div>
+<div class="line">vin 1 0 ac sin(0 1m 10meg)</div>
+<div class="line">.control</div>
+<div class="line">AC DEC 100 1k 100MEG</div>
+<div class="line">.include plotng.txt</div>
+</div>
+<p>Here you can the results after simulation:</p>
+<p>Magnitude response at the oputput</p>
+<img alt="_images/omag.png" src="_images/omag.png" />
+<p>Phase response at the oputput</p>
+<img alt="images/ophase.pngTheextrafileswhichareincludeinabovecodecanfoundhere:" src="images/ophase.pngTheextrafileswhichareincludeinabovecodecanfoundhere:" />
+</div>
+<div class="section" id="using-topos-for-four-plates">
+<h3>6.1.3. Using TOPOS for four plates<a class="headerlink" href="#using-topos-for-four-plates" title="Permalink to this headline">¶</a></h3>
+<p>Following Ngspice code can calculate the output of Topos chain for 20db(fixed) gain</p>
+<p>TOPOS SIGNAL CHAIN &#8211;&gt; Simulation for 4 plates</p>
+<div class="line-block">
+<div class="line">.include amp20.cir</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id1"><span class="problematic" id="id2">**</span></a><a href="#id3"><span class="problematic" id="id4">*</span></a>First topos chain</div>
+<div class="line">Rb 22 0 100k</div>
+<div class="line">Cb1 1 22 50pF</div>
+<div class="line">Cb2 22 0 50pF</div>
+<div class="line"><a href="#id5"><span class="problematic" id="id6">*</span></a>Vin 1 0 ac sin(0 1m 10meg)</div>
+<div class="line">AVSRC %V([1]) filesrc</div>
+<div class="line"><a href="#id7"><span class="problematic" id="id8">*</span></a>.include Input_signal.txt</div>
+<div class="line">.model filesrc filesource (file=&#8221;daata/x1_coast_v.txt&#8221; )</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id9"><span class="problematic" id="id10">*</span></a>head ampliflier of 20db</div>
+<div class="line"><a href="#id11"><span class="problematic" id="id12">*</span></a>rser1        3 0 10meg</div>
+<div class="line">Xamp20 22 4 amp20</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id13"><span class="problematic" id="id14">**</span></a><a href="#id15"><span class="problematic" id="id16">*</span></a>second topos chain</div>
+</div>
+<div class="line-block">
+<div class="line">Rb1 221 0 100k</div>
+<div class="line">Cb11 11 221 50pF</div>
+<div class="line">Cb21 221 0 50pF</div>
+<div class="line"><a href="#id17"><span class="problematic" id="id18">*</span></a>Vin1 11 0 ac sin(0 1m 10meg)</div>
+<div class="line">AVSRC1 %V([11]) filesrc1</div>
+<div class="line"><a href="#id19"><span class="problematic" id="id20">*</span></a>.include Input_signal.txt</div>
+<div class="line">.model filesrc1 filesource (file=&#8221;daata/x2_coast_v.txt&#8221; )</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id21"><span class="problematic" id="id22">*</span></a>head ampliflier of 20db</div>
+<div class="line"><a href="#id23"><span class="problematic" id="id24">*</span></a>rser1        3 0 10meg</div>
+<div class="line">Xamp201 221 41 amp20</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id25"><span class="problematic" id="id26">**</span></a><a href="#id27"><span class="problematic" id="id28">*</span></a>Third topos chain</div>
+</div>
+<div class="line-block">
+<div class="line">Rb11 2211 0 100k</div>
+<div class="line">Cb111 111 2211 50pF</div>
+<div class="line">Cb211 2211 0 50pF</div>
+<div class="line"><a href="#id29"><span class="problematic" id="id30">*</span></a>Vin1 111 0 ac sin(0 1m 10meg)</div>
+<div class="line">AVSRC11 %V([111]) filesrc11</div>
+<div class="line">.model filesrc11 filesource (file=&#8221;daata/y1_coast_v.txt&#8221; )</div>
+</div>
+<div class="line-block">
+<div class="line">Xamp2011 2211 411 amp20</div>
+</div>
+<div class="line-block">
+<div class="line"><a href="#id31"><span class="problematic" id="id32">**</span></a><a href="#id33"><span class="problematic" id="id34">*</span></a>Fourth topos chain</div>
+</div>
+<div class="line-block">
+<div class="line">Rb111 22111 0 100k</div>
+<div class="line">Cb1111 1111 22111 50pF</div>
+<div class="line">Cb2111 22111 0 50pF</div>
+<div class="line"><a href="#id35"><span class="problematic" id="id36">*</span></a>Vin1 1111 0 ac sin(0 1m 10meg)</div>
+<div class="line">AVSRC111 %V([1111]) filesrc111</div>
+<div class="line">.model filesrc111 filesource (file=&#8221;daata/y2_coast_v.txt&#8221; )</div>
+</div>
+<div class="line-block">
+<div class="line">Xamp20111 22111 4111 amp20</div>
+</div>
+<div class="line-block">
+<div class="line">.CONTROL</div>
+<div class="line"><a href="#id37"><span class="problematic" id="id38">*</span></a>ac   DEC 1000 1k 1000MEG</div>
+<div class="line"><a href="#id39"><span class="problematic" id="id40">*</span></a>plot db(v(4)/v(1)) xlog</div>
+<div class="line"><a href="#id41"><span class="problematic" id="id42">*</span></a>plot 180/pi*phase(V(4)/v(1))</div>
+<div class="line">tran 1ns 50us</div>
+<div class="line"><a href="#id43"><span class="problematic" id="id44">*</span></a>plot v(1) v(11)</div>
+<div class="line"><a href="#id45"><span class="problematic" id="id46">*</span></a>plot v(111) v(1111)</div>
+<div class="line"><a href="#id47"><span class="problematic" id="id48">*</span></a>plot v(4) v(41)</div>
+<div class="line"><a href="#id49"><span class="problematic" id="id50">*</span></a>plot v(411) v(4111)</div>
+<div class="line"><a href="#id51"><span class="problematic" id="id52">*</span></a>plot v(1) v(22) v(33) v(3)</div>
+<div class="line"><a href="#id53"><span class="problematic" id="id54">*</span></a>plot v(4)</div>
+<div class="line"><a href="#id55"><span class="problematic" id="id56">*</span></a>plot v(5)</div>
+<div class="line"><a href="#id57"><span class="problematic" id="id58">*</span></a>plot v(6)</div>
+<div class="line"><a href="#id59"><span class="problematic" id="id60">*</span></a>plot v(111) v(9)</div>
+<div class="line"><a href="#id61"><span class="problematic" id="id62">*</span></a>plot v(7) v(8) v(9)</div>
+<div class="line"><a href="#id63"><span class="problematic" id="id64">*</span></a>.include plotng.txt</div>
+<div class="line"><a href="#id65"><span class="problematic" id="id66">*</span></a>setplot tran1</div>
+<div class="line"><a href="#id67"><span class="problematic" id="id68">*</span></a>linearize</div>
+<div class="line">wrdata ip v(1)</div>
+<div class="line">wrdata op v(4)</div>
+<div class="line"><a href="#id69"><span class="problematic" id="id70">*</span></a>wrdata x2_coast_1 v(41)</div>
+<div class="line"><a href="#id71"><span class="problematic" id="id72">*</span></a>wrdata y1_coast_1 v(411)</div>
+<div class="line"><a href="#id73"><span class="problematic" id="id74">*</span></a>wrdata y2_coast_1 v(4111)</div>
+</div>
+</div>
 </div>
 <div class="section" id="baseband-tune-q-measurement-system-bbq">
-<h3>7.1.2. BaseBand tune(Q) measurement system (BBQ)<a class="headerlink" href="#baseband-tune-q-measurement-system-bbq" title="Permalink to this headline">¶</a></h3>
+<h2>6.2. BaseBand tune(Q) measurement system (BBQ)<a class="headerlink" href="#baseband-tune-q-measurement-system-bbq" title="Permalink to this headline">¶</a></h2>
 <p>Simple Schemaic of BBQ system configuration at SIS-18 for low energy signal is shown in below circuit:</p>
 <img alt="_images/bbql.jpeg" src="_images/bbql.jpeg" />
 <p>Simple Schemaic of BBQ system configuration at SIS-18 for high energy signal is shown in below circuit:</p>
@@ -272,134 +395,8 @@
 <p>plot  v(1) V(7) v(8) v(15)</p>
 <p>plot v(7) v(8)</p>
 <p>.include plotng.txt</p>
-</div>
-<div class="section" id="simple-opamp-schematic">
-<h3>7.1.3. Simple OPAMP schematic<a class="headerlink" href="#simple-opamp-schematic" title="Permalink to this headline">¶</a></h3>
-<p><em>Here is the simple schematic of OPAMP:</em></p>
-<img alt="_images/opamp.jpeg" src="_images/opamp.jpeg" />
-<p><em>And here is the code for simulation of above circuit using LT1192:</em></p>
-<p>Amplifier of 20db</p>
-<div class="line-block">
-<div class="line">.SUBCKT amp20 1 6</div>
-<div class="line">.include lt1192.cir</div>
-<div class="line">XOP   1 2 3 4 5       LT1192</div>
-<div class="line">R1    2       0       100</div>
-<div class="line">R2    2       5       1000</div>
-<div class="line">cL    5       6       15nf</div>
-<div class="line">rl    6       0       1k</div>
-<div class="line">VCC   3 0 DC 15V</div>
-<div class="line">VEE   4 0 DC -15V</div>
-<div class="line">.ENDS</div>
-</div>
-<div class="line-block">
-<div class="line">Xamp 1 2 amp20</div>
-<div class="line">vin 1 0 ac sin(0 1m 10meg)</div>
-<div class="line">.control</div>
-<div class="line">AC DEC 100 1k 100MEG</div>
-<div class="line">.include plotng.txt</div>
-</div>
-<p>Here you can the results after simulation:</p>
-<p>Magnitude response at the oputput</p>
-<img alt="_images/omag.png" src="_images/omag.png" />
-<p>Phase response at the oputput</p>
-<img alt="_images/ophase.png" src="_images/ophase.png" />
-</div>
-</div>
-<div class="section" id="using-topos-for-four-plates">
-<h2>7.2. Using TOPOS for four plates<a class="headerlink" href="#using-topos-for-four-plates" title="Permalink to this headline">¶</a></h2>
-<p>Following Ngspice code can calculate the output of Topos chain for 20db(fixed) gain</p>
-<p>TOPOS SIGNAL CHAIN &#8211;&gt; Simulation for 4 plates</p>
-<div class="line-block">
-<div class="line">.include amp20.cir</div>
-</div>
-<div class="line-block">
-<div class="line"><a href="#id1"><span class="problematic" id="id2">**</span></a><a href="#id3"><span class="problematic" id="id4">*</span></a>First topos chain</div>
-<div class="line">Rb 22 0 100k</div>
-<div class="line">Cb1 1 22 50pF</div>
-<div class="line">Cb2 22 0 50pF</div>
-<div class="line"><a href="#id5"><span class="problematic" id="id6">*</span></a>Vin 1 0 ac sin(0 1m 10meg)</div>
-<div class="line">AVSRC %V([1]) filesrc</div>
-<div class="line"><a href="#id7"><span class="problematic" id="id8">*</span></a>.include Input_signal.txt</div>
-<div class="line">.model filesrc filesource (file=&#8221;daata/x1_coast_v.txt&#8221; )</div>
-</div>
-<div class="line-block">
-<div class="line"><a href="#id9"><span class="problematic" id="id10">*</span></a>head ampliflier of 20db</div>
-<div class="line"><a href="#id11"><span class="problematic" id="id12">*</span></a>rser1        3 0 10meg</div>
-<div class="line">Xamp20 22 4 amp20</div>
-</div>
-<div class="line-block">
-<div class="line"><a href="#id13"><span class="problematic" id="id14">**</span></a><a href="#id15"><span class="problematic" id="id16">*</span></a>second topos chain</div>
-</div>
-<div class="line-block">
-<div class="line">Rb1 221 0 100k</div>
-<div class="line">Cb11 11 221 50pF</div>
-<div class="line">Cb21 221 0 50pF</div>
-<div class="line"><a href="#id17"><span class="problematic" id="id18">*</span></a>Vin1 11 0 ac sin(0 1m 10meg)</div>
-<div class="line">AVSRC1 %V([11]) filesrc1</div>
-<div class="line"><a href="#id19"><span class="problematic" id="id20">*</span></a>.include Input_signal.txt</div>
-<div class="line">.model filesrc1 filesource (file=&#8221;daata/x2_coast_v.txt&#8221; )</div>
-</div>
-<div class="line-block">
-<div class="line"><a href="#id21"><span class="problematic" id="id22">*</span></a>head ampliflier of 20db</div>
-<div class="line"><a href="#id23"><span class="problematic" id="id24">*</span></a>rser1        3 0 10meg</div>
-<div class="line">Xamp201 221 41 amp20</div>
-</div>
-<div class="line-block">
-<div class="line"><a href="#id25"><span class="problematic" id="id26">**</span></a><a href="#id27"><span class="problematic" id="id28">*</span></a>Third topos chain</div>
-</div>
-<div class="line-block">
-<div class="line">Rb11 2211 0 100k</div>
-<div class="line">Cb111 111 2211 50pF</div>
-<div class="line">Cb211 2211 0 50pF</div>
-<div class="line"><a href="#id29"><span class="problematic" id="id30">*</span></a>Vin1 111 0 ac sin(0 1m 10meg)</div>
-<div class="line">AVSRC11 %V([111]) filesrc11</div>
-<div class="line">.model filesrc11 filesource (file=&#8221;daata/y1_coast_v.txt&#8221; )</div>
-</div>
-<div class="line-block">
-<div class="line">Xamp2011 2211 411 amp20</div>
-</div>
-<div class="line-block">
-<div class="line"><a href="#id31"><span class="problematic" id="id32">**</span></a><a href="#id33"><span class="problematic" id="id34">*</span></a>Fourth topos chain</div>
-</div>
-<div class="line-block">
-<div class="line">Rb111 22111 0 100k</div>
-<div class="line">Cb1111 1111 22111 50pF</div>
-<div class="line">Cb2111 22111 0 50pF</div>
-<div class="line"><a href="#id35"><span class="problematic" id="id36">*</span></a>Vin1 1111 0 ac sin(0 1m 10meg)</div>
-<div class="line">AVSRC111 %V([1111]) filesrc111</div>
-<div class="line">.model filesrc111 filesource (file=&#8221;daata/y2_coast_v.txt&#8221; )</div>
-</div>
-<div class="line-block">
-<div class="line">Xamp20111 22111 4111 amp20</div>
-</div>
-<div class="line-block">
-<div class="line">.CONTROL</div>
-<div class="line"><a href="#id37"><span class="problematic" id="id38">*</span></a>ac   DEC 1000 1k 1000MEG</div>
-<div class="line"><a href="#id39"><span class="problematic" id="id40">*</span></a>plot db(v(4)/v(1)) xlog</div>
-<div class="line"><a href="#id41"><span class="problematic" id="id42">*</span></a>plot 180/pi*phase(V(4)/v(1))</div>
-<div class="line">tran 1ns 50us</div>
-<div class="line"><a href="#id43"><span class="problematic" id="id44">*</span></a>plot v(1) v(11)</div>
-<div class="line"><a href="#id45"><span class="problematic" id="id46">*</span></a>plot v(111) v(1111)</div>
-<div class="line"><a href="#id47"><span class="problematic" id="id48">*</span></a>plot v(4) v(41)</div>
-<div class="line"><a href="#id49"><span class="problematic" id="id50">*</span></a>plot v(411) v(4111)</div>
-<div class="line"><a href="#id51"><span class="problematic" id="id52">*</span></a>plot v(1) v(22) v(33) v(3)</div>
-<div class="line"><a href="#id53"><span class="problematic" id="id54">*</span></a>plot v(4)</div>
-<div class="line"><a href="#id55"><span class="problematic" id="id56">*</span></a>plot v(5)</div>
-<div class="line"><a href="#id57"><span class="problematic" id="id58">*</span></a>plot v(6)</div>
-<div class="line"><a href="#id59"><span class="problematic" id="id60">*</span></a>plot v(111) v(9)</div>
-<div class="line"><a href="#id61"><span class="problematic" id="id62">*</span></a>plot v(7) v(8) v(9)</div>
-<div class="line"><a href="#id63"><span class="problematic" id="id64">*</span></a>.include plotng.txt</div>
-<div class="line"><a href="#id65"><span class="problematic" id="id66">*</span></a>setplot tran1</div>
-<div class="line"><a href="#id67"><span class="problematic" id="id68">*</span></a>linearize</div>
-<div class="line">wrdata ip v(1)</div>
-<div class="line">wrdata op v(4)</div>
-<div class="line"><a href="#id69"><span class="problematic" id="id70">*</span></a>wrdata x2_coast_1 v(41)</div>
-<div class="line"><a href="#id71"><span class="problematic" id="id72">*</span></a>wrdata y1_coast_1 v(411)</div>
-<div class="line"><a href="#id73"><span class="problematic" id="id74">*</span></a>wrdata y2_coast_1 v(4111)</div>
-</div>
-</div>
 <div class="section" id="using-bbq-without-preamplifier-for-two-plates">
-<h2>7.3. Using BBQ without preamplifier for two plates<a class="headerlink" href="#using-bbq-without-preamplifier-for-two-plates" title="Permalink to this headline">¶</a></h2>
+<h3>6.2.1. Using BBQ without preamplifier for two plates<a class="headerlink" href="#using-bbq-without-preamplifier-for-two-plates" title="Permalink to this headline">¶</a></h3>
 <p>Following Ngspice code can simualate the output for 2 plates for BBQ system without preampliflier</p>
 <ul class="simple">
 <li>BBQ Circuit</li>
@@ -508,7 +505,7 @@
 </div>
 </div>
 <div class="section" id="using-bbq-with-preamplifier-for-two-plates">
-<h2>7.4. Using BBQ with preamplifier for two plates<a class="headerlink" href="#using-bbq-with-preamplifier-for-two-plates" title="Permalink to this headline">¶</a></h2>
+<h3>6.2.2. Using BBQ with preamplifier for two plates<a class="headerlink" href="#using-bbq-with-preamplifier-for-two-plates" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>BBQ Circuit</li>
 </ul>
@@ -643,6 +640,7 @@
 </div>
 </div>
 </div>
+</div>
 
 
           </div>
@@ -652,16 +650,18 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">7. Tune, Orbit and POSition measurement system (TOPOS)</a><ul>
-<li><a class="reference internal" href="#components-of-topos">7.1. Components of TOPOS</a><ul>
-<li><a class="reference internal" href="#topos-signal-chain-from-bpm-plates-to-adc">7.1.1. TOPOS SIGNAL CHAIN from BPM plates to ADC</a></li>
-<li><a class="reference internal" href="#baseband-tune-q-measurement-system-bbq">7.1.2. BaseBand tune(Q) measurement system (BBQ)</a></li>
-<li><a class="reference internal" href="#simple-opamp-schematic">7.1.3. Simple OPAMP schematic</a></li>
+<li><a class="reference internal" href="#">6. Full system SPICE models</a><ul>
+<li><a class="reference internal" href="#topos">6.1. TOPOS</a><ul>
+<li><a class="reference internal" href="#topos-signal-chain-from-bpm-plates-to-adc">6.1.1. TOPOS SIGNAL CHAIN from BPM plates to ADC</a></li>
+<li><a class="reference internal" href="#simple-opamp-schematic">6.1.2. Simple OPAMP schematic</a></li>
+<li><a class="reference internal" href="#using-topos-for-four-plates">6.1.3. Using TOPOS for four plates</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#using-topos-for-four-plates">7.2. Using TOPOS for four plates</a></li>
-<li><a class="reference internal" href="#using-bbq-without-preamplifier-for-two-plates">7.3. Using BBQ without preamplifier for two plates</a></li>
-<li><a class="reference internal" href="#using-bbq-with-preamplifier-for-two-plates">7.4. Using BBQ with preamplifier for two plates</a></li>
+<li><a class="reference internal" href="#baseband-tune-q-measurement-system-bbq">6.2. BaseBand tune(Q) measurement system (BBQ)</a><ul>
+<li><a class="reference internal" href="#using-bbq-without-preamplifier-for-two-plates">6.2.1. Using BBQ without preamplifier for two plates</a></li>
+<li><a class="reference internal" href="#using-bbq-with-preamplifier-for-two-plates">6.2.2. Using BBQ with preamplifier for two plates</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -669,7 +669,7 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="Install_ngspice.html" title="previous chapter">6. Ngspice user guide</a></li>
+      <li>Previous: <a href="Install_ngspice.html" title="previous chapter">5. Ngspice user guide</a></li>
   </ul></li>
 </ul>
 </div>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>6. Ngspice user guide &mdash; InSet 1 documentation</title>
+    <title>5. Ngspice user guide &mdash; InSet 1 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -25,8 +25,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="InSet 1 documentation" href="index.html" />
-    <link rel="next" title="7. Tune, Orbit and POSition measurement system (TOPOS)" href="topos.html" />
-    <link rel="prev" title="5. Electronic Circuit Design Of BPM" href="ElectronicDesign.html" />
+    <link rel="next" title="6. Tune, Orbit and POSition measurement system (TOPOS)" href="topos.html" />
+    <link rel="prev" title="4. Common Modules" href="common_modules.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
@@ -39,14 +39,24 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="ngspice-user-guide">
-<h1>6. Ngspice user guide<a class="headerlink" href="#ngspice-user-guide" title="Permalink to this headline">¶</a></h1>
+  <div class="sidebar">
+<p class="first sidebar-title">Navigation Links</p>
+<ul class="last simple">
+<li><a class="reference internal" href="index.html"><em>Home</em></a></li>
+<li><a class="reference internal" href="index.html#index-label"><span>Table of contents</span></a></li>
+<li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span>Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span>Search Page</span></a></li>
+</ul>
+</div>
+<div class="section" id="ngspice-user-guide">
+<h1>5. Ngspice user guide<a class="headerlink" href="#ngspice-user-guide" title="Permalink to this headline">¶</a></h1>
 <img alt="_images/nglogo.jpg" src="_images/nglogo.jpg" />
 <p>Download the latest version of ngspice by clicking the following link:
 <a class="reference external" href="http://sourceforge.net/projects/ngspice/files/">http://sourceforge.net/projects/ngspice/files/</a></p>
 <p>You can find detailed installation guide here: <a class="reference external" href="http://sourceforge.net/p/ngspice/ngspice/ci/master/tree/INSTALL?format=raw">http://sourceforge.net/p/ngspice/ngspice/ci/master/tree/INSTALL?format=raw</a></p>
 <div class="section" id="how-to-install-ngspice-on-linux">
-<h2>6.1. How to install ngspice on Linux<a class="headerlink" href="#how-to-install-ngspice-on-linux" title="Permalink to this headline">¶</a></h2>
+<h2>5.1. How to install ngspice on Linux<a class="headerlink" href="#how-to-install-ngspice-on-linux" title="Permalink to this headline">¶</a></h2>
 <p>The following software packages must be installed in your system to compile ngspice:</p>
 <div class="line-block">
 <div class="line"><em>bison, flex, X11 headers, libs</em></div>
@@ -74,7 +84,7 @@
 <p>This will give you a fully featured ngspice in Linux.</p>
 </div>
 <div class="section" id="how-to-use-ngspice">
-<h2>6.2. How to use Ngspice<a class="headerlink" href="#how-to-use-ngspice" title="Permalink to this headline">¶</a></h2>
+<h2>5.2. How to use Ngspice<a class="headerlink" href="#how-to-use-ngspice" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
 <div class="line">1)Open any editor.</div>
 </div>
@@ -99,8 +109,33 @@
 <div class="line-block">
 <div class="line"><code class="docutils literal"><span class="pre">source</span> <span class="pre">&lt;filename.cir&gt;</span></code></div>
 </div>
-<blockquote>
-<div>That&#8217;s it! you are done! Simple! Isn&#8217;t it?</div></blockquote>
+</div>
+<div class="section" id="ngspice-and-python-interfacing-for-bpm">
+<h2>5.3. NGspice and python interfacing for BPM<a class="headerlink" href="#ngspice-and-python-interfacing-for-bpm" title="Permalink to this headline">¶</a></h2>
+<p>Figure shows the output at one of the plate of BPM in Python and Ngspice</p>
+<img alt="_images/ngsp.png" src="_images/ngsp.png" />
+<span class="target" id="module-ngplot"></span><p>Generic ngspice plotting Module</p>
+<p>The module takes the following arguments</p>
+<p>Schematic name &#8212; Name of the NGspice schematic</p>
+<p>Input_signal &#8212; Input signal .txt file</p>
+<p>Voltage_nodes &#8212; voltage nodes which has to be plotted</p>
+<dl class="class">
+<dt id="ngplot.spice">
+<em class="property">class </em><code class="descclassname">ngplot.</code><code class="descname">spice</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ngplot.html#spice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ngplot.spice" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Generic spice class defines all the generic spice parameters</p>
+<p>spice settings can be stored in an external file and retrieved</p>
+<dl class="method">
+<dt id="ngplot.spice.NGspice">
+<code class="descname">NGspice</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ngplot.html#spice.NGspice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ngplot.spice.NGspice" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function will invoke NGspice</p>
+<p>Simulate the user defined schematic file</p>
+<p>Write the data at user defined voltage nodes in files named plot0, plot1... for voltage nodes given respectively</p>
+<p>Plot the results from user defined voltage nodes</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>use the manual here to learn about NGspice: <a class="reference internal" href="index.html#ngspice" id="id1">[NGSPICE]</a>.</p>
 </div>
 </div>
 
@@ -112,9 +147,10 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">6. Ngspice user guide</a><ul>
-<li><a class="reference internal" href="#how-to-install-ngspice-on-linux">6.1. How to install ngspice on Linux</a></li>
-<li><a class="reference internal" href="#how-to-use-ngspice">6.2. How to use Ngspice</a></li>
+<li><a class="reference internal" href="#">5. Ngspice user guide</a><ul>
+<li><a class="reference internal" href="#how-to-install-ngspice-on-linux">5.1. How to install ngspice on Linux</a></li>
+<li><a class="reference internal" href="#how-to-use-ngspice">5.2. How to use Ngspice</a></li>
+<li><a class="reference internal" href="#ngspice-and-python-interfacing-for-bpm">5.3. NGspice and python interfacing for BPM</a></li>
 </ul>
 </li>
 </ul>
@@ -122,8 +158,8 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="ElectronicDesign.html" title="previous chapter">5. Electronic Circuit Design Of BPM</a></li>
-      <li>Next: <a href="topos.html" title="next chapter">7. Tune, Orbit and POSition measurement system (TOPOS)</a></li>
+      <li>Previous: <a href="common_modules.html" title="previous chapter">4. Common Modules</a></li>
+      <li>Next: <a href="topos.html" title="next chapter">6. Tune, Orbit and POSition measurement system (TOPOS)</a></li>
   </ul></li>
 </ul>
 </div>

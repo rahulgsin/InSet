@@ -2,6 +2,14 @@
 .. toctree::
    :maxdepth: 1
 
+.. sidebar:: Navigation Links
+
+   * :doc:`Home<index>`
+   * :ref:`Table of contents<index_label>`
+   * :ref:`genindex`
+   * :ref:`modindex`
+   * :ref:`search`  
+
 .. _machine_label:
 
 Machine
@@ -10,13 +18,4 @@ Machine
 .. automodule:: machine
    :members:
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-* :doc:`Home<index>`
-* :ref:`Table of contents<index_label>`
-* :ref:`Table of page<beam_label>`
 

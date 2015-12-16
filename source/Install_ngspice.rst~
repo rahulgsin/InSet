@@ -73,5 +73,5 @@ Figure shows the output at one of the plate of BPM in Python and Ngspice
 .. automodule:: ngplot
     :members:
 
-use the manual here to learn about NGspice: [NGSPICE]_.
+
 

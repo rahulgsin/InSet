@@ -1,3 +1,12 @@
+
+.. sidebar:: Navigation Links
+
+   * :doc:`Home<index>`
+   * :ref:`Table of contents<index_label>`
+   * :ref:`genindex`
+   * :ref:`modindex`
+   * :ref:`search`  
+
 Ngspice user guide
 **************************************
 .. image:: /images/nglogo.jpg
@@ -54,6 +63,15 @@ How to use Ngspice
 
 |  ``source <filename.cir>``
 
-	That's it! you are done! Simple! Isn't it?
+NGspice and python interfacing for BPM
+=======================================
+Figure shows the output at one of the plate of BPM in Python and Ngspice
 
+.. image:: /images/ngsp.png
+
+
+.. automodule:: ngplot
+    :members:
+
+use the manual here to learn about NGspice: [NGSPICE]_.
 
