@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>5. Electronic Circuit Design Of BPM &mdash; InSet 1 documentation</title>
+    <title>Electronic Circuit Design Of BPM &mdash; InSet 1 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -25,8 +25,6 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="InSet 1 documentation" href="index.html" />
-    <link rel="next" title="6. Ngspice user guide" href="Install_ngspice.html" />
-    <link rel="prev" title="4. Common Modules" href="common_modules.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
@@ -40,12 +38,12 @@
           <div class="body" role="main">
             
   <div class="section" id="electronic-circuit-design-of-bpm">
-<h1>5. Electronic Circuit Design Of BPM<a class="headerlink" href="#electronic-circuit-design-of-bpm" title="Permalink to this headline">¶</a></h1>
+<h1>Electronic Circuit Design Of BPM<a class="headerlink" href="#electronic-circuit-design-of-bpm" title="Permalink to this headline">¶</a></h1>
 <p>Here the electronic devices that are used for designing the simulation of BPM are described. Various ngspice models of OPAMPs, Diodes are used for the simulation. Specifications of the above are discussed here.</p>
 <div class="section" id="ngspice-opamp-models">
-<h2>5.1. Ngspice OPAMP models<a class="headerlink" href="#ngspice-opamp-models" title="Permalink to this headline">¶</a></h2>
+<h2>Ngspice OPAMP models<a class="headerlink" href="#ngspice-opamp-models" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="lt1192">
-<h3>5.1.1. LT1192<a class="headerlink" href="#lt1192" title="Permalink to this headline">¶</a></h3>
+<h3>LT1192<a class="headerlink" href="#lt1192" title="Permalink to this headline">¶</a></h3>
 <p>You can find the datasheet of LT1192 here: <a class="reference external" href="http://cds.linear.com/docs/en/datasheet/1192fa.pdf">http://cds.linear.com/docs/en/datasheet/1192fa.pdf</a></p>
 <p>Here is Gain(2) vs frequency characteristics:</p>
 <img alt="_images/lt1192.jpg" src="_images/lt1192.jpg" />
@@ -56,7 +54,7 @@
 </div>
 </div>
 <div class="section" id="lt1363">
-<h3>5.1.2. LT1363<a class="headerlink" href="#lt1363" title="Permalink to this headline">¶</a></h3>
+<h3>LT1363<a class="headerlink" href="#lt1363" title="Permalink to this headline">¶</a></h3>
 <p>You can find the datasheet of LT1363 here: <a class="reference external" href="http://cds.linear.com/docs/en/datasheet/1363fa.pdf">http://cds.linear.com/docs/en/datasheet/1363fa.pdf</a></p>
 <p>Here is Gain(2) vs frequency characteristics:</p>
 <img alt="_images/lt1363.jpg" src="_images/lt1363.jpg" />
@@ -67,7 +65,7 @@
 </div>
 </div>
 <div class="section" id="lt1722">
-<h3>5.1.3. LT1722<a class="headerlink" href="#lt1722" title="Permalink to this headline">¶</a></h3>
+<h3>LT1722<a class="headerlink" href="#lt1722" title="Permalink to this headline">¶</a></h3>
 <p>You can find the datasheet of LT1722 here: <a class="reference external" href="http://cds.linear.com/docs/en/datasheet/172234fb.pdf">http://cds.linear.com/docs/en/datasheet/172234fb.pdf</a></p>
 <p>Here is Gain(2) vs frequency characteristics:</p>
 <img alt="_images/lt1722.jpg" src="_images/lt1722.jpg" />
@@ -78,7 +76,7 @@
 </div>
 </div>
 <div class="section" id="max477">
-<h3>5.1.4. MAX477<a class="headerlink" href="#max477" title="Permalink to this headline">¶</a></h3>
+<h3>MAX477<a class="headerlink" href="#max477" title="Permalink to this headline">¶</a></h3>
 <p>You can find the datasheet of MAX477 here: <a class="reference external" href="http://datasheets.maximintegrated.com/en/ds/MAX477.pdf">http://datasheets.maximintegrated.com/en/ds/MAX477.pdf</a></p>
 <p>Here is Gain(2) vs frequency characteristics:</p>
 <img alt="_images/max477.jpg" src="_images/max477.jpg" />
@@ -90,7 +88,7 @@
 </div>
 </div>
 <div class="section" id="ths3001">
-<h3>5.1.5. THS3001<a class="headerlink" href="#ths3001" title="Permalink to this headline">¶</a></h3>
+<h3>THS3001<a class="headerlink" href="#ths3001" title="Permalink to this headline">¶</a></h3>
 <p>You can find the datasheet of THS3001 here: <a class="reference external" href="http://www.ti.com.cn/cn/lit/ds/slos217h/slos217h.pdf">http://www.ti.com.cn/cn/lit/ds/slos217h/slos217h.pdf</a></p>
 <p>Here is Gain(2) vs frequency characteristics:</p>
 <img alt="_images/ths3001.jpg" src="_images/ths3001.jpg" />
@@ -102,9 +100,9 @@
 </div>
 </div>
 <div class="section" id="ngspice-diode-model">
-<h2>5.2. Ngspice diode model<a class="headerlink" href="#ngspice-diode-model" title="Permalink to this headline">¶</a></h2>
+<h2>Ngspice diode model<a class="headerlink" href="#ngspice-diode-model" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="schottky-barrier-diodes-nsr0320mw2t1g">
-<h3>5.2.1. Schottky Barrier Diodes: NSR0320MW2T1G<a class="headerlink" href="#schottky-barrier-diodes-nsr0320mw2t1g" title="Permalink to this headline">¶</a></h3>
+<h3>Schottky Barrier Diodes: NSR0320MW2T1G<a class="headerlink" href="#schottky-barrier-diodes-nsr0320mw2t1g" title="Permalink to this headline">¶</a></h3>
 <p>You can find the datasheet of NSR0320MW2T1G here: <a class="reference external" href="http://www.farnell.com/datasheets/1708337.pdf">http://www.farnell.com/datasheets/1708337.pdf</a></p>
 <div class="line-block">
 <div class="line">1)Low Forward voltage = 0.24V (IF = 10mA)</div>
@@ -122,17 +120,17 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">5. Electronic Circuit Design Of BPM</a><ul>
-<li><a class="reference internal" href="#ngspice-opamp-models">5.1. Ngspice OPAMP models</a><ul>
-<li><a class="reference internal" href="#lt1192">5.1.1. LT1192</a></li>
-<li><a class="reference internal" href="#lt1363">5.1.2. LT1363</a></li>
-<li><a class="reference internal" href="#lt1722">5.1.3. LT1722</a></li>
-<li><a class="reference internal" href="#max477">5.1.4. MAX477</a></li>
-<li><a class="reference internal" href="#ths3001">5.1.5. THS3001</a></li>
+<li><a class="reference internal" href="#">Electronic Circuit Design Of BPM</a><ul>
+<li><a class="reference internal" href="#ngspice-opamp-models">Ngspice OPAMP models</a><ul>
+<li><a class="reference internal" href="#lt1192">LT1192</a></li>
+<li><a class="reference internal" href="#lt1363">LT1363</a></li>
+<li><a class="reference internal" href="#lt1722">LT1722</a></li>
+<li><a class="reference internal" href="#max477">MAX477</a></li>
+<li><a class="reference internal" href="#ths3001">THS3001</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#ngspice-diode-model">5.2. Ngspice diode model</a><ul>
-<li><a class="reference internal" href="#schottky-barrier-diodes-nsr0320mw2t1g">5.2.1. Schottky Barrier Diodes: NSR0320MW2T1G</a></li>
+<li><a class="reference internal" href="#ngspice-diode-model">Ngspice diode model</a><ul>
+<li><a class="reference internal" href="#schottky-barrier-diodes-nsr0320mw2t1g">Schottky Barrier Diodes: NSR0320MW2T1G</a></li>
 </ul>
 </li>
 </ul>
@@ -142,8 +140,6 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="common_modules.html" title="previous chapter">4. Common Modules</a></li>
-      <li>Next: <a href="Install_ngspice.html" title="next chapter">6. Ngspice user guide</a></li>
   </ul></li>
 </ul>
 </div>
@@ -175,7 +171,7 @@
       &copy;2015, Rahul Singh.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
       
       |

@@ -53,134 +53,8 @@
 <li><a class="reference internal" href="search.html"><span>Search Page</span></a></li>
 </ul>
 </div>
-<div class="section" id="module-beam">
-<span id="beam"></span><span id="beam-label"></span><h1>1. Beam<a class="headerlink" href="#module-beam" title="Permalink to this headline">¶</a></h1>
-<p>This module defines the beam class</p>
-<p>The module takes the following arguments</p>
-<p>Property &#8212; Key &#8212; Value Type &#8212; Remarks</p>
-<p>Particle type &#8212; par_type &#8212; String &#8212; Ion type (p, U, Ar etc.)</p>
-<p>Charge state &#8212; charge_state &#8212; Integer &#8212; Charge state</p>
-<p>Atomic mass &#8212; atomic_mass &#8212;  Integer &#8212; 2 for Hydrogen</p>
-<p>Particle energy &#8212; kin_energy &#8212; Float &#8212; Kinetic energy per nucleon</p>
-<p>Particle number &#8212;par_num &#8212; Integer &#8212; Total number of particles (ions)</p>
-<p>Distribution type &#8212; d_type &#8212; String &#8212; a for arbitrary, p for parabolic, g for gaussian and kv for KV distribution</p>
-<p>X Distribution &#8212;- x_dist &#8212; List of integers for &#8216;a&#8217;, two Ints for parabolic and gaussian &#8212; Phase space distribution in x plane</p>
-<p>Y Distribution &#8212;- y_dist &#8212; Same as X Dist. &#8212; Phase space distribution in y plane</p>
-<p>Z Distribution &#8212;- z_dist &#8212; Same as X Dist. &#8212; Phase space distribution in z/s plane</p>
-<p>par_type=None, charge_state= None, atomic_mass = None, par_num= None, d_type = &#8216;ggg&#8217;, x_dist = [0,5], y_dist =[0,5], z_dist =[0,100]</p>
-<p>The arguments can be passed in this order or by defining a dictionary or by calling a file where the parameters exist</p>
-<dl class="class">
-<dt id="beam.dynamicbeam">
-<em class="property">class </em><code class="descclassname">beam.</code><code class="descname">dynamicbeam</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#dynamicbeam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.dynamicbeam" title="Permalink to this definition">¶</a></dt>
-<dd><p>This attributes are similar to a static beam, however, the beam energy, number of beam particles and beam structure is updated for several turns (depends on the length of list) and stored</p>
-<p>It creates a beam object instance the parameters in a special order are specified, or simply by passing a beam dictionary</p>
-<p>A save keyword &#8216;s&#8217; can be used to save the beam object in a file, which can be loaded later</p>
-<dl class="method">
-<dt id="beam.dynamicbeam.beam_data">
-<code class="descname">beam_data</code><span class="sig-paren">(</span><em>number_of_turns</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#dynamicbeam.beam_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.dynamicbeam.beam_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function will take the snapshots of phase space after several turns</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="beam.dynamicbeam.gaussian">
-<code class="descname">gaussian</code><span class="sig-paren">(</span><em>x</em>, <em>mu</em>, <em>sig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#dynamicbeam.gaussian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.dynamicbeam.gaussian" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the normal distribution with x number of points, and mean mu, and sig</p>
-</dd></dl>
-
-<dl class="classmethod">
-<dt id="beam.dynamicbeam.listfiles">
-<em class="property">classmethod </em><code class="descname">listfiles</code><span class="sig-paren">(</span><em>staticbeam</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#dynamicbeam.listfiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.dynamicbeam.listfiles" title="Permalink to this definition">¶</a></dt>
-<dd><p>THis function will list all the static and dynamic beams</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="beam.dynamicbeam.load">
-<code class="descname">load</code><span class="sig-paren">(</span><em>name_of_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#dynamicbeam.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.dynamicbeam.load" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function will load the beam object from the specified file in the directory called &#8220;defined_beams&#8221; in the source directory</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="beam.dynamicbeam.parabolic">
-<code class="descname">parabolic</code><span class="sig-paren">(</span><em>x</em>, <em>xmin</em>, <em>xmax</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#dynamicbeam.parabolic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.dynamicbeam.parabolic" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the normal distribution with x number of points, and mean mu, and sig</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="beam.dynamicbeam.phase_space_init">
-<code class="descname">phase_space_init</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#dynamicbeam.phase_space_init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.dynamicbeam.phase_space_init" title="Permalink to this definition">¶</a></dt>
-<dd><p>defines the initial 6D phase space of the beam</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="beam.dynamicbeam.plot">
-<code class="descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#dynamicbeam.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.dynamicbeam.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function will plot the profile of the beam in the mentioned axis</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="beam.dynamicbeam.save">
-<code class="descname">save</code><span class="sig-paren">(</span><em>name_of_file</em>, <em>description</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#dynamicbeam.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.dynamicbeam.save" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function will save the beam object to an external file in the directory called &#8220;defined_beams&#8221; in the source directory</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="beam.dynamicbeam.structure">
-<code class="descname">structure</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#dynamicbeam.structure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.dynamicbeam.structure" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function defines the structure of the beam based on the beam parameters</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="beam.staticbeam">
-<em class="property">class </em><code class="descclassname">beam.</code><code class="descname">staticbeam</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#staticbeam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.staticbeam" title="Permalink to this definition">¶</a></dt>
-<dd><p>Beam class defines the static beam object</p>
-<p>It creates a beam object instance the parameters in a special order are specified, or simply by passing a beam dictionary</p>
-<p>A save keyword &#8216;s&#8217; can be used to save the beam object in a file, which can be loaded later</p>
-<dl class="method">
-<dt id="beam.staticbeam.gaussian">
-<code class="descname">gaussian</code><span class="sig-paren">(</span><em>x</em>, <em>mu</em>, <em>sig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#staticbeam.gaussian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.staticbeam.gaussian" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the normal distribution with x number of points, and mean mu, and sig</p>
-</dd></dl>
-
-<dl class="classmethod">
-<dt id="beam.staticbeam.listfiles">
-<em class="property">classmethod </em><code class="descname">listfiles</code><span class="sig-paren">(</span><em>staticbeam</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#staticbeam.listfiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.staticbeam.listfiles" title="Permalink to this definition">¶</a></dt>
-<dd><p>THis function will list all the static and dynamic beams</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="beam.staticbeam.load">
-<code class="descname">load</code><span class="sig-paren">(</span><em>name_of_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#staticbeam.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.staticbeam.load" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function will load the beam object from the specified file in the directory called &#8220;defined_beams&#8221; in the source directory</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="beam.staticbeam.parabolic">
-<code class="descname">parabolic</code><span class="sig-paren">(</span><em>x</em>, <em>xmin</em>, <em>xmax</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#staticbeam.parabolic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.staticbeam.parabolic" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the normal distribution with x number of points, and mean mu, and sig</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="beam.staticbeam.plot">
-<code class="descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#staticbeam.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.staticbeam.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function will plot the profile of the beam in the mentioned axis</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="beam.staticbeam.save">
-<code class="descname">save</code><span class="sig-paren">(</span><em>name_of_file</em>, <em>description</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#staticbeam.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.staticbeam.save" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function will save the beam object to an external file in the directory called &#8220;defined_beams&#8221; in the source directory</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="beam.staticbeam.structure">
-<code class="descname">structure</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/beam.html#staticbeam.structure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beam.staticbeam.structure" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function defines the structure of the beam based on the beam parameters</p>
-</dd></dl>
-
-</dd></dl>
-
+<div class="section" id="beam">
+<span id="beam-label"></span><h1>1. Beam<a class="headerlink" href="#beam" title="Permalink to this headline">¶</a></h1>
 </div>
 
 
@@ -225,7 +99,7 @@
       &copy;2015, Rahul Singh.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
       
       |
