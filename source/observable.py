@@ -1,17 +1,17 @@
 #!/usr/bin/python
-""" This module calculates the observables based on beam and machine object
+""" This module calculates the observables based on the input objects: beam and machine
 
 The module takes the following arguments
 
-Property --- Key --- Value type --- Description
+Property --- Key --- Value type --- Description --- Units
 
-Circumference --- circumference --- Float --- Circumference of the machine
+Current --- Current --- Float --- Total current in the ring --- A
 
-Gamma transition --- Tr_gamma --- Float --- Gamma transition
+Position --- Position --- List of Float --- Position x and y --- mm
 
-Set tune --- set_tune --- List of Float --- Horizontal and vertical tune
+Revolution Frequency --- rFrequency --- List of Float --- Frequency during the acceleration --- Hz
 
-Set Chromaticity --- set_chro --- List of float --- Horizontal and vertical chromaticity """
+Beam Radius --- sigmaWidth --- List of float --- 1 sigma of the beam profile --- mm """
 
 # meta info
 __author__ = 'Rahul Singh'

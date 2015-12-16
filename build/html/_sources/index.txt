@@ -35,6 +35,7 @@ Contents
    Install_ngspice
    topos
 
+.. rubric:: External Links
 
 .. [SPHINXDOC] This is Sphinx doc documentation --> http://sphinx-doc.org/latest/tutorial.html.
 

@@ -35,8 +35,7 @@ Contents
    Install_ngspice
    topos
 
-
-Use the tutorial here to learn about Sphinx: [SPHINXDOC]_.
+.. rubric:: Footnotes
 
 .. [SPHINXDOC] This is Sphinx doc documentation --> http://sphinx-doc.org/latest/tutorial.html.
 

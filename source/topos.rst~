@@ -3,6 +3,7 @@ Full system SPICE models
 
 TOPOS
 =====================
+The tune measurement and position measurement system is discussed below.
 
 TOPOS SIGNAL CHAIN from BPM plates to ADC
 ------------------------------------------
@@ -15,97 +16,97 @@ And here is the result after simulation of the above circuit:
 
 .. image:: /images/topos2.png
 
-*Code for the above circuit in Ngspice looks like this:*
+Code for the above circuit in Ngspice looks like this::
 
-.include att10.cir
-
-.include att20.cir
-
-.include att30.cir
-
-.include amp10.cir
-
-.include amp20.cir
-
-.model switch1 sw 
-
-Vin 1 0 ac sin(0 100m 10meg)
-
-// Vsw1=5 and vsaw1=-5 for Off 1 
-
-Vsw1 sn1 0 DC 5	
-
-swa1 1 2 sn1 0 switch1 OFF
-
-Vswa1 sna1 0 DC -5		
-
-Xatt35 img1 2 att30
-
-swaimg2 1 img1 sna1 0 switch1 OFF
-
-// switchable attenuator of -30db
-
-Vsw2 sn2 0 DC -5
-
-swa2 2 3 sn2 0 switch1 OFF
-
-Vswa2 sna2 0 DC 5		
-
-Xatt31 img2 3 att30
-
-swaimg3 2 img2 sna2 0 switch1 OFF
-
-// head ampliflier of 20db
-
-rser1	3 0 1meg
-
-Xamp20 3 4 amp20
-
-// switchable attenuator of -20db
-
-Vsw4 sn4 0 DC -5
-
-swa4 4 5 sn4 0 switch1 OFF
-
-Vswa4 sna4 0 DC 5		
-
-Xatt20 img4 5 att20
-
-swaimg5 4 img4 sna4 0 switch1 OFF
-
-// switchable attenuator of -10db
-
-Vsw3 sn3 0 DC 5		
-
-swa3  5 6 sn3 0 switch1 OFF
-
-Vswa3 sna3 0 DC -5
-
-Xatt10 img3 6 att10		
-
-swaimg6 5 img3 sna3 0 switch1 OFF
-
-// drive amplifier of 20db
-
-Xamp21 6 7 amp20
-
-rser2	6 0 75
-
-// post amplifier
-
-Xamp10 7 8 amp10
-
-rser3	7 0 75
-
-.CONTROL
-
-AC 	DEC 	5 100k 1000MEG
-
-tran 1ns 1us
-
-plot V(1) v(2) v(3) v(4) v(5) v(6) v(7) v(8)
-
-.include plotng.txt
+    .include att10.cir
+    
+    .include att20.cir
+    
+    .include att30.cir
+    
+    .include amp10.cir
+    
+    .include amp20.cir
+    
+    .model switch1 sw 
+    
+    Vin 1 0 ac sin(0 100m 10meg)
+    
+    // Vsw1=5 and vsaw1=-5 for Off 1 
+    
+    Vsw1 sn1 0 DC 5	
+    
+    swa1 1 2 sn1 0 switch1 OFF
+    
+    Vswa1 sna1 0 DC -5		
+    
+    Xatt35 img1 2 att30
+    
+    swaimg2 1 img1 sna1 0 switch1 OFF
+    
+    // switchable attenuator of -30db
+    
+    Vsw2 sn2 0 DC -5
+    
+    swa2 2 3 sn2 0 switch1 OFF
+    
+    Vswa2 sna2 0 DC 5		
+    
+    Xatt31 img2 3 att30
+    
+    swaimg3 2 img2 sna2 0 switch1 OFF
+    
+    // head ampliflier of 20db
+    
+    rser1	3 0 1meg
+    
+    Xamp20 3 4 amp20
+    
+    // switchable attenuator of -20db
+    
+    Vsw4 sn4 0 DC -5
+    
+    swa4 4 5 sn4 0 switch1 OFF
+    
+    Vswa4 sna4 0 DC 5		
+    
+    Xatt20 img4 5 att20
+    
+    swaimg5 4 img4 sna4 0 switch1 OFF
+    
+    // switchable attenuator of -10db
+    
+    Vsw3 sn3 0 DC 5		
+    
+    swa3  5 6 sn3 0 switch1 OFF
+    
+    Vswa3 sna3 0 DC -5
+    
+    Xatt10 img3 6 att10		
+    
+    swaimg6 5 img3 sna3 0 switch1 OFF
+    
+    // drive amplifier of 20db
+    
+    Xamp21 6 7 amp20
+    
+    rser2	6 0 75
+    
+    // post amplifier
+    
+    Xamp10 7 8 amp10
+    
+    rser3	7 0 75
+    
+    .CONTROL
+    
+    AC 	DEC 	5 100k 1000MEG
+    
+    tran 1ns 1us
+    
+    plot V(1) v(2) v(3) v(4) v(5) v(6) v(7) v(8)
+    
+    .include plotng.txt
 
 
 Simple OPAMP schematic
@@ -145,9 +146,9 @@ Magnitude response at the oputput
 Phase response at the oputput
 
 .. image:: /images/ophase.png
+
+
   The extra files which are include in above code can found here:
-
-
 
 Using TOPOS for four plates
 -----------------------------
@@ -158,7 +159,7 @@ TOPOS SIGNAL CHAIN --> Simulation for 4 plates
 
 | .include amp20.cir
 
-| ***First topos chain
+| First topos chain
 | Rb 22 0 100k
 | Cb1 1 22 50pF
 | Cb2 22 0 50pF
