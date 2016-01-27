@@ -1,0 +1,42 @@
+* Current Transformer equivalent circuit
+
+*.include Circuits/Subckts/lt1192.cir
+
+*** Defining the R L and C components of the trafo
+R1 1 0 50
+L1 2 0 600uh
+C1 3 0 50pf
+
+*** Dummy sources for current measurement
+
+VR1 4 1 dc 0.0 ac 0.0
+VL1 4 2 dc 0.0 ac 0.0
+VC1 4 3 dc 0.0 ac 0.0
+
+*** Definition of voltage/current source
+.include Circuits/Tempfiles/Source_signal.txt
+
+
+*AVSRC1 %V([1]) filesrc
+*.model filesrc filesource (file="../simdata/current_profile.txt" )
+*AISRC1 %I([4 0]) filesrc
+*.model filesrc filesource (file="../simdata/current_profile2.txt" )
+
+
+*** Simulation commands
+.include Circuits/Tempfiles/Sim_parameters.txt
+*.CONTROL
+*AC 	DEC 	 1k 500MEG
+*TRAN 1ns 10us
+linearize 
+
+
+*** Plotting commands
+.include Circuits/Tempfiles/plotng.txt
+*plot (-V(4))
+*plot -VR1#branch
+*plot -VL1#branch
+*plot -VC1#branch
+*fft (V(4))
+*PLOT mag(V(2,7)) xlog
+*setplot tran1

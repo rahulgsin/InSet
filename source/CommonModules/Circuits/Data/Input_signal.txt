@@ -1,1 +1,0 @@
-.model filesrc filesource (file="x1_profile.txt")

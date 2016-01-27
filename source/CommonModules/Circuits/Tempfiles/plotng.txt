@@ -1,7 +1,0 @@
-wrdata plot0 v(1)
-wrdata plot1 v(8)
-wrdata plot2 v(19)
-wrdata plot3 v(89)
-wrdata plot4 v(14)
-wrdata plot5 v(149)
-wrdata plot6 (v(14)-v(149))

@@ -18,91 +18,51 @@ And here is the result after simulation of the above circuit:
 
 Code for the above circuit in Ngspice looks like this::
 
-    .include att10.cir
-    
-    .include att20.cir
-    
-    .include att30.cir
-    
-    .include amp10.cir
-    
-    .include amp20.cir
-    
-    .model switch1 sw 
-    
-    Vin 1 0 ac sin(0 100m 10meg)
-    
-    // Vsw1=5 and vsaw1=-5 for Off 1 
-    
-    Vsw1 sn1 0 DC 5	
-    
-    swa1 1 2 sn1 0 switch1 OFF
-    
-    Vswa1 sna1 0 DC -5		
-    
-    Xatt35 img1 2 att30
-    
-    swaimg2 1 img1 sna1 0 switch1 OFF
-    
-    // switchable attenuator of -30db
-    
-    Vsw2 sn2 0 DC -5
-    
-    swa2 2 3 sn2 0 switch1 OFF
-    
-    Vswa2 sna2 0 DC 5		
-    
-    Xatt31 img2 3 att30
-    
-    swaimg3 2 img2 sna2 0 switch1 OFF
-    
-    // head ampliflier of 20db
-    
-    rser1	3 0 1meg
-    
-    Xamp20 3 4 amp20
-    
-    // switchable attenuator of -20db
-    
-    Vsw4 sn4 0 DC -5
-    
-    swa4 4 5 sn4 0 switch1 OFF
-    
-    Vswa4 sna4 0 DC 5		
-    
-    Xatt20 img4 5 att20
-    
-    swaimg5 4 img4 sna4 0 switch1 OFF
-    
-    // switchable attenuator of -10db
-    
-    Vsw3 sn3 0 DC 5		
-    
-    swa3  5 6 sn3 0 switch1 OFF
-    
-    Vswa3 sna3 0 DC -5
-    
-    Xatt10 img3 6 att10		
-    
-    swaimg6 5 img3 sna3 0 switch1 OFF
-    
-    // drive amplifier of 20db
-    
-    Xamp21 6 7 amp20
-    
-    rser2	6 0 75
-    
-    // post amplifier
-    
-    Xamp10 7 8 amp10
-    
-    rser3	7 0 75
-    
-    .CONTROL
-    AC 	DEC 	5 100k 1000MEG
-    tran 1ns 1us
-    plot V(1) v(2) v(3) v(4) v(5) v(6) v(7) v(8)
-    .include plotng.txt
+    |.include att10.cir   
+    |.include att20.cir  
+    |.include att30.cir 
+    |.include amp10.cir
+    |.include amp20.cir
+    |.model switch1 sw 
+    |Vin 1 0 ac sin(0 100m 10meg)
+    |// Vsw1=5 and vsaw1=-5 for Off 1 
+    |Vsw1 sn1 0 DC 5	
+    |swa1 1 2 sn1 0 switch1 OFF 
+    |Vswa1 sna1 0 DC -5		
+    |Xatt35 img1 2 att30
+    |swaimg2 1 img1 sna1 0 switch1 OFF
+    |// switchable attenuator of -30db
+    |Vsw2 sn2 0 DC -5
+    |swa2 2 3 sn2 0 switch1 OFF
+    |Vswa2 sna2 0 DC 5		
+    |Xatt31 img2 3 att30 
+    |swaimg3 2 img2 sna2 0 switch1 OFF
+    |// head ampliflier of 20db
+    |rser1	3 0 1meg
+    |Xamp20 3 4 amp20
+    |// switchable attenuator of -20db
+    |Vsw4 sn4 0 DC -5
+    |swa4 4 5 sn4 0 switch1 OFF
+    |Vswa4 sna4 0 DC 5		
+    |Xatt20 img4 5 att20
+    |swaimg5 4 img4 sna4 0 switch1 OFF
+    |// switchable attenuator of -10db
+    |Vsw3 sn3 0 DC 5		
+    |swa3  5 6 sn3 0 switch1 OFF 
+    |Vswa3 sna3 0 DC -5
+    |Xatt10 img3 6 att10		
+    |swaimg6 5 img3 sna3 0 switch1 OFF
+    |// drive amplifier of 20db
+    |Xamp21 6 7 amp20
+    |rser2	6 0 75
+    |// post amplifier
+    |Xamp10 7 8 amp10
+    |rser3	7 0 75
+    |.CONTROL
+    |AC 	DEC 	5 100k 1000MEG
+    |tran 1ns 1us
+    |plot V(1) v(2) v(3) v(4) v(5) v(6) v(7) v(8)
+    |.include plotng.txt
 
 
 The OPAMP Model
@@ -367,70 +327,39 @@ Simple Schemaic of BBQ system configuration at SIS-18 for high energy signal is 
     
     //BPM simulation program for NGspice
     
-    C1 1 2 50PF
-    
-    C2 2 0 50PF
-    
-    XOP1	2 3 4 5 6	LT1192
-    
-    RO1	3	0	100
-    
-    RO2	3	6	100
-    
-    CO1	6	7	15nF
-    
-    ri1	2	0	1meg
-    
-    rl	7	0	1meg
-    
-    VCC1 	4 0 DC 15V
-    
-    VEE1	5 0 DC -15V
-    
-    D1 7 8 germ
-    
-    C3 8 0 1nF 
-    
-    R2 8 0 1k
-    
-    C4 8 9 1pf
-    
-    XOP2	9 10 11 12 13	THS3001
-    
-    RO3	10	0	10
-    
-    RO4	10	13	100
-    
-    C03	13 	14 	1pf
-    
-    ri2	9	0	1meg
-    
-    R3	14	0	10k
-    
-    VCC2	11 0 DC 15v
-    
-    VEE2	12 0 DC -15v
-    
-    rfilt	14	15	160
-    
-    cfilt	15	0	1pf 
-    
-    AVSRC %V([1]) filesrc
-    
-    .model filesrc filesource (file="current_profile2.txt" )
-    
-    .CONTROL
-    
-    //AC 	DEC 	 1k 500MEG
-    //PLOT mag(V(2,7)) xlog
-    
-    TRAN 1NS 5uS
-    
-    plot  v(1) V(7) v(8) v(15)
-    
-    plot v(7) v(8)
-    
-    .include plotng.txt
+    |C1 1 2 50PF
+    |C2 2 0 50PF
+    |XOP1	2 3 4 5 6	LT1192
+    |RO1	3	0	100
+    |RO2	3	6	100
+    |CO1	6	7	15nF
+    |ri1	2	0	1meg
+    |rl	7	0	1meg
+    |VCC1 	4 0 DC 15V
+    |VEE1	5 0 DC -15V
+    |D1 7 8 germ
+    |C3 8 0 1nF 
+    |R2 8 0 1k
+    |C4 8 9 1pf
+    |XOP2	9 10 11 12 13	THS3001
+    |RO3	10	0	10
+    |RO4	10	13	100
+    |C03	13 	14 	1pf
+    |ri2	9	0	1meg
+    |R3	14	0	10k
+    |VCC2	11 0 DC 15v
+    |VEE2	12 0 DC -15v
+    |rfilt	14	15	160
+    |cfilt	15	0	1pf 
+    |AVSRC %V([1]) filesrc
+    |.model filesrc filesource (file="current_profile2.txt" )
+    |.CONTROL
+    |//AC 	DEC 	 1k 500MEG
+    |//PLOT mag(V(2,7)) xlog 
+    |TRAN 1NS 5uS
+    |plot  v(1) V(7) v(8) v(15) 
+    |plot v(7) v(8)   
+    |.include plotng.txt
 
 And here is the result after simulation of the above circuit:
 

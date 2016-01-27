@@ -70,7 +70,7 @@ Figure shows the output at one of the plate of BPM in Python and Ngspice
 .. image:: /images/ngsp.png
 
 
-.. automodule:: ngplot
+.. automodule:: SpiceTransientSimulation
     :members:
 
 use the manual here to learn about NGspice: [NGSPICE]_.

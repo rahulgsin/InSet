@@ -93,6 +93,10 @@ Here is Gain(2) vs frequency characteristics:
 Diodes
 ===========
 
+
+SPICE examples
+^^^^^^^^^^^^^^^
+
 Schottky Barrier Diodes: NSR0320MW2T1G
 ---------------------------------------
 
@@ -107,13 +111,13 @@ ADCs
 .. automodule:: AdcModule
     :members:
 
-Transfer Function
+Frequency response or Transfer Function
 ********************
 Figure shows the example of Transfer function module
 
 .. image:: /images/tf.png
 
-.. automodule:: TransferFunction
+.. automodule:: SpiceFrequencyResponse
     :members:
 
 

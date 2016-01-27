@@ -1,6 +1,6 @@
 * BBQ Circuit
 
-.include Circuits/lt1192.cir
+.include Circuits/Subckts/lt1192.cir
 
 ***First BBQ Plate
 
@@ -108,7 +108,7 @@ TRAN 1NS 40us
 *plot  (v(14)-v(149))  
 *plot v(14) v(149)
 *plot v(1411) v(142)
-.include plotng.txt
+.include Circuits/Tempfiles/plotng.txt
 *wrdata x1_bbq_ext v(14)
 *wrdata x2_bbq_ext v(149)
 *wrdata x_bbq_extdiff (v(14)-v(149)) 
