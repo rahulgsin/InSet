@@ -99,7 +99,7 @@ class spice():
         else:
             
             Input_para = open("Circuits/Tempfiles/Source_signal.txt","w")
-            print(self.parameters['Source_type'][0])
+            #print(self.parameters['Source_type'][0])
             if self.parameters['Source_type'][0] == 'Arb':
                 Input_para.write("A"+self.parameters["Source_type"][1]+"SRC1 %"+self.parameters["Source_type"][1]+"(["+self.parameters["Source_nodes"]+"]) filesrc\n")
                 Input_para.write(".model filesrc filesource (file="+'"'+self.parameters["Source_Parameters"]+'"'+")")
@@ -118,7 +118,6 @@ class spice():
             print ("Simulation parameters are not defined, exiting the program")
             sys.exit()
         else:
-                
             Sim_para = open("Circuits/Tempfiles/Sim_parameters.txt","w")    
             Sim_para.write(".CONTROL\n")
             Sim_para.write("TRAN "+self.parameters["Sim_Parameters"][0]+" "+self.parameters["Sim_Parameters"][1])  
@@ -150,19 +149,31 @@ class spice():
                 sys.exit()
             self.mag = [line.rstrip('\n') for line in open('Circuits/Tempfiles/plot'+str(N)+'.data')] #Getting input in appropriate format for plotting
             self.line1 = [line.split() for line in open('Circuits/Tempfiles/plot'+str(N)+'.data',"r")]
-            globals()["xpt"+str(N)]= 0*np.ones(len(self.mag))
-            globals()["ypt"+str(N)]= 0*np.ones(len(self.mag))
+#              Used global variables ###
+#             globals()["xpt"+str(N)]= 0*np.ones(len(self.mag))
+#             globals()["ypt"+str(N)]= 0*np.ones(len(self.mag))
+#             
+#             for i in range(len(self.mag)):
+#                 globals()["xpt"+str(N)][i] = float(self.line1[i][0])/1.0e6	#collecting input points for plotting
+#                 globals()["ypt"+str(N)][i] = float(self.line1[i][1])	#collecting input points for plotting
+#            
+#             x, = plt.plot(globals()["xpt"+str(N)], globals()["ypt"+str(N)],linewidth=1.5) #need the ',' per ** below
+
+            xpt= 0*np.ones(len(self.mag))
+            ypt= 0*np.ones(len(self.mag))
             
             for i in range(len(self.mag)):
-                globals()["xpt"+str(N)][i] = float(self.line1[i][0])/1.0e6	#collecting input points for plotting
-                globals()["ypt"+str(N)][i] = float(self.line1[i][1])	#collecting input points for plotting
+                xpt[i] = float(self.line1[i][0])*1.0e6	#collecting input points for plotting
+                ypt[i] = float(self.line1[i][1])	#collecting input points for plotting
            
-            x, = plt.plot(globals()["xpt"+str(N)], globals()["ypt"+str(N)],linewidth=1.5) #need the ',' per ** below
+            x, = plt.plot(xpt,ypt,linewidth=1.5)
+            print(self.parameters['plot_nodes_branches'][N])
+            plt.legend([self.parameters['plot_nodes_branches']],loc='best') # Put the legends on the plot 
             plotHandles.append(x)
             
-  #### Put the legends on the plot    
+     
         #Plotting options/labels, text size etc.
-        #plt.xlabel('time t/sec',fontsize=18)
+        plt.xlabel('time t/$\mu$sec',fontsize=18)
         #plt.ylabel('V',fontsize=18)
         #plt.plot(xpt,ypt,'r',xpt2,ypt2,'g',xpt3,ypt3,'+',xpt4,ypt4,'m',linewidth=2)
         #plt.legend(['Input','TOPOS op'],loc='best')
@@ -176,6 +187,7 @@ class spice():
         #plt.ylabel('V',fontsize=22)
         #plt.xscale('log')
         plt.grid(True)
+        plt.legend([self.parameters['plot_nodes_branches']],loc='best') # Put the legends on the plot 
         #plt.xlabel('time t/sec')
         #plt.ylabel('input voltage v')
         #plt.legend(self.parameters['Voltage_nodes'],loc='upper right')
@@ -201,6 +213,6 @@ if __name__ == "__main__":
     # Pulse source
     dict_tfx2 = {'Schematic':'Circuits/currenttrafo.cir','Source_type': ["Pulse", "I"], 'Source_Parameters':'-1 1 5000ns 2ns 2ns 100ns 0ns','Source_nodes':'4 0','Sim_Parameters':["1ns","10us"], 'plot_nodes_branches': ['-v(1)','-v(4)','-vr1#branch','-vc1#branch','-vl1#branch']} ### Check the spice definitions
     # Sinusoidal source
-    dict_tfx3 = {'Schematic':'Circuits/currenttrafo.cir','Source_type': ["Sin", "I"], 'Source_Parameters':'0 1 10MEG 100ns 1E-10','Source_nodes':'4 0','Sim_Parameters':["1ns","10us"], 'plot_nodes_branches': ['-v(1)','-v(4)','-vr1#branch','-vc1#branch','-vl1#branch']} ### Check the spice definitions
+    dict_tfx3 = {'Schematic':'Circuits/currenttrafo.cir','Source_type': ["Sin", "I"], 'Source_Parameters':'0 1 10MEG 100ns 1E2','Source_nodes':'4 0','Sim_Parameters':["1ns","30us"], 'plot_nodes_branches': ['-v(1)','-v(4)','-vr1#branch','-vc1#branch','-vl1#branch']} ### Check the spice definitions
     tfx = spice(**dict_tfx3)
     tfx.NGspice()

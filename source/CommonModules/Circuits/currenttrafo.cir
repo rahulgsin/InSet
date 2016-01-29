@@ -39,4 +39,4 @@ linearize
 *plot -VC1#branch
 *fft (V(4))
 *PLOT mag(V(2,7)) xlog
-*setplot tran1
+*setplot tran1 
